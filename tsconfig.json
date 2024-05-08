@@ -1,0 +1,52 @@
+/* {
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*"]
+    }
+  },
+  "include": ["packages/*"],
+  "exclude": ["node_modules"]
+}
+ */
+
+{
+  "compilerOptions": {
+    "incremental": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "moduleResolution": "Node",
+    "module": "CommonJS",
+    "target": "ES2018",
+    "sourceMap": true,
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@flashcards/*": ["packages/*/src/index.ts"]
+    }
+  },
+  "references": [
+    {
+      "path": "packages/backend"
+    },
+    {
+      "path": "packages/frontend"
+    },
+    {
+      "path": "packages/types"
+    }
+  ],
+  "exclude": ["node_modules", "dist", "*.d.ts"]
+}

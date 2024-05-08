@@ -1,16 +1,42 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "ES2018",
-    "module": "commonjs",
-    "outDir": "./dist",
     "rootDir": "./src",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "moduleResolution": "node",
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@flashcards/types": ["../types/src/index.ts"]
+    },
+    "sourceMap": true,
     "resolveJsonModule": true,
-    "lib": ["ES2018"]
+    "composite": true,
+    "allowJs": false,
+    "declaration": true,
+    "declarationMap": true,
+    "allowSyntheticDefaultImports": true
   },
+  "references": [{ "path": "../types" }],
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
+
+//{
+/* "compilerOptions": {
+    "module": "CommonJS", // Node.js использует CommonJS
+    "target": "ESNext", // Или ESNext, если Node.js поддерживает последние версии ECMAScript
+    "moduleResolution": "node", // Node.js стиль разрешения модулей
+    "outDir": "./dist", // Куда выводить скомпилированные файлы
+    "rootDir": "./src", // Откуда брать исходные файлы
+    "strict": true, // Включение всех строгих проверок типов
+    "esModuleInterop": true, // Поддержка импорта модулей ES6
+    "resolveJsonModule": true, // Разрешить импорт JSON файлов
+    "skipLibCheck": true, // Пропустить проверку типов файлов объявления в библиотеках
+    "noImplicitReturns": true, // Предотвратить функции без возвращаемого выражения
+    "noUnusedLocals": true, // Ошибка на неиспользуемые локальные переменные
+    "noUnusedParameters": true, // Ошибка на неиспользуемые параметры функций
+    "removeComments": true, // Удалить комментарии в скомпилированном выводе
+    "sourceMap": true // Генерировать карты исходного кода для отладки
+  }, */
+//"include": ["src/**/*"],
+//"exclude": ["node_modules", "dist"]
+//}
