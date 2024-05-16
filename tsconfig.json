@@ -17,22 +17,23 @@
 
 {
   "compilerOptions": {
-    "incremental": true,
-    "outDir": "./dist",
+    //"incremental": true,
+    //"outDir": "./dist",
+
+    //"moduleResolution": "node",
+    //"module": "ESNext",
+    //"target": "ESNext",
+    //"sourceMap": true,
+    //"lib": ["esnext"],
+    //"esModuleInterop": true,
+    //"alwaysStrict": true,
+    //"strictNullChecks": true,
+    //"noImplicitAny": true,
+    //"noImplicitReturns": true,
+    //"noImplicitThis": true,
+    //"noUnusedLocals": true,
+    //"resolveJsonModule": true,
     "baseUrl": ".",
-    "moduleResolution": "Node",
-    "module": "CommonJS",
-    "target": "ES2018",
-    "sourceMap": true,
-    "lib": ["esnext"],
-    "esModuleInterop": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "resolveJsonModule": true,
     "paths": {
       "@flashcards/*": ["packages/*/src/index.ts"]
     }
@@ -41,9 +42,10 @@
     {
       "path": "packages/backend"
     },
+    /* 
     {
       "path": "packages/frontend"
-    },
+    }, */
     {
       "path": "packages/types"
     }

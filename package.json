@@ -8,9 +8,5 @@
     "packages/*"
   ],
   "author": "v <v@email.com>",
-  "devDependencies": {
-    "@eslint/js": "^9.2.0",
-    "eslint": "^9.2.0",
-    "typescript-eslint": "^7.8.0"
-  }
+  "devDependencies": {}
 }

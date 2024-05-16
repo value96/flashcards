@@ -1,0 +1,37 @@
+/* .word {
+  background-color: #f5deb3; 
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+  font-size: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+ */
+
+.wordContainer {
+  display: flex;
+  align-items: center;
+}
+
+.word {
+  background-color: #f3e5ab;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+}
+
+.forgotButton {
+  margin-left: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.forgotButton:hover {
+  transform: scale(1.2);
+}
