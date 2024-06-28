@@ -1,7 +1,7 @@
 import type { PayloadAction } from "@reduxjs/toolkit"
 import type { AppThunk, RootState } from "../../app/store"
 import { Word } from "@flashcards/types"
-import { fetchWords } from "./flashcardApi"
+import { fetchWords, sendForgottenWord, sendRepeatedWord } from "./flashcardApi"
 import { Status } from "../../types/Status"
 import {
   createAsyncThunk,
@@ -50,7 +50,7 @@ export const flashcardSlice = createSlice({
       })
       .addCase(loadWords.fulfilled, (state, action: PayloadAction<Word[]>) => {
         state.status = Status.succeeded
-        flashcardAdapter.addMany(state, action.payload)
+        flashcardAdapter.setAll(state, action.payload)
       })
       .addCase(loadWords.rejected, (state, action) => {
         state.status = Status.failed
@@ -74,26 +74,39 @@ export const {
   selectIds: selectWordIds,
 } = flashcardAdapter.getSelectors((state: RootState) => state.flashcard)
 
-export const sendForgottenWord =
+export const forgottenWord =
   (id: string): AppThunk =>
   async (dispatch, getState) => {
-    dispatch(removeWord(id))
+    try {
+      const word = selectWordById(getState(), id)
+      if (!word) throw new Error("Word not found")
+      const res = await sendForgottenWord(word)
+      console.log(`forgottenWord ${word.vocabWord.translate.eng} sent`)
+      dispatch(removeWord(id))
+    } catch (err) {
+      alert(`${err}`)
+    }
   }
 
-export const sendRepeatedWord =
+export const repeatedWord =
   (id: string): AppThunk =>
   async (dispatch, getState) => {
-    dispatch(removeWord(id))
+    try {
+      const word = selectWordById(getState(), id)
+      if (!word) throw new Error("Word not found")
+      const res = await sendRepeatedWord(word)
+      console.log(`repeatedWord ${word.vocabWord.translate.eng} sent`)
+      dispatch(removeWord(id))
+    } catch (err) {
+      alert(`${err}`)
+    }
   }
 
-export const loadNextFlashcard =
+export const nextFlashcard =
   (amount: number): AppThunk =>
   async (dispatch, getState) => {
     const ids = selectWordIds(getState())
-    for (const id of ids) {
-      //send  remaining word as successfull
-      await dispatch(sendRepeatedWord(id))
-    }
+    const promises = ids.map(id => dispatch(repeatedWord(id)))
+    await Promise.all(promises)
     await dispatch(loadWords(amount))
-    // load new words
   }

@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import styles from "./Flashcard.module.css"
 import { Word } from "../word/Word"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { loadNextFlashcard, loadWords, selectAllWords } from "./flashcardSlice"
+import { nextFlashcard, loadWords, selectAllWords } from "./flashcardSlice"
 import { Status } from "../../types/Status"
 
 //import { Status } from "../../types/enums"
@@ -15,11 +15,11 @@ export const Flashcard = ({}) => {
   const countShowingWords = 5
 
   const handleClick = () => {
-    dispatch(loadNextFlashcard(countShowingWords))
+    dispatch(nextFlashcard(countShowingWords))
   }
 
   useEffect(() => {
-    if (status === Status.idle) dispatch(loadNextFlashcard(countShowingWords))
+    if (status === Status.idle) dispatch(loadWords(countShowingWords))
   }, [status, dispatch])
 
   return (

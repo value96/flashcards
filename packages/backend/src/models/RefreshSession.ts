@@ -1,0 +1,55 @@
+import {
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+  ForeignKey,
+} from "sequelize"
+import sequelize from "../database"
+import User from "./User"
+
+class RefreshSession extends Model<
+  InferAttributes<RefreshSession>,
+  InferCreationAttributes<RefreshSession>
+> {
+  declare id: CreationOptional<number>
+  declare userId: ForeignKey<User["id"]>
+
+  declare fingerprint: string
+
+  declare createdAt: CreationOptional<Date>
+  declare updatedAt: CreationOptional<Date>
+  declare expiresAt: Date
+}
+
+RefreshSession.init(
+  {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    fingerprint: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    expiresAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize,
+    tableName: "RefreshSessions",
+  },
+)
+
+/* RefreshSession.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user",
+})
+ */
+export default RefreshSession
