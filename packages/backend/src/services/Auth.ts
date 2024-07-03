@@ -45,9 +45,6 @@ class AuthService {
     fingerprint: FingerprintResult,
     expiresAt: Date = new Date(Date.now() + config.REFRESH_TOKEN_EXPIRATION),
   ): Promise<CreateRefreshSessionRes> {
-    /* const expiresIn = config.REFRESH_TOKEN_EXPIRATION
-    const expiresAt = new Date(Date.now() + expiresIn) */
-
     const refreshSession = await RefreshSession.create({
       userId: userId,
       fingerprint: fingerprint.hash,

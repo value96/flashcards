@@ -10,6 +10,7 @@ import {
   EntityState,
 } from "@reduxjs/toolkit"
 import FlashcardService from "../../services/FlashcardService"
+import sleep from "../../utils/sleep"
 
 //import { Status } from "../../types/enums"
 type FlashcardState = EntityState<Word, string> & {
@@ -85,7 +86,7 @@ export const forgottenWord =
       console.log(`forgottenWord ${word.vocabWord.translate.eng} sent`)
       dispatch(removeWord(id))
     } catch (err) {
-      alert(`${err}`)
+      throw err
     }
   }
 
@@ -99,17 +100,26 @@ export const repeatedWord =
       console.log(`repeatedWord ${word.vocabWord.translate.eng} sent`)
       dispatch(removeWord(id))
     } catch (err) {
-      alert(`${err}`)
+      throw err
     }
   }
 
 export const nextFlashcard =
   (amount: number): AppThunk =>
   async (dispatch, getState) => {
-    const ids = selectWordIds(getState())
-    const promises = ids.map(id => dispatch(repeatedWord(id)))
-    await Promise.all(promises)
-    await dispatch(loadWords(amount))
+    try {
+      const ids = selectWordIds(getState())
+      //const promises = []
+
+      for (let id of ids) {
+        await dispatch(repeatedWord(id))
+        //await sleep(0.1)
+      }
+      //await Promise.all(promises)
+      await dispatch(loadWords(amount))
+    } catch (err) {
+      alert(`${err}`)
+    }
   }
 
 export default flashcardSlice

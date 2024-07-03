@@ -23,7 +23,7 @@ const EmailInput: React.FC<InputProps> = ({
     }
   }
 
-  console.log(`LoginInput render`)
+  //console.log(`LoginInput render`)
   return (
     <div>
       <input

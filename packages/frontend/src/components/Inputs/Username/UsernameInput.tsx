@@ -23,7 +23,7 @@ const usernameInput: React.FC<InputProps> = ({
     }
   }
 
-  console.log(`UsernameInput render`)
+  //console.log(`UsernameInput render`)
   return (
     <div>
       <input

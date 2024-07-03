@@ -69,6 +69,9 @@ const authSlice = createSlice({
       .addCase(logout.fulfilled, state => {
         state.isAuth = false
       })
+      .addCase(logout.rejected, state => {
+        state.isAuth = false
+      })
 
       .addCase(checkAuth.pending, state => {
         state.isRefreshTokenLoading = true

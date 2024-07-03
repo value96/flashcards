@@ -24,7 +24,7 @@ export const store = makeStore()
 export type AppStore = typeof store
 export type AppDispatch = AppStore["dispatch"]
 export type AppThunk<ThunkReturnType = void> = ThunkAction<
-  ThunkReturnType,
+  Promise<ThunkReturnType>,
   RootState,
   unknown,
   Action

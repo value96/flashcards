@@ -27,7 +27,7 @@ const LoginForm = () => {
     )
     setIsSubmitting(false)
   }
-  console.log("LoginForm render")
+  //console.log("LoginForm render")
   return (
     <form onSubmit={handleSubmit}>
       <EmailInput

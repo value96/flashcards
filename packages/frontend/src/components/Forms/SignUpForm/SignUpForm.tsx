@@ -44,7 +44,7 @@ const SignUpForm = () => {
 
     setIsSubmitting(false)
   }
-  console.log("SignUpForm render")
+  //console.log("SignUpForm render")
   return (
     <form onSubmit={handleSubmit}>
       <EmailInput
@@ -69,7 +69,7 @@ const SignUpForm = () => {
         type="submit"
         disabled={isSubmitting || isThereInputsErrors || isSomeFieldsEmpty}
       >
-        Login
+        Register
       </button>
     </form>
   )

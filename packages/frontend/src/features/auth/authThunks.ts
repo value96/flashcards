@@ -99,8 +99,9 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await AuthService.logout()
       localStorage.removeItem("accessTokenExpiration")
+
+      const response = await AuthService.logout()
     } catch (e: any) {
       console.log(`Failed to logout: ${e.response?.data?.error}`)
       return rejectWithValue(`Failed to logout: ${e.response?.data?.error}`)

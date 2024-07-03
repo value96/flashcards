@@ -26,7 +26,7 @@ const PasswordInput: React.FC<InputProps> = ({
     }
   }
 
-  console.log(`PasswordInput render`)
+  //console.log(`PasswordInput render`)
   return (
     <div>
       <input
