@@ -20,6 +20,6 @@ router.post(
 
 router.post("/logout", isAuth, AuthController.logout)
 
-router.post("/refresh-token", AuthController.refreshToken)
+router.get("/refresh-token", AuthController.refreshToken)
 
 export default router

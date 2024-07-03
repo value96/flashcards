@@ -1,13 +1,18 @@
 import React, { useEffect } from "react"
 import styles from "./Flashcard.module.css"
-import { Word } from "../word/Word"
+import { Word } from "../Word/Word"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { nextFlashcard, loadWords, selectAllWords } from "./flashcardSlice"
+import {
+  nextFlashcard,
+  loadWords,
+  selectAllWords,
+} from "../../features/flashcard/flashcardSlice"
 import { Status } from "../../types/Status"
+import { logout } from "../../features/auth/authThunks"
 
 //import { Status } from "../../types/enums"
 
-export const Flashcard = ({}) => {
+const Flashcard = ({}) => {
   const dispatch = useAppDispatch()
   const words = useAppSelector(selectAllWords)
   const status = useAppSelector(state => state.flashcard.status)
@@ -36,8 +41,11 @@ export const Flashcard = ({}) => {
             />
           ))}
           <button onClick={handleClick}>next bunch of words</button>
+          <button onClick={() => dispatch(logout())}>logout</button>
         </>
       )}
     </div>
   )
 }
+
+export default Flashcard

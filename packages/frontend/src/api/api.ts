@@ -1,0 +1,71 @@
+import axios, { AxiosError } from "axios"
+
+export const API_URL = "http://localhost:5000/"
+
+export const instance = axios.create({
+  //withCredentials: true,
+  baseURL: API_URL,
+  withCredentials: true,
+})
+
+instance.interceptors.response.use(
+  config => {
+    return config
+  },
+  async error => {
+    const originalRequest = error.config
+    if (
+      error.response.status == 401 &&
+      error.config &&
+      !error.config._isRetry
+    ) {
+      originalRequest._isRetry = true
+      try {
+        const response = await axios.get(`${API_URL}auth/refresh-token`, {
+          withCredentials: true,
+        })
+        localStorage.setItem(
+          "accessTokenExpiration",
+          response.data.accessTokenExpiration.toString(),
+        )
+        return instance.request(originalRequest)
+      } catch (e: any) {
+        console.log("Not Auth")
+      }
+    }
+    throw error
+  },
+)
+
+export default instance
+
+/* const handleError = (err: AxiosError): void => {
+  const errorMessage: string =
+    (
+      err.response?.data as {
+        error?: string
+      }
+    ).error || "Unknown error"
+  throw new Error(err.message + (errorMessage ? `: ${errorMessage}` : ""))
+}
+
+export interface ErrorResponse {
+  error: string
+}
+
+export const postRequest = async (path: string, body: any = {}): Promise<any> =>
+  instance
+    .post(path, body)
+    .then(response => response.data)
+    .catch((error: AxiosError) => {
+      handleError(error)
+    })
+
+export const getRequest = async (path: string): Promise<any> =>
+  instance
+    .get(path)
+    .then(response => response.data)
+    .catch((error: AxiosError) => {
+      handleError(error)
+    })
+ */

@@ -5,12 +5,12 @@ import createHttpError from "http-errors"
 class TokenService {
   static generateAccessToken(payload: any) {
     return jwt.sign(payload, config.accessTokenSecret, {
-      expiresIn: "30m",
+      expiresIn: "20s",
     })
   }
   static generateRefreshToken(payload: any) {
     return jwt.sign(payload, config.refreshTokenSecret, {
-      expiresIn: "15d",
+      expiresIn: "1m",
     })
   }
   static checkAccessToken(token: string): any {

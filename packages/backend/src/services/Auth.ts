@@ -6,14 +6,14 @@ import RefreshSession from "../models/RefreshSession"
 import { config } from "../config"
 import { FingerprintResult } from "express-fingerprint"
 
-interface CreateRefreshSessionRes {
+export interface CreateRefreshSessionRes {
   accessToken: string
   refreshToken: string
-  accessTokenExpiration: number
+  accessTokenExpiration: Date
   refreshTokenExpiration: Date
 }
 
-const getRefreshSession = async (
+const getRefreshSessionByRefreshToken = async (
   refreshToken: string,
   fingerprint: FingerprintResult,
 ) => {
@@ -54,7 +54,10 @@ class AuthService {
       expiresAt: expiresAt,
     })
 
-    const accessToken = TokenService.generateAccessToken({ userId })
+    const accessToken = TokenService.generateAccessToken({
+      userId,
+      sessionId: refreshSession.id,
+    })
     const refreshToken = TokenService.generateRefreshToken({
       userId,
       sessionId: refreshSession.id,
@@ -63,7 +66,9 @@ class AuthService {
     return {
       accessToken,
       refreshToken,
-      accessTokenExpiration: config.ACCESS_TOKEN_EXPIRATION,
+      accessTokenExpiration: new Date(
+        Date.now() + config.ACCESS_TOKEN_EXPIRATION,
+      ),
       refreshTokenExpiration: expiresAt,
     }
   }
@@ -105,7 +110,10 @@ class AuthService {
     refreshToken: string,
     fingerprint: FingerprintResult,
   ): Promise<CreateRefreshSessionRes> {
-    const session = await getRefreshSession(refreshToken, fingerprint)
+    const session = await getRefreshSessionByRefreshToken(
+      refreshToken,
+      fingerprint,
+    )
 
     const expiresAt = session.expiresAt
     await session.destroy()
@@ -121,8 +129,15 @@ class AuthService {
     )
   }
 
-  static async logout(refreshToken: string, fingerprint: FingerprintResult) {
-    const session = await getRefreshSession(refreshToken, fingerprint)
+  static async logout(sessionId: number, fingerprint: FingerprintResult) {
+    const session = await RefreshSession.findOne({
+      where: {
+        id: sessionId,
+        fingerprint: fingerprint.hash,
+      },
+    })
+
+    if (!session) throw createError(401, "Session not found")
     await session.destroy()
   }
 }

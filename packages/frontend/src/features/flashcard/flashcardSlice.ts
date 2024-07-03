@@ -1,7 +1,7 @@
 import type { PayloadAction } from "@reduxjs/toolkit"
 import type { AppThunk, RootState } from "../../app/store"
 import { Word } from "@flashcards/types"
-import { fetchWords, sendForgottenWord, sendRepeatedWord } from "./flashcardApi"
+
 import { Status } from "../../types/Status"
 import {
   createAsyncThunk,
@@ -9,6 +9,7 @@ import {
   createSlice,
   EntityState,
 } from "@reduxjs/toolkit"
+import FlashcardService from "../../services/FlashcardService"
 
 //import { Status } from "../../types/enums"
 type FlashcardState = EntityState<Word, string> & {
@@ -26,13 +27,13 @@ const initialState: FlashcardState = flashcardAdapter.getInitialState({
 export const loadWords = createAsyncThunk(
   "flashcard/loadWords",
   async (amount: number) => {
-    const data = await fetchWords(amount)
-    return data
+    const res = await FlashcardService.fetchWords(amount)
+    return res.data
   },
 )
 
 // If you are not using async thunks you can use the standalone `createSlice`.
-export const flashcardSlice = createSlice({
+const flashcardSlice = createSlice({
   name: "flashcard",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
@@ -80,7 +81,7 @@ export const forgottenWord =
     try {
       const word = selectWordById(getState(), id)
       if (!word) throw new Error("Word not found")
-      const res = await sendForgottenWord(word)
+      const res = await FlashcardService.sendForgottenWord(word)
       console.log(`forgottenWord ${word.vocabWord.translate.eng} sent`)
       dispatch(removeWord(id))
     } catch (err) {
@@ -94,7 +95,7 @@ export const repeatedWord =
     try {
       const word = selectWordById(getState(), id)
       if (!word) throw new Error("Word not found")
-      const res = await sendRepeatedWord(word)
+      const res = await FlashcardService.sendRepeatedWord(word)
       console.log(`repeatedWord ${word.vocabWord.translate.eng} sent`)
       dispatch(removeWord(id))
     } catch (err) {
@@ -110,3 +111,5 @@ export const nextFlashcard =
     await Promise.all(promises)
     await dispatch(loadWords(amount))
   }
+
+export default flashcardSlice

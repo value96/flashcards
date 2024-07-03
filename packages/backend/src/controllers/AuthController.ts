@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from "express"
-import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
-import User from "../models/User"
-import { config, refreshTokenCookieParams } from "../config"
-import AuthService from "../services/Auth"
+
+import { accessTokenCookieParams, refreshTokenCookieParams } from "../config"
+import AuthService, { CreateRefreshSessionRes } from "../services/Auth"
 import { errorHandler } from "../utils/handleErrors"
+import { AuthRequest } from "../middlewares/isAuth"
 
 interface RegisterRequest {
   email: string
@@ -17,6 +16,26 @@ interface LoginRequest {
   password: string
 }
 
+const setTokens = (res: Response, data: CreateRefreshSessionRes) => {
+  const {
+    accessToken,
+    refreshToken,
+    accessTokenExpiration,
+    refreshTokenExpiration,
+  } = data
+  res.cookie(
+    "refreshToken",
+    refreshToken,
+    refreshTokenCookieParams(refreshTokenExpiration),
+  )
+  res.cookie(
+    "accessToken",
+    accessToken,
+    accessTokenCookieParams(accessTokenExpiration),
+  )
+  return accessTokenExpiration
+}
+
 export const signUp = async (
   req: Request<{}, {}, RegisterRequest>,
   res: Response,
@@ -27,19 +46,15 @@ export const signUp = async (
     const { fingerprint } = req
     if (!fingerprint) return res.status(500).send("Fingerprint not generated")
 
-    const {
-      accessToken,
-      refreshToken,
-      accessTokenExpiration,
-      refreshTokenExpiration,
-    } = await AuthService.signUp(email, username, password, fingerprint)
-
-    res.cookie(
-      "refreshToken",
-      refreshToken,
-      refreshTokenCookieParams(refreshTokenExpiration),
+    const result = await AuthService.signUp(
+      email,
+      username,
+      password,
+      fingerprint,
     )
-    res.status(200).json({ accessToken, accessTokenExpiration })
+    const accessTokenExpiration = setTokens(res, result)
+
+    res.status(200).json({ accessTokenExpiration })
   } catch (error) {
     return errorHandler(error, req, res)
   }
@@ -55,20 +70,10 @@ export const signIn = async (
     const { fingerprint } = req
     if (!fingerprint) return res.status(500).send("Fingerprint not generated")
 
-    const {
-      accessToken,
-      refreshToken,
-      accessTokenExpiration,
-      refreshTokenExpiration,
-    } = await AuthService.signIn(email, password, fingerprint)
+    const result = await AuthService.signIn(email, password, fingerprint)
+    const accessTokenExpiration = setTokens(res, result)
 
-    res.cookie(
-      "refreshToken",
-      refreshToken,
-      refreshTokenCookieParams(refreshTokenExpiration),
-    )
-
-    res.status(200).json({ accessToken, accessTokenExpiration })
+    res.status(200).json({ accessTokenExpiration })
   } catch (error) {
     return errorHandler(error, req, res)
   }
@@ -81,34 +86,29 @@ export const refreshToken = async (req: Request<{}, {}, {}>, res: Response) => {
     const { fingerprint } = req
     if (!fingerprint) return res.status(500).send("Fingerprint not generated")
 
-    const {
-      accessToken,
-      refreshToken,
-      accessTokenExpiration,
-      refreshTokenExpiration,
-    } = await AuthService.refreshToken(oldRefreshToken, fingerprint)
+    const result = await AuthService.refreshToken(oldRefreshToken, fingerprint)
 
-    res.cookie(
-      "refreshToken",
-      refreshToken,
-      refreshTokenCookieParams(refreshTokenExpiration),
-    )
-    res.status(200).json({ accessToken, accessTokenExpiration })
+    const accessTokenExpiration = setTokens(res, result)
+    res.status(200).json({ accessTokenExpiration })
   } catch (error) {
     return errorHandler(error, req, res)
   }
 }
 
-export const logout = async (req: Request<{}, {}, {}>, res: Response) => {
+export const logout = async (req: AuthRequest, res: Response) => {
   try {
-    const refreshToken = req.cookies.refreshToken
-    if (!refreshToken) return res.status(401).send("Refresh token not found")
+    const sessionId = req.sessionId
+    if (!sessionId)
+      return res.status(401).send("SessionId not found in access token")
     const { fingerprint } = req
     if (!fingerprint) return res.status(500).send("Fingerprint not generated")
 
-    await AuthService.logout(refreshToken, fingerprint)
+    await AuthService.logout(sessionId, fingerprint)
 
     res.cookie("refreshToken", "", refreshTokenCookieParams(new Date(0)))
+    res.cookie("accessToken", "", accessTokenCookieParams(new Date(0)))
+    console.log("set cookie")
+    res.status(204).json({})
   } catch (error) {
     return errorHandler(error, req, res)
   }

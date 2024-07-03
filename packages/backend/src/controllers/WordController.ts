@@ -31,6 +31,7 @@ export const getSome = async (req: Request, res: Response) => {
 
 export const acceptForgottenWord = async (req: Request, res: Response) => {
   try {
+    res.status(200).json({})
   } catch (err) {
     const errMassage = getMessage(err)
     console.error(errMassage)
@@ -42,6 +43,7 @@ export const acceptForgottenWord = async (req: Request, res: Response) => {
 
 export const acceptRepeatedWord = async (req: Request, res: Response) => {
   try {
+    res.status(200).json({})
   } catch (err) {
     const errMassage = getMessage(err)
     console.error(errMassage)

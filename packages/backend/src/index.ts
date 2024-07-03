@@ -19,6 +19,7 @@ const app = express()
 app.use(cookieParser())
 app.use(express.json())
 //app.use(cors())
+
 app.use(cors({ credentials: true, origin: config.clientUrl }))
 app.use(
   Fingerprint({
