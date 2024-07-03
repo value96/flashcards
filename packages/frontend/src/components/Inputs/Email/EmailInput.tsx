@@ -1,23 +1,20 @@
-import { yupResolver } from "@hookform/resolvers/yup"
-import React, {
-  ChangeEvent,
-  forwardRef,
-  useImperativeHandle,
-  useState,
-} from "react"
-
+import React, { ChangeEvent, useState } from "react"
 import * as yup from "yup"
+import { InputProps } from "../types"
 
 const emailSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
 })
 
-const EmailInput = forwardRef((props, ref) => {
-  const [value, setValue] = useState("")
-  const [error, setError] = useState("")
-
+const EmailInput: React.FC<InputProps> = ({
+  value,
+  setValue,
+  error,
+  setError,
+}) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
+
     try {
       emailSchema.validateSync({ email: e.target.value })
       setError("")
@@ -26,20 +23,7 @@ const EmailInput = forwardRef((props, ref) => {
     }
   }
 
-  useImperativeHandle(ref, () => ({
-    getValue: () => value,
-    getError: () => error,
-    validate: () => {
-      try {
-        emailSchema.validateSync({ email: value })
-        return true
-      } catch (err: any) {
-        return false
-      }
-    },
-  }))
-
-  console.log("EmailInput render")
+  console.log(`LoginInput render`)
   return (
     <div>
       <input
@@ -53,6 +37,6 @@ const EmailInput = forwardRef((props, ref) => {
       {error && <p>{error}</p>}
     </div>
   )
-})
+}
 
-export default EmailInput
+export default React.memo(EmailInput)

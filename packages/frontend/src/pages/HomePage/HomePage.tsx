@@ -1,7 +1,6 @@
 import { useState } from "react"
 import SignInForm from "../../components/Forms/SignInForm/SignInForm"
 import SignUpForm from "../../components/Forms/SignUpForm/SignUpForm"
-import LoginForm from "../../components/PureForms/LoginForm"
 
 const HomePage = () => {
   const [isShowLogin, setShowLogin] = useState(false)

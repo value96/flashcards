@@ -1,26 +1,20 @@
-import { yupResolver } from "@hookform/resolvers/yup"
-import React, {
-  ChangeEvent,
-  forwardRef,
-  useImperativeHandle,
-  useState,
-} from "react"
-
+import React, { ChangeEvent, useState } from "react"
 import * as yup from "yup"
+import { InputProps } from "../types"
 
 const usernameSchema = yup.object().shape({
-  username: yup
-    .string()
-    .min(6, "username must be at least 6 symbols")
-    .required("username is required"),
+  username: yup.string().required("username is required"),
 })
 
-const UsernameInput = forwardRef((props, ref) => {
-  const [value, setValue] = useState("")
-  const [error, setError] = useState("")
-
+const usernameInput: React.FC<InputProps> = ({
+  value,
+  setValue,
+  error,
+  setError,
+}) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
+
     try {
       usernameSchema.validateSync({ username: e.target.value })
       setError("")
@@ -29,19 +23,7 @@ const UsernameInput = forwardRef((props, ref) => {
     }
   }
 
-  useImperativeHandle(ref, () => ({
-    getValue: () => value,
-    getError: () => error,
-    validate: () => {
-      try {
-        usernameSchema.validateSync({ username: value })
-        return true
-      } catch (err: any) {
-        return false
-      }
-    },
-  }))
-
+  console.log(`UsernameInput render`)
   return (
     <div>
       <input
@@ -55,6 +37,6 @@ const UsernameInput = forwardRef((props, ref) => {
       {error && <p>{error}</p>}
     </div>
   )
-})
+}
 
-export default UsernameInput
+export default React.memo(usernameInput)

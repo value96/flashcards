@@ -1,74 +1,55 @@
-// src/components/Login.tsx
-import React, { ChangeEvent, FormEvent, useRef, useState } from "react"
-import { useForm } from "react-hook-form"
-
-import { signIn } from "../../../features/auth/authThunks"
-
+import React, { FormEvent, useState } from "react"
 import EmailInput from "../../Inputs/Email/EmailInput"
 import PasswordInput from "../../Inputs/Password/PasswordInput"
+import { useAppDispatch } from "../../../app/hooks"
+import { signIn } from "../../../features/auth/authThunks"
 
-import { useAppDispatch, useAppSelector } from "../../../app/hooks"
-import { useNavigate } from "react-router-dom"
-
-interface InputRef {
-  getValue: () => string
-  getError: () => string
-  validate: () => boolean
-}
-
-const isValid = (refs: React.RefObject<InputRef>[]) => {
-  refs.forEach(ref => {
-    if (
-      !ref.current ||
-      ref.current.getValue() === "" ||
-      ref.current.getError() != ""
-    )
-      return false
-  })
-  return true
-}
-
-const SignInForm = () => {
-  console.log("render LoginForm")
-  const emailInputRef = useRef<InputRef>(null)
-  const passwordInputRef = useRef<InputRef>(null)
+const LoginForm = () => {
   const dispatch = useAppDispatch()
+  const [emailInputValue, setEmailInputValue] = useState("")
+  const [emailInputError, setEmailInputError] = useState("")
+
+  const [passwordInputValue, setPasswordInputValue] = useState("")
+  const [passwordInputError, setPasswordInputError] = useState("")
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const isThereInputsErrors =
+    emailInputError === "" && passwordInputError === "" ? false : true
+  const isSomeFieldsEmpty =
+    emailInputValue === "" || passwordInputValue === "" ? true : false
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
-
-    if (emailInputRef.current && passwordInputRef.current) {
-      const isEmailValid = emailInputRef.current.validate()
-      const isPasswordValid = passwordInputRef.current.validate()
-
-      if (isEmailValid && isPasswordValid) {
-        const emailValue = emailInputRef.current.getValue()
-        const passwordValue = passwordInputRef.current.getValue()
-        await dispatch(signIn({ email: emailValue, password: passwordValue }))
-      } else {
-        alert("SignIn form failed")
-      }
-
-      setIsSubmitting(false)
-    }
+    await dispatch(
+      signIn({ email: emailInputValue, password: passwordInputValue }),
+    )
+    setIsSubmitting(false)
   }
-  console.log("SignInForm render")
+  console.log("LoginForm render")
   return (
     <form onSubmit={handleSubmit}>
-      <EmailInput ref={emailInputRef} />
-      <PasswordInput ref={passwordInputRef} />
+      <EmailInput
+        value={emailInputValue}
+        setValue={setEmailInputValue}
+        error={emailInputError}
+        setError={setEmailInputError}
+      />
+      <PasswordInput
+        value={passwordInputValue}
+        setValue={setPasswordInputValue}
+        error={passwordInputError}
+        setError={setPasswordInputError}
+      />
       <button
         type="submit"
-        disabled={isSubmitting || !isValid([emailInputRef, passwordInputRef])}
+        disabled={isSubmitting || isThereInputsErrors || isSomeFieldsEmpty}
       >
         Login
       </button>
-      {/*  {error && <p>{error}</p>} */}
     </form>
   )
 }
 
-export default SignInForm
+export default LoginForm
