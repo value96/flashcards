@@ -10,4 +10,4 @@ jobs:
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: yarn config get cacheFolder
+        run: echo "~/.cache/yarn"
