@@ -1,0 +1,15 @@
+name: Test React App
+on: workflow_dispatch
+
+jobs:
+  test_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Test app
+        run: cd packages/frontend && yarn test
