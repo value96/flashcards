@@ -27,8 +27,6 @@ app.use(
   }),
 )
 
-// https://www.youtube.com/watch?v=-DXdktU-NNg&ab_channel=sentiero
-
 app.get("/", (req, res) => {
   res.send("hello")
 })
