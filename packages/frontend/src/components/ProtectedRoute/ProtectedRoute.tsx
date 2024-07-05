@@ -1,5 +1,6 @@
-import React from "react"
-import { RouteProps, useLocation, Navigate } from "react-router-dom"
+import type React from "react"
+import type { RouteProps} from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom"
 import { useAppSelector } from "../../app/hooks"
 import { selectIsAuth } from "../../features/auth/authSlice"
 import HomePage from "../../pages/HomePage/HomePage"

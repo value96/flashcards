@@ -1,6 +1,7 @@
-import React, { ChangeEvent, useState } from "react"
+import type { ChangeEvent} from "react";
+import React, { useState } from "react"
 import * as yup from "yup"
-import { InputProps } from "../types"
+import type { InputProps } from "../types"
 
 const emailSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),

@@ -1,6 +1,6 @@
-import { Word } from "@flashcards/types"
+import type { Word } from "@flashcards/types"
 import instance from "../api/api"
-import { AxiosResponse } from "axios"
+import type { AxiosResponse } from "axios"
 
 export default class FlashcardService {
   private static async sendWord(word: Word, path: string): Promise<any> {

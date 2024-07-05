@@ -1,16 +1,14 @@
-import type { PayloadAction } from "@reduxjs/toolkit"
+import type { PayloadAction, EntityState } from "@reduxjs/toolkit"
 import type { AppThunk, RootState } from "../../app/store"
-import { Word } from "@flashcards/types"
+import type { Word } from "@flashcards/types"
 
 import { Status } from "../../types/Status"
 import {
   createAsyncThunk,
   createEntityAdapter,
   createSlice,
-  EntityState,
 } from "@reduxjs/toolkit"
 import FlashcardService from "../../services/FlashcardService"
-import sleep from "../../utils/sleep"
 
 //import { Status } from "../../types/enums"
 type FlashcardState = EntityState<Word, string> & {
@@ -79,29 +77,21 @@ export const {
 export const forgottenWord =
   (id: string): AppThunk =>
   async (dispatch, getState) => {
-    try {
-      const word = selectWordById(getState(), id)
-      if (!word) throw new Error("Word not found")
-      const res = await FlashcardService.sendForgottenWord(word)
-      console.log(`forgottenWord ${word.vocabWord.translate.eng} sent`)
-      dispatch(removeWord(id))
-    } catch (err) {
-      throw err
-    }
+    const word = selectWordById(getState(), id)
+    if (!word) throw new Error("Word not found")
+    const res = await FlashcardService.sendForgottenWord(word)
+    console.log(`forgottenWord ${word.vocabWord.translate.eng} sent`)
+    dispatch(removeWord(id))
   }
 
 export const repeatedWord =
   (id: string): AppThunk =>
   async (dispatch, getState) => {
-    try {
-      const word = selectWordById(getState(), id)
-      if (!word) throw new Error("Word not found")
-      const res = await FlashcardService.sendRepeatedWord(word)
-      console.log(`repeatedWord ${word.vocabWord.translate.eng} sent`)
-      dispatch(removeWord(id))
-    } catch (err) {
-      throw err
-    }
+    const word = selectWordById(getState(), id)
+    if (!word) throw new Error("Word not found")
+    const res = await FlashcardService.sendRepeatedWord(word)
+    console.log(`repeatedWord ${word.vocabWord.translate.eng} sent`)
+    dispatch(removeWord(id))
   }
 
 export const nextFlashcard =

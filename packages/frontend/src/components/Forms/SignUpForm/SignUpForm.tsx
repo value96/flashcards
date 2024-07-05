@@ -1,4 +1,5 @@
-import React, { FormEvent, useState } from "react"
+import type { FormEvent} from "react";
+import React, { useState } from "react"
 import EmailInput from "../../Inputs/Email/EmailInput"
 import PasswordInput from "../../Inputs/Password/PasswordInput"
 import { signUp } from "../../../features/auth/authThunks"

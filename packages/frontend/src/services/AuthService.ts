@@ -1,6 +1,6 @@
-import { AxiosResponse } from "axios"
+import type { AxiosResponse } from "axios"
 import instance from "../api/api"
-import { AuthResponse } from "../models/Responses/AuthResponse"
+import type { AuthResponse } from "../models/Responses/AuthResponse"
 
 export default class AuthService {
   static async signIn(

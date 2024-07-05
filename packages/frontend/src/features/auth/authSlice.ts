@@ -1,8 +1,9 @@
 // src/features/auth/authSlice.js
-import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import type { PayloadAction} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 import { signIn, signUp, checkAuth, logout } from "./authThunks"
 
-import { RootState } from "../../app/store"
+import type { RootState } from "../../app/store"
 
 type AuthState = {
   isAuth: boolean
