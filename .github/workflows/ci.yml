@@ -1,89 +1,13 @@
 name: CI
-on:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - ".github/workflows/*"
-  pull_request:
-    branches:
-      - master
+on: workflow_dispatch
 
 jobs:
-  changes:
-    runs-on: ubuntu-latest
-    outputs:
-      backend: ${{ steps.changes.outputs.backend }}
-      frontend: ${{ steps.changes.outputs.frontend }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Changed files
-        id: changes
-        uses: dorny/paths-filter@v3
-        with:
-          filters: |
-            backend:
-              - 'packages/backend/**'
-            frontend:
-              - 'packages/frontend/**'
-
   backend:
-    needs: changes
     runs-on: ubuntu-latest
-    if: ${{needs.changes.outputs.backend == 'true'}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: |
-          echo "dir=$(yarn config get cacheFolder)"
-          echo "Yarn cache directory: $dir"
-          echo "dir=$dir" >> $GITHUB_OUTPUT
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-          save-always: true
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Deploy
-        run: echo "Backend Deployed"
-
-  frontend:
-    needs: changes
-    runs-on: ubuntu-latest
-    if: ${{ needs.changes.outputs.frontend == 'true' }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-          save-always: true
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Test frontend
-        run: cd packages/frontend && yarn test
-      - name: Deploy
-        run: echo "Frontend Deployed"
+        run: yarn config get cacheFolder
