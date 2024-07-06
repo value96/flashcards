@@ -19,11 +19,12 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true, // was true by redux template
+    "noEmit": false, // was true by redux template
     "outDir": "./dist",
     "jsx": "react-jsx",
     "types": ["vitest/globals"]
   },
+
   "references": [
     { "path": "./tsconfig.node.json" },
     /* { "path": "../backend" }, */
