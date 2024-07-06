@@ -9,6 +9,10 @@ on:
     branches:
       - master
 
+env:
+  VERCEL_ORG_ID: ${{secrets.VERCEL_ORG_ID}}
+  VERCEL_PROJECT_ID: ${{secrets.VERCEL_PROJECT_ID}}
+
 jobs:
   changes:
     runs-on: ubuntu-latest
@@ -54,7 +58,7 @@ jobs:
       - name: Deploy
         run: echo "Backend Deployed"
 
-  frontend:
+  frontend-build:
     needs: changes
     runs-on: ubuntu-latest
     if: ${{ needs.changes.outputs.frontend == 'true' }}
@@ -82,5 +86,33 @@ jobs:
 
       - name: Test frontend
         run: cd packages/frontend && yarn test
-      - name: Deploy
-        run: echo "Frontend Deployed"
+
+      - name: Build project
+        run: yarn build
+
+      - name: Download build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: dist/
+
+  frontend-deploy:
+    needs: frontend-build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-build
+          path: dist/
+
+      - name: Deploy to Vercel
+        run: |
+          yarn global add vercel
+          vercel login --token ${{ secrets.VERCEL_TOKEN }}
+          vercel project add --name flashcards-frontend
+          vercel deploy --prod -t ${{ secrets.VERCEL_TOKEN }} --confirm dist

@@ -19,7 +19,7 @@ import { checkAuth } from "./features/auth/authThunks"
 import HomePage from "./pages/HomePage/HomePage"
 
 const App = () => {
-  const dispatch = useAppDispatch()
+  /* const dispatch = useAppDispatch()
   const isAuth = useAppSelector(selectIsAuth)
   const isRefreshTokenLoading = useAppSelector(selectIsRefreshTokenLoading)
 
@@ -39,7 +39,9 @@ const App = () => {
         <Flashcard />
       </ProtectedRoute>
     )
-  else return <HomePage />
+  else return <HomePage /> */
+
+  return <div>Hello World</div>
 }
 
 export default App

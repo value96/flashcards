@@ -1,6 +1,6 @@
 import express, { NextFunction } from "express"
 import cors from "cors"
-import sequelize from "./database"
+import sequelize, { runDB } from "./database"
 import userRoutes from "./routes/UserRoutes"
 import wordRoutes from "./routes/WordRoutes"
 import authRoutes from "./routes/AuthRoutes"
@@ -35,23 +35,7 @@ app.use("/words", wordRoutes)
 app.use("/users", userRoutes)
 
 const startServer = async () => {
-  try {
-    await sequelize.sync()
-    console.log("Database synced")
-
-    /* addAllWordsToDB(words)
-      .then(unsavedWords => {
-        console.log(`${words.length - unsavedWords.length} words added to db`)
-        for (const word of unsavedWords) {
-          console.log(`{${word.eng}} {${word.rus}} was not added`)
-        }
-      })
-      .catch(err => console.error(`An error occurred:`, err)) */
-  } catch (error) {
-    console.error("Failed to initialize database:", error)
-    process.exit(1)
-  }
-
+  await runDB()
   JobsSheduler.start()
   app.listen(config.port, () => {
     console.log(`Server is running on http://localhost:${config.port}`)
