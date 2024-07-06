@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - master
-    paths-ignore:
-      - ".github/workflows/*"
   pull_request:
     branches:
       - master
@@ -109,6 +107,6 @@ jobs:
       - name: Deploy to Vercel
         run: |
           yarn global add vercel
-          vercel login --token ${{ secrets.VERCEL_TOKEN }}
-          vercel project add --name flashcards-frontend
-          vercel deploy --prod -t ${{ secrets.VERCEL_TOKEN }} --confirm packages/frontend/dist
+
+          vercel project add --name flashcards-frontend --token ${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prod --token ${{ secrets.VERCEL_TOKEN }} --confirm packages/frontend/dist
