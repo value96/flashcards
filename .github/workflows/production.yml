@@ -88,13 +88,13 @@ jobs:
         run: cd packages/frontend && yarn test
 
       - name: Build project
-        run: yarn build
+        run: cd packages/frontend && yarn build
 
-      - name: Download build artifact
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: frontend-build
-          path: dist/
+          path: packages/frontend/dist/
 
   frontend-deploy:
     needs: frontend-build
@@ -108,11 +108,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: frontend-build
-          path: dist/
+          path: packages/frontend/dist/
 
       - name: Deploy to Vercel
         run: |
           yarn global add vercel
           vercel login --token ${{ secrets.VERCEL_TOKEN }}
           vercel project add --name flashcards-frontend
-          vercel deploy --prod -t ${{ secrets.VERCEL_TOKEN }} --confirm dist
+          vercel deploy --prod -t ${{ secrets.VERCEL_TOKEN }} --confirm packages/frontend/dist
