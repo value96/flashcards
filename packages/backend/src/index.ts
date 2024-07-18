@@ -1,9 +1,9 @@
 import express, { NextFunction } from "express"
 import cors from "cors"
-import sequelize, { runDB } from "./database"
+/* import sequelize, { runDB } from "./database"
 import userRoutes from "./routes/UserRoutes"
 import wordRoutes from "./routes/WordRoutes"
-import authRoutes from "./routes/AuthRoutes"
+import authRoutes from "./routes/AuthRoutes" */
 import Fingerprint from "express-fingerprint"
 import cookieParser from "cookie-parser"
 import {
@@ -12,7 +12,7 @@ import {
   geoip,
 } from "express-fingerprint/lib/parameters"
 import { config } from "./config"
-import JobsSheduler from "./jobs"
+//import JobsSheduler from "./jobs"
 
 const app = express()
 
