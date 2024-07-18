@@ -30,13 +30,15 @@ app.use(
 app.get("/", (req, res) => {
   res.send("hello")
 })
+
+/* 
 app.use("/auth", authRoutes)
 app.use("/words", wordRoutes)
-app.use("/users", userRoutes)
+app.use("/users", userRoutes) */
 
 const startServer = async () => {
-  await runDB()
-  JobsSheduler.start()
+  //await runDB()
+  //JobsSheduler.start()
   app.listen(config.port, () => {
     console.log(`Server is running on http://localhost:${config.port}`)
   })
