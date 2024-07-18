@@ -41,7 +41,7 @@ const App = () => {
     )
   else return <HomePage /> */
 
-  return <div>flashcards-frontend</div>
+  return <div>flashcards-frontend hello world</div>
 }
 
 export default App
