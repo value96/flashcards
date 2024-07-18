@@ -107,6 +107,5 @@ jobs:
       - name: Deploy to Vercel
         run: |
           yarn global add vercel
-
-          vercel project add --token ${{ secrets.VERCEL_TOKEN }}
-          vercel deploy --cwd packages/frontend/dist --token ${{ secrets.VERCEL_TOKEN }}
+          vercel link --yes --project flashcards-frontend --token ${{ secrets.VERCEL_TOKEN }}
+          vercel --cwd packages/frontend/dist --token ${{ secrets.VERCEL_TOKEN }}
