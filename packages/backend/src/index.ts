@@ -38,7 +38,7 @@ app.use("/users", userRoutes) */
 
 const startServer = async () => {
   //await runDB()
-  //JobsSheduler.start()
+  //JobsSheduler.start() //
   app.listen(config.port, () => {
     console.log(`Server is running on http://localhost:${config.port}`)
   })

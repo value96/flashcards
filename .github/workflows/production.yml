@@ -27,7 +27,7 @@ jobs:
             frontend:
               - 'packages/frontend/**'
 
-  backend:
+  backend-build:
     needs: changes
     runs-on: ubuntu-latest
     if: ${{needs.changes.outputs.backend == 'true'}}
@@ -48,6 +48,32 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
+      - name: Build project
+        run: cd packages/backend && yarn build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-build
+          path: packages/backend/dist/
+
+      - name: Deploy
+        run: echo "Backend Deployed"
+
+  backend-deploy:
+    needs: backend-build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-build
+          path: packages/fbackend/dist/
 
       - name: Deploy
         run: echo "Backend Deployed"
