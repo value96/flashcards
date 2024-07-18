@@ -41,7 +41,7 @@ const App = () => {
     )
   else return <HomePage /> */
 
-  return <div>Hello World Hello World</div>
+  return <div>Hello World Hello World Hello World</div>
 }
 
 export default App
