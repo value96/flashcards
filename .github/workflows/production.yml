@@ -108,4 +108,4 @@ jobs:
         run: |
           yarn global add vercel
           vercel link --yes --project flashcards-frontend --token ${{ secrets.VERCEL_TOKEN }}
-          vercel --prod --cwd packages/frontend/dist --yes --token ${{ secrets.VERCEL_TOKEN }}
+          vercel --name flashcards-frontend --prod --cwd packages/frontend/dist --yes --token ${{ secrets.VERCEL_TOKEN }}
