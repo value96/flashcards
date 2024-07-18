@@ -3,12 +3,16 @@ import { CookieOptions } from "express"
 
 dotenv.config()
 
+const nodeEnv: "development" | "production" = (process.env.NODE_ENV ||
+  "production") as "development" | "production"
+
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
 if (!accessTokenSecret) throw Error(`access Secret is ${accessTokenSecret}`)
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
 if (!refreshTokenSecret) throw Error(`refresh Secret is ${refreshTokenSecret}`)
 
-const port = process.env.PORT
+const port: number = parseInt(process.env.PORT, 10)
+
 if (!port) throw Error(`port is ${port}`)
 
 const clientUrl = process.env.CLIENT_URL
@@ -25,7 +29,7 @@ export const config = {
 
 export const accessTokenCookieParams = (expires: Date): CookieOptions => ({
   httpOnly: true,
-  //secure: true,
+  secure: nodeEnv == "production" ? true : false,
   path: "/",
   sameSite: "strict",
   expires: expires,
@@ -33,7 +37,7 @@ export const accessTokenCookieParams = (expires: Date): CookieOptions => ({
 
 export const refreshTokenCookieParams = (expires: Date): CookieOptions => ({
   httpOnly: true,
-  //secure: true,
+  secure: nodeEnv == "production" ? true : false,
   path: "/auth/refresh-token",
   sameSite: "strict",
   expires: expires,
