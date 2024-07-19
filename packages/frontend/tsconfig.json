@@ -25,9 +25,5 @@
     "types": ["vitest/globals"]
   },
 
-  "references": [
-    { "path": "./tsconfig.node.json" },
-    /* { "path": "../backend" }, */
-    { "path": "../types" }
-  ]
+  "references": [{ "path": "./tsconfig.node.json" }, { "path": "../types" }]
 }

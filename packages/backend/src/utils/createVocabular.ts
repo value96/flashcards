@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+/* import { v4 as uuidv4 } from "uuid";
 import { VocabWord } from "@flashcards/types";
 import { mainDir } from "./mainDir";
 import path from "path";
@@ -12,13 +12,11 @@ function loadData(fileName: string, spilt_pattern = "\n"): string[] {
 function saveData<T>(fileName: string, data: T): void {
   const filePath = path.join(mainDir, "../data/" + fileName);
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-}
+} */
 
-function createWords(englishTranslate: string[], rusTranslate: string[]) {
+/* function createWords(englishTranslate: string[], rusTranslate: string[]) {
   const words: VocabWord[] = [];
   for (let i = 0; i < englishTranslate.length; i++) {
-    /* ruWord = rusTranslate[i].replace('"', "").replace('"', "").slice(2)
-    engWord = englishTranslate[i].trim() */
     words.push({
       id: uuidv4(),
       translate: {
@@ -28,12 +26,13 @@ function createWords(englishTranslate: string[], rusTranslate: string[]) {
     });
   }
   return words;
-}
+} */
 
-export function createVocab() {
+/* export function createVocab() {
   const englishTranslate = loadData("5000english_words.log");
   const rusTranslate = loadData("5000english_words_rus.log", ",\r\n");
   const words = createWords(englishTranslate, rusTranslate);
   saveData("vocabular.json", words);
   console.log("hello");
 }
+ */
