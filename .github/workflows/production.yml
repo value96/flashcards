@@ -13,6 +13,7 @@ jobs:
     outputs:
       backend: ${{ steps.changes.outputs.backend }}
       frontend: ${{ steps.changes.outputs.frontend }}
+      types: ${{ steps.changes.outputs.types }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,11 +27,13 @@ jobs:
               - 'packages/backend/**'
             frontend:
               - 'packages/frontend/**'
+            types:
+              - 'packages/types/**'
 
-  backend-build:
+  types-build:
     needs: changes
     runs-on: ubuntu-latest
-    if: ${{needs.changes.outputs.backend == 'true'}}
+    if: ${{needs.changes.outputs.types == 'true' || needs.changes.outputs.backend == 'true' || needs.changes.outputs.frontend == 'true'}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -48,6 +51,43 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
+      - name: Build project
+        run: cd packages/types && yarn build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: types-build
+          path: packages/types/dist/
+
+  backend-build:
+    needs: [changes, types-build]
+    runs-on: ubuntu-latest
+    if: ${{needs.changes.outputs.backend == 'true' || needs.changes.outputs.types == 'true'}}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/yarn
+            **/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+          save-always: true
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Download types artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: types-build
+          path: packages/types/dist
 
       - name: Build project
         run: cd packages/backend && yarn build
@@ -73,15 +113,15 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: backend-build
-          path: packages/fbackend/dist/
+          path: packages/backend/dist/
 
       - name: Deploy
         run: echo "Backend Deployed"
 
   frontend-build:
-    needs: changes
+    needs: [changes, types-build]
     runs-on: ubuntu-latest
-    if: ${{ needs.changes.outputs.frontend == 'true' }}
+    if: ${{ needs.changes.outputs.frontend == 'true' || needs.changes.outputs.types == 'true'}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -103,6 +143,15 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
+      - name: Remove original types
+        run: rm -rf packages/types/src
+
+      - name: Download types artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: types-build
+          path: packages/types/dist
 
       - name: Test frontend
         run: cd packages/frontend && yarn test

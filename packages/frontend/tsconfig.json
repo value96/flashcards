@@ -3,15 +3,14 @@
   "compilerOptions": {
     //"composite": true,
     //"baseUrl": ".",
-    /* "paths": {
-      "@flashcards/backend": ["../backend/src/index.ts"],
-      "@flashcards/types": ["../types/src/index.ts"]
-    }, */
+    "paths": {
+      "@flashcards/types": ["../types/dist/index.d.ts"]
+    },
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
-    "skipLibCheck": true,
+    "skipLibCheck": false, // was true by redux template
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -19,11 +18,19 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false, // was true by redux template
+    "noEmit": true, // was true by redux template
     "outDir": "./dist",
     "jsx": "react-jsx",
     "types": ["vitest/globals"]
   },
 
-  "references": [{ "path": "./tsconfig.node.json" }, { "path": "../types" }]
+  "references": [{ "path": "./tsconfig.node.json" }, { "path": "../types" }],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "vite.config.ts",
+    "vite.config.js",
+    "jest.config.ts",
+    "jest.config.js"
+  ]
 }

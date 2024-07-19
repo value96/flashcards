@@ -19,6 +19,7 @@ import { checkAuth } from "./features/auth/authThunks"
 import HomePage from "./pages/HomePage/HomePage"
 
 const App = () => {
+  const isAuth = useAppSelector(selectIsAuth)
   /* const dispatch = useAppDispatch()
   const isAuth = useAppSelector(selectIsAuth)
   const isRefreshTokenLoading = useAppSelector(selectIsRefreshTokenLoading)
@@ -41,7 +42,12 @@ const App = () => {
     )
   else return <HomePage /> */
 
-  return <div>flashcards-frontend</div>
+  return (
+    <>
+      {/* <div>flashcards-frontend </div> */}
+      {"isAuth is:" + isAuth}
+    </>
+  )
 }
 
 export default App

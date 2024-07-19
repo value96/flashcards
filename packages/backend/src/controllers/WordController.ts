@@ -1,4 +1,4 @@
-import { Word } from "@flashcards/types"
+//import { Word } from "@flashcards/types"
 
 import { Request, Response } from "express"
 import { getMessage } from "../utils/handleErrors"
