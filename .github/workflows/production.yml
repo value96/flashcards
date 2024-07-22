@@ -117,7 +117,7 @@ jobs:
 
       - name: Build Docker image for backend
         run: |
-          docker build -t your-dockerhub-username/backend -f packages/backend/Dockerfile .
+          docker build -t ${{  vars.DOCKER_HUB_USERNAME }}/backend -f docker/backend/start.Dockerfile .
 
       - name: Login to Docker Hub
         run: docker login registry-1.docker.io -u ${{  vars.DOCKER_HUB_USERNAME }} -p ${{secrets.DOCKER_HUB_TOKEN}}
