@@ -19,7 +19,7 @@ import { checkAuth } from "./features/auth/authThunks"
 import HomePage from "./pages/HomePage/HomePage"
 
 const fetchData = async (url: string) => {
-  console.log(`BASE_URL: ${url}`)
+  console.log(`API_URL: ${url}`)
   const response = await fetch(url)
   if (!response.ok) {
     throw new Error("Network response was not ok")
@@ -57,7 +57,9 @@ const App = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   useEffect(() => {
-    const API_URL = import.meta.env.VITE_BASE_URL
+    const envVars = import.meta.env
+    const API_URL = envVars.VITE_BASE_URL
+    console.log(JSON.stringify(envVars, null, 2))
     fetchData(API_URL)
       .then(res => {
         setData(res.success)
