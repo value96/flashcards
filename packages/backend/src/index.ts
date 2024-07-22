@@ -52,7 +52,7 @@ startServer()
     try {
       await addVocabWord(word.vocabWord.translate)
     } catch (err) {
-      unsavedWords.push(word.vocabWord.translate) //////////
+      unsavedWords.push(word.vocabWord.translate) ////////////
     }
   }
   return unsavedWords
