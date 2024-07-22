@@ -182,6 +182,11 @@ jobs:
       - name: Test frontend
         run: cd packages/frontend && yarn test
 
+      - name: Create .env.production file
+        run: |
+          cd packages/frontend
+          echo "VITE_API_URL=${{ vars.BACKEND_URL}}" >> .env.production
+
       - name: Build project
         run: cd packages/frontend && yarn build
 
