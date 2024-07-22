@@ -1,7 +1,7 @@
 {
   "name": "@flashcards/backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
@@ -9,7 +9,6 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@flashcards/types": "*",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -26,6 +25,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@flashcards/types": "*",
     "@tsconfig/node20": "^20.1.4",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.7",

@@ -18,6 +18,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.15
+
       - name: Changed files
         id: changes
         uses: dorny/paths-filter@v3
@@ -37,6 +41,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.15
 
       - name: Cache dependencies
         uses: actions/cache@v4
@@ -69,6 +77,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.15
+
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
@@ -92,14 +104,8 @@ jobs:
       - name: Build project
         run: cd packages/backend && yarn build
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: backend-build
-          path: packages/backend/dist/
-
-      - name: Deploy
-        run: echo "Backend Deployed"
+      - name: Builded
+        run: echo "Backend Builded"
 
   backend-deploy:
     needs: backend-build
@@ -109,14 +115,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: backend-build
-          path: packages/backend/dist/
+      - name: Build Docker image for backend
+        run: |
+          docker build -t your-dockerhub-username/backend -f packages/backend/Dockerfile .
 
-      - name: Deploy
-        run: echo "Backend Deployed"
+      - name: Login to Docker Hub
+        run: docker login registry-1.docker.io -u ${{  vars.DOCKER_HUB_USERNAME }} -p ${{secrets.DOCKER_HUB_TOKEN}}
+
+      - name: Push Docker image for backend
+        run: docker push ${{  vars.DOCKER_HUB_USERNAME }}/backend
+
+      - name: Deploy to Render
+        run: |
+          curl -X POST -H "Authorization: Bearer ${{ secrets.RENDER_TOKEN }}" \
+          -H "Accept: application/json" \
+          -H "Content-Type: application/json" \
+          -d '{
+                "imageUrl": "${{  vars.DOCKER_HUB_USERNAME }}/backend:latest"
+              }' \
+          https://api.render.com/v1/services/${{  vars.RENDER_SERVICE_ID }}/deploys
 
   frontend-build:
     needs: [changes, types-build]
@@ -125,6 +142,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.15
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -172,6 +193,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.15
 
       - name: Download build artifact
         uses: actions/download-artifact@v4
