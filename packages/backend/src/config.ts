@@ -16,7 +16,11 @@ const port: number = parseInt(process.env.PORT, 10)
 if (!port) throw Error(`port is ${port}`)
 
 const clientUrl = process.env.CLIENT_URL
+
 if (!clientUrl) throw Error(`clientUrl is ${clientUrl}`)
+
+console.log(`clientUrl: ${clientUrl}`)
+console.log(JSON.stringify(process.env, null, 2))
 
 export const config = {
   port,
