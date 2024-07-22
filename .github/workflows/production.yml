@@ -213,4 +213,4 @@ jobs:
         run: |
           yarn global add vercel
           vercel link --cwd packages/frontend/dist --yes --project flashcards-frontend --token ${{ secrets.VERCEL_TOKEN }}
-          vercel --cwd packages/frontend/dist --yes --prod --token ${{ secrets.VERCEL_TOKEN }}
+          vercel --cwd packages/frontend/dist --yes --prod -e VITE_BASE_URL=${{vars.BACKEND_URL}} -e VITE_MODE=production --token ${{ secrets.VERCEL_TOKEN }}

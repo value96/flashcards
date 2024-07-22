@@ -28,7 +28,7 @@ app.use(
 )
 //  // // // // // // // .. .. ..
 app.get("/", (req, res) => {
-  res.send("hello")
+  res.json({ success: true })
 })
 
 /* 

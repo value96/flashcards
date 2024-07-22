@@ -18,6 +18,17 @@ import {
 import { checkAuth } from "./features/auth/authThunks"
 import HomePage from "./pages/HomePage/HomePage"
 
+const fetchData = async (url: string) => {
+  console.log(`BASE_URL: ${url}`)
+  const response = await fetch(url)
+  if (!response.ok) {
+    throw new Error("Network response was not ok")
+  }
+  console.log(`${response}`)
+  const json = await response.json()
+  return json
+}
+
 const App = () => {
   const isAuth = useAppSelector(selectIsAuth)
   /* const dispatch = useAppDispatch()
@@ -42,10 +53,33 @@ const App = () => {
     )
   else return <HomePage /> */
 
+  const [data, setData] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  useEffect(() => {
+    const API_URL = import.meta.env.VITE_BASE_URL
+    fetchData(API_URL)
+      .then(res => {
+        setData(res.success)
+        setLoading(false)
+      })
+      .catch(err => {
+        setError(error)
+        setLoading(false)
+      })
+  }, [])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+  if (error) {
+    return <div>Error: {error}</div>
+  }
+
   return (
     <>
       {/* <div>flashcards-frontend </div>       */}
-      {"isAuth is:" + isAuth}
+      {`success: ${data}`}
     </>
   )
 }

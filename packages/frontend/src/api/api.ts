@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios"
 
-export const API_URL = import.meta.env.BASE_URL
+export const API_URL = import.meta.env.VITE_BASE_URL
 
 export const instance = axios.create({
   //withCredentials: true,
@@ -21,7 +21,7 @@ instance.interceptors.response.use(
     ) {
       originalRequest._isRetry = true
       try {
-        const response = await axios.get(`${API_URL}auth/refresh-token`, {
+        const response = await axios.get(`${API_URL}/auth/refresh-token`, {
           withCredentials: true,
         })
         localStorage.setItem(
