@@ -58,7 +58,7 @@ const App = () => {
   const [error, setError] = useState(null)
   useEffect(() => {
     const envVars = import.meta.env
-    const API_URL = envVars.VITE_BASE_URL
+    const API_URL = envVars?.VITE_BASE_URL as string
     console.log(JSON.stringify(envVars, null, 2))
     fetchData(API_URL)
       .then(res => {
