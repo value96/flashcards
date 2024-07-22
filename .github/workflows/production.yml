@@ -115,15 +115,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Docker image for backend
-        run: |
-          docker build -t ${{  vars.DOCKER_HUB_USERNAME }}/backend -f docker/backend/start.Dockerfile .
-
       - name: Login to Docker Hub
-        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login registry-1.docker.io -u "${{  vars.DOCKER_HUB_USERNAME }}" --password-stdin
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Push Docker image for backend
-        run: docker push ${{  vars.DOCKER_HUB_USERNAME }}/backend:latest
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/backend/start.Dockerfile
+          push: true
+          tags: ${{  vars.DOCKER_HUB_USERNAME }}/backend:latest
 
       - name: Deploy to Render
         run: |
