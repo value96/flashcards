@@ -1,25 +1,50 @@
-//import { Word } from "@flashcards/types"
+import { Word, VocabWord } from "@flashcards/types"
 
 import { Request, Response } from "express"
 import { getMessage } from "../utils/handleErrors"
 
-/* export const words: Word[] = data.map((word, index) => ({
+const data: VocabWord[] = [
+  {
+    id: "sjdsid",
+    translate: {
+      eng: "arouse",
+      rus: "вызывать, пробуждать",
+    },
+  },
+  {
+    id: "sjdfk",
+    translate: {
+      eng: "pretty",
+      rus: "довольно-таки",
+    },
+  },
+  {
+    id: "sdfkdo",
+    translate: {
+      eng: "grand",
+      rus: "большой, великий",
+    },
+  },
+]
+
+export const words: Word[] = data.map((word, index) => ({
   id: index.toString(),
   vocabWord: word,
   lastShowDate: new Date().toISOString(),
   futureShowDate: new Date().toISOString(),
   spaceShowSec: 86400,
-})) */
+}))
 
 let curIndex = 0
 
-/* export const getSome = async (req: Request, res: Response) => {
+export const getSome = async (req: Request, res: Response) => {
   try {
     const count = Number(req.params.count)
     const doc: Word[] = []
-    for (let i = curIndex; i < curIndex + count; i++) doc.push(words[i])
+    /* for (let i = curIndex; i < curIndex + count; i++) doc.push(words[i])
     curIndex = (curIndex + count) % words.length
-    res.json(doc)
+    res.json(doc) */
+    res.json(words)
   } catch (err) {
     const errMassage = getMessage(err)
     console.error(errMassage)
@@ -27,7 +52,7 @@ let curIndex = 0
       message: "failed to get words->".concat(errMassage),
     })
   }
-} */
+}
 
 export const acceptForgottenWord = async (req: Request, res: Response) => {
   try {

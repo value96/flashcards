@@ -1,7 +1,7 @@
 import "./App.css"
 import { Navigate, Route, Routes } from "react-router-dom"
 import { Quotes } from "./features/quotes/Quotes"
-import { Word } from "./components/Word/Word"
+import { WordComponent } from "./components/Word/Word"
 import logo from "./logo.svg"
 import Flashcard from "./components/Flashcard/Flashcard"
 import SignUpForm from "./components/Forms/SignUpForm/SignUpForm"
@@ -30,8 +30,7 @@ const fetchData = async (url: string) => {
 }
 
 const App = () => {
-  const isAuth = useAppSelector(selectIsAuth)
-  /* const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
   const isAuth = useAppSelector(selectIsAuth)
   const isRefreshTokenLoading = useAppSelector(selectIsRefreshTokenLoading)
 
@@ -51,39 +50,7 @@ const App = () => {
         <Flashcard />
       </ProtectedRoute>
     )
-  else return <HomePage /> */
-
-  const [data, setData] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  useEffect(() => {
-    const envVars = import.meta.env
-    const API_URL = envVars?.VITE_API_URL as string
-    console.log(JSON.stringify(envVars, null, 2))
-    fetchData(API_URL)
-      .then(res => {
-        setData(res.success)
-        setLoading(false)
-      })
-      .catch(err => {
-        setError(error)
-        setLoading(false)
-      })
-  }, [])
-
-  if (loading) {
-    return <div>Loading...</div>
-  }
-  if (error) {
-    return <div>Error: {error}</div>
-  }
-
-  return (
-    <>
-      {/* <div>flashcards-frontend </div>       */}
-      {`success: ${data}`}
-    </>
-  )
+  else return <HomePage />
 }
 
 export default App

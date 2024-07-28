@@ -36,12 +36,6 @@ export const checkAuth = createAsyncThunk<true, void, { rejectValue: string }>(
         accessTokenExpiration.toString(),
       )
 
-      /* setTimeout(
-        () => {
-          dispatch(checkAuth())
-        },
-        accessTokenExpiration.getTime() - Date.now() - 5000,
-      ) */
       return true
     } catch (e: any) {
       console.log(`Failed to refresh token: ${e.response?.data?.error}`)
@@ -69,6 +63,7 @@ export const signIn = createAsyncThunk<
       return true
     } catch (e: any) {
       console.log(`Failed to sign in: ${e.response?.data?.error}`)
+      alert(`Failed to sign in: ${e.response?.data?.error}`)
       return rejectWithValue(`Failed to sign in: ${e.response?.data?.error}`)
     }
   },

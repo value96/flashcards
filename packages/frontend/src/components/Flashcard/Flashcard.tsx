@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import styles from "./Flashcard.module.css"
-import { Word } from "../Word/Word"
+import { WordComponent } from "../Word/Word"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import {
   nextFlashcard,
@@ -10,9 +10,8 @@ import {
 import { Status } from "../../types/Status"
 import { logout } from "../../features/auth/authThunks"
 
-//import { Status } from "../../types/enums"
-
 const Flashcard = ({}) => {
+  console.log("render Flashcard")
   const dispatch = useAppDispatch()
   const words = useAppSelector(selectAllWords)
   const status = useAppSelector(state => state.flashcard.status)
@@ -25,7 +24,7 @@ const Flashcard = ({}) => {
 
   useEffect(() => {
     if (status === Status.idle) dispatch(loadWords(countShowingWords))
-  }, [status, dispatch])
+  }, [status])
 
   return (
     <div className={styles.container}>
@@ -34,11 +33,7 @@ const Flashcard = ({}) => {
       {status === Status.succeeded && (
         <>
           {words.map(word => (
-            <Word
-              key={word.id}
-              id={word.id}
-              text={word.vocabWord.translate.eng}
-            />
+            <WordComponent key={word.id} {...word} />
           ))}
           <button onClick={handleClick}>next bunch of words</button>
           <button onClick={() => dispatch(logout())}>logout</button>

@@ -10,7 +10,6 @@ import {
 } from "@reduxjs/toolkit"
 import FlashcardService from "../../services/FlashcardService"
 
-//import { Status } from "../../types/enums"
 type FlashcardState = EntityState<Word, string> & {
   status: Status //"idle" | "loading" | "succeeded" | "failed"
   error: string | null
@@ -27,6 +26,7 @@ export const loadWords = createAsyncThunk(
   "flashcard/loadWords",
   async (amount: number) => {
     const res = await FlashcardService.fetchWords(amount)
+
     return res.data
   },
 )
@@ -50,7 +50,9 @@ const flashcardSlice = createSlice({
       })
       .addCase(loadWords.fulfilled, (state, action: PayloadAction<Word[]>) => {
         state.status = Status.succeeded
+        console.log("setted Status.succeeded")
         flashcardAdapter.setAll(state, action.payload)
+        console.log("seted All")
       })
       .addCase(loadWords.rejected, (state, action) => {
         state.status = Status.failed
