@@ -4,8 +4,6 @@ import { Quotes } from "./features/quotes/Quotes"
 import { WordComponent } from "./components/Word/Word"
 import logo from "./logo.svg"
 import Flashcard from "./components/Flashcard/Flashcard"
-import SignUpForm from "./components/Forms/SignUpForm/SignUpForm"
-import SignInForm from "./components/Forms/SignInForm/SignInForm"
 
 import { useAppDispatch, useAppSelector } from "./app/hooks"
 

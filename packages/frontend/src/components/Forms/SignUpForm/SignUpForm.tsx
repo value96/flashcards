@@ -1,4 +1,4 @@
-import type { FormEvent} from "react";
+import type { FormEvent } from "react"
 import React, { useState } from "react"
 import EmailInput from "../../Inputs/Email/EmailInput"
 import PasswordInput from "../../Inputs/Password/PasswordInput"
@@ -48,7 +48,7 @@ const SignUpForm = () => {
   //console.log("SignUpForm render")
   return (
     <form onSubmit={handleSubmit}>
-      <EmailInput
+      {/* <EmailInput
         value={emailInputValue}
         setValue={setEmailInputValue}
         error={emailInputError}
@@ -65,7 +65,7 @@ const SignUpForm = () => {
         setValue={setPasswordInputValue}
         error={passwordInputError}
         setError={setPasswordInputError}
-      />
+      /> */}
       <button
         type="submit"
         disabled={isSubmitting || isThereInputsErrors || isSomeFieldsEmpty}
