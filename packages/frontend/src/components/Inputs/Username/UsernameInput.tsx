@@ -1,7 +1,7 @@
 import type { ChangeEvent, MutableRefObject } from "react"
 import React, { useState } from "react"
 import * as yup from "yup"
-import type { InputProps } from "../types"
+import styles from "../Input.module.css"
 
 const usernameSchema = yup.object().shape({
   username: yup.string().required("username is required"),
@@ -36,16 +36,17 @@ const usernameInput: React.FC<UsernameInputProps> = ({
   }
 
   return (
-    <div>
+    <div className={styles.formGroup}>
       <input
-        type="username"
+        className={styles.input}
+        type="text"
         id="username"
         name="username"
         placeholder="Enter your username"
         value={value}
         onChange={handleChange}
       />
-      {error && <p>{error}</p>}
+      {error && <div className={styles.errorMessage}>{error}</div>}
     </div>
   )
 }

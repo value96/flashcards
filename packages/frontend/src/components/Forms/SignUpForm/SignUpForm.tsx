@@ -5,7 +5,7 @@ import PasswordInput from "../../Inputs/Password/PasswordInput"
 import { signUp } from "../../../features/auth/authThunks"
 import { useAppDispatch } from "../../../app/hooks"
 import UsernameInput from "../../Inputs/Username/UsernameInput"
-
+import styles from "../Form.module.css"
 const SignUpForm = () => {
   console.log("SignUpForm render")
   const dispatch = useAppDispatch()
@@ -36,20 +36,28 @@ const SignUpForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <EmailInput
-        setIsEmailFullfilled={setIsEmailFullfilled}
-        emailRef={emailRef}
-      />
-      <UsernameInput
-        setIsUsernameFullfilled={setIsUsernameFullfilled}
-        usernameRef={usernameRef}
-      />
-      <PasswordInput
-        setIsPassFullfilled={setIsPassFullfilled}
-        passRef={passRef}
-      />
+    <form className={styles.container} onSubmit={handleSubmit}>
+      <h2>Registration</h2>
+      <div className={styles.formGroup}>
+        <EmailInput
+          setIsEmailFullfilled={setIsEmailFullfilled}
+          emailRef={emailRef}
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <UsernameInput
+          setIsUsernameFullfilled={setIsUsernameFullfilled}
+          usernameRef={usernameRef}
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <PasswordInput
+          setIsPassFullfilled={setIsPassFullfilled}
+          passRef={passRef}
+        />
+      </div>
       <button
+        className={styles.button}
         type="submit"
         disabled={
           isSubmitting ||

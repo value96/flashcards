@@ -1,8 +1,5 @@
 import "./App.css"
-import { Navigate, Route, Routes } from "react-router-dom"
-import { Quotes } from "./features/quotes/Quotes"
-import { WordComponent } from "./components/Word/Word"
-import logo from "./logo.svg"
+
 import Flashcard from "./components/Flashcard/Flashcard"
 
 import { useAppDispatch, useAppSelector } from "./app/hooks"

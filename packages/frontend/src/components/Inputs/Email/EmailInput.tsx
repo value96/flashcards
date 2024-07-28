@@ -1,8 +1,7 @@
 import type { ChangeEvent, MutableRefObject } from "react"
 import React, { useState } from "react"
 import * as yup from "yup"
-import type { InputProps } from "../types"
-
+import styles from "../Input.module.css"
 const emailSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
 })
@@ -36,8 +35,9 @@ const EmailInput: React.FC<EmailInputProps> = ({
   }
 
   return (
-    <div>
+    <div className={styles.formGroup}>
       <input
+        className={styles.input}
         type="email"
         id="email"
         name="email"
@@ -45,7 +45,7 @@ const EmailInput: React.FC<EmailInputProps> = ({
         value={value}
         onChange={handleChange}
       />
-      {error && <p>{error}</p>}
+      {error && <div className={styles.errorMessage}>{error}</div>}
     </div>
   )
 }

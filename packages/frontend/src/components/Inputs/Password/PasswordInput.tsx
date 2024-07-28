@@ -1,8 +1,7 @@
 import type { ChangeEvent, MutableRefObject } from "react"
 import React, { useState } from "react"
 import * as yup from "yup"
-import type { InputProps } from "../types"
-
+import styles from "../Input.module.css"
 const passwordSchema = yup.object().shape({
   password: yup
     .string()
@@ -39,8 +38,9 @@ const PasswordInput: React.FC<EmailInputProps> = ({
   }
 
   return (
-    <div>
+    <div className={styles.formGroup}>
       <input
+        className={styles.input}
         type="password"
         id="password"
         name="password"
@@ -48,7 +48,7 @@ const PasswordInput: React.FC<EmailInputProps> = ({
         value={value}
         onChange={handleChange}
       />
-      {error && <p>{error}</p>}
+      {error && <div className={styles.errorMessage}>{error}</div>}
     </div>
   )
 }

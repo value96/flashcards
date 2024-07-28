@@ -28,17 +28,29 @@ const Flashcard = ({}) => {
 
   return (
     <div className={styles.container}>
-      {status === Status.loading && "Loading"}
-      {status === Status.failed && `Error: ${error}`}
-      {status === Status.succeeded && (
-        <>
-          {words.map(word => (
-            <WordComponent key={word.id} {...word} />
-          ))}
-          <button onClick={handleClick}>next bunch of words</button>
-          <button onClick={() => dispatch(logout())}>logout</button>
-        </>
-      )}
+      <div className={styles.content}>
+        {status === Status.loading && "Loading"}
+        {status === Status.failed && `Error: ${error}`}
+        {status === Status.succeeded && (
+          <>
+            <div className={styles.wordsContainer}>
+              {words.map(word => (
+                <div key={word.id} className={styles.wordContainer}>
+                  <WordComponent {...word} />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+      <div className={styles.buttonsContainer}>
+        <button className={styles.button} onClick={handleClick}>
+          next
+        </button>
+        <button className={styles.button} onClick={() => dispatch(logout())}>
+          logout
+        </button>
+      </div>
     </div>
   )
 }
