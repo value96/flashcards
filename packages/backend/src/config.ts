@@ -51,7 +51,7 @@ export const accessTokenCookieParams = (expires: Date): CookieOptions => ({
   httpOnly: true,
   secure: nodeEnv == "production" ? true : false,
   path: "/",
-  sameSite: "lax",
+  sameSite: "none",
   expires: expires,
 })
 
@@ -59,6 +59,6 @@ export const refreshTokenCookieParams = (expires: Date): CookieOptions => ({
   httpOnly: true,
   secure: nodeEnv == "production" ? true : false,
   path: "/auth/refresh-token",
-  sameSite: "lax",
+  sameSite: "none",
   expires: expires,
 })
