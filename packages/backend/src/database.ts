@@ -14,7 +14,13 @@ const sequelize = new Sequelize(
   config.POSTGRES_PASS,
   {
     host: config.POSTGRES_URL,
+    port: 5432,
     dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true,
+      },
+    },
   },
 )
 
