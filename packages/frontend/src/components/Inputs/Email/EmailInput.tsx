@@ -16,6 +16,7 @@ const EmailInput: React.FC<EmailInputProps> = ({
   setIsEmailFullfilled,
   emailRef,
 }) => {
+  console.log(`EmailInput render`)
   const [value, setValue] = useState("")
   const [error, setError] = useState("")
 
@@ -25,7 +26,7 @@ const EmailInput: React.FC<EmailInputProps> = ({
     emailRef.current = email
 
     try {
-      emailSchema.validateSync({ email: e.target.value })
+      emailSchema.validateSync({ email: email })
       setError("")
       setIsEmailFullfilled(true)
     } catch (validationError) {
@@ -34,7 +35,6 @@ const EmailInput: React.FC<EmailInputProps> = ({
     }
   }
 
-  //console.log(`LoginInput render`)
   return (
     <div>
       <input

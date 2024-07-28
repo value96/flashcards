@@ -1,4 +1,4 @@
-import type { ChangeEvent} from "react";
+import type { ChangeEvent, MutableRefObject } from "react"
 import React, { useState } from "react"
 import * as yup from "yup"
 import type { InputProps } from "../types"
@@ -10,24 +10,34 @@ const passwordSchema = yup.object().shape({
     .required("Password is required"),
 })
 
-const PasswordInput: React.FC<InputProps> = ({
-  value,
-  setValue,
-  error,
-  setError,
+interface EmailInputProps {
+  setIsPassFullfilled: (value: boolean) => void
+  passRef: MutableRefObject<string>
+}
+
+const PasswordInput: React.FC<EmailInputProps> = ({
+  setIsPassFullfilled,
+  passRef,
 }) => {
+  console.log(`PasswordInput render`)
+  const [value, setValue] = useState("")
+  const [error, setError] = useState("")
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
+    const pass = e.target.value
+    setValue(pass)
+    passRef.current = pass
 
     try {
-      passwordSchema.validateSync({ password: e.target.value })
+      passwordSchema.validateSync({ password: pass })
       setError("")
-    } catch (err: any) {
-      setError(err.message)
+      setIsPassFullfilled(true)
+    } catch (validationError) {
+      setError((validationError as yup.ValidationError).message)
+      setIsPassFullfilled(false)
     }
   }
 
-  //console.log(`PasswordInput render`)
   return (
     <div>
       <input
