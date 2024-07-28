@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize"
+import { Dialect, Sequelize } from "sequelize"
 import { mainDir } from "./utils/mainDir"
 import path from "path"
 import { config } from "./config"
@@ -8,21 +8,38 @@ import { config } from "./config"
   storage: path.join(mainDir, "..", "data", "flashcards.db"),
 }) */
 
+type dbConnectionParamsType = {
+  host: string
+  port: number
+  dialect: Dialect
+  dialectOptions?: any
+}
+
+const dbConnectionParams: dbConnectionParamsType = {
+  host: config.POSTGRES_URL,
+  port: 5432,
+  dialect: "postgres",
+  /* dialectOptions: {
+    ssl: {
+      require: config.nodeEnv === "production" ? true : false,
+      rejectUnauthorized: false,
+    },
+  }, */
+}
+if (config.nodeEnv === "production") {
+  dbConnectionParams.dialectOptions = {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  }
+}
+
 const sequelize = new Sequelize(
   config.POSTGRES_DB_NAME,
   config.POSTGRES_USER,
   config.POSTGRES_PASS,
-  {
-    host: config.POSTGRES_URL,
-    port: 5432,
-    dialect: "postgres",
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
-  },
+  dbConnectionParams,
 )
 
 export const runDB = async () => {
