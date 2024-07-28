@@ -5,12 +5,12 @@ import { isAuth } from "../middlewares/isAuth"
 
 const router = Router()
 
-router.post(
+/* router.post(
   "/sign-up",
   AuthValidators.signUp,
   handleValidationErrors,
   AuthController.signUp,
-)
+) */
 router.post(
   "/sign-in",
   AuthValidators.signIn,
