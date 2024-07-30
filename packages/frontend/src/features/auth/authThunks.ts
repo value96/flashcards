@@ -25,7 +25,7 @@ export const checkAuth = createAsyncThunk<true, void, { rejectValue: string }>(
   async (_, { rejectWithValue }) => {
     try {
       console.log("refreshToken start")
-      const response = await axios.get(`${API_URL}auth/refresh-token`, {
+      const response = await axios.get(`${API_URL}/auth/refresh-token`, {
         withCredentials: true,
       })
       console.log(`${response}`)
