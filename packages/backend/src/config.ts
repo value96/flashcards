@@ -31,6 +31,9 @@ if (!POSTGRES_PASS) throw Error(`POSTGRES_PASS not found`)
 const POSTGRES_URL = process.env.POSTGRES_URL
 if (!POSTGRES_URL) throw Error(`POSTGRES_URL is ${POSTGRES_URL}`)
 
+const MONGO_URL = process.env.MONGO_URL
+if (!MONGO_URL) throw Error(`MONGO_URL not found`)
+
 console.log(`nodeEnv: ${nodeEnv}`)
 
 export const config = {
@@ -45,13 +48,14 @@ export const config = {
   POSTGRES_USER: POSTGRES_USER,
   POSTGRES_PASS: POSTGRES_PASS,
   POSTGRES_URL: POSTGRES_URL,
+  MONGO_URL: MONGO_URL,
 }
 
 export const accessTokenCookieParams = (expires: Date): CookieOptions => ({
   httpOnly: true,
   secure: nodeEnv == "production" ? true : false,
   path: "/",
-  sameSite: "none",
+  sameSite: nodeEnv == "production" ? "none" : "strict",
   expires: expires,
 })
 
@@ -59,6 +63,6 @@ export const refreshTokenCookieParams = (expires: Date): CookieOptions => ({
   httpOnly: true,
   secure: nodeEnv == "production" ? true : false,
   path: "/auth/refresh-token",
-  sameSite: "none",
+  sameSite: nodeEnv == "production" ? "none" : "strict",
   expires: expires,
 })

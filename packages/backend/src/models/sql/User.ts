@@ -17,7 +17,7 @@ import {
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
 } from "sequelize"
-import sequelize from "../database"
+import sequelize from "../../sqlDatabase"
 import RefreshSession from "./RefreshSession"
 
 class User extends Model<

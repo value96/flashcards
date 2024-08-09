@@ -6,7 +6,7 @@ import {
   CreationOptional,
   ForeignKey,
 } from "sequelize"
-import sequelize from "../database"
+import sequelize from "../../sqlDatabase"
 import User from "./User"
 
 class RefreshSession extends Model<

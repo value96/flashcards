@@ -9,5 +9,6 @@ declare namespace NodeJS {
     POSTGRES_USER: string
     POSTGRES_PASS: string
     POSTGRES_URL: string
+    MONGO_URL: string
   }
 }

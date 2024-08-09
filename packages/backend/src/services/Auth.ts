@@ -1,8 +1,8 @@
-import User from "../models/User"
+import User from "../models/sql/User"
 import createError from "http-errors"
 import bcrypt from "bcryptjs"
 import TokenService from "./Token"
-import RefreshSession from "../models/RefreshSession"
+import RefreshSession from "../models/sql/RefreshSession"
 import { config } from "../config"
 import { FingerprintResult } from "express-fingerprint"
 

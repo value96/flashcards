@@ -1,6 +1,6 @@
 import express, { NextFunction } from "express"
 import cors from "cors"
-import sequelize, { runDB } from "./database"
+import sequelize, { runSqlDB } from "./sqlDatabase"
 import userRoutes from "./routes/UserRoutes"
 import wordRoutes from "./routes/WordRoutes"
 import authRoutes from "./routes/AuthRoutes"
@@ -13,6 +13,7 @@ import {
 } from "express-fingerprint/lib/parameters"
 import { config } from "./config"
 import JobsSheduler from "./jobs"
+import { runNoSqlDB } from "./mongoDatabase"
 
 const app = express()
 
@@ -35,7 +36,8 @@ app.use("/words", wordRoutes)
 app.use("/users", userRoutes)
 
 const startServer = async () => {
-  await runDB()
+  await runSqlDB()
+  await runNoSqlDB()
   JobsSheduler.start()
   app.listen(config.port, () => {
     console.log(`Server is running on http://localhost:${config.port}`)

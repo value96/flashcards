@@ -1,6 +1,4 @@
 import { Dialect, Sequelize } from "sequelize"
-import { mainDir } from "./utils/mainDir"
-import path from "path"
 import { config } from "./config"
 
 /* const sequelize = new Sequelize({
@@ -19,12 +17,6 @@ const dbConnectionParams: dbConnectionParamsType = {
   host: config.POSTGRES_URL,
   port: 5432,
   dialect: "postgres",
-  /* dialectOptions: {
-    ssl: {
-      require: config.nodeEnv === "production" ? true : false,
-      rejectUnauthorized: false,
-    },
-  }, */
 }
 if (config.nodeEnv === "production") {
   dbConnectionParams.dialectOptions = {
@@ -42,14 +34,14 @@ const sequelize = new Sequelize(
   dbConnectionParams,
 )
 
-export const runDB = async () => {
+export const runSqlDB = async () => {
   try {
     await sequelize.authenticate()
-    console.log("Connection has been established successfully.")
+    console.log("Connection to SQL DB has been established successfully.")
     await sequelize.sync()
-    console.log("Database synced")
+    console.log("SQL Database synced")
   } catch (error) {
-    console.error("Failed to initialize database:", error)
+    console.error("Failed to initialize SQL database:", error)
     process.exit(1)
   }
 }
