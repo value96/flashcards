@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 
 import { accessTokenCookieParams, refreshTokenCookieParams } from "../config"
-import AuthService, { CreateRefreshSessionRes } from "../services/Auth"
+import authService, { CreateRefreshSessionRes } from "../services/Auth"
 import { errorHandler } from "../utils/handleErrors"
 import { AuthRequest } from "../middlewares/isAuth"
 
@@ -46,7 +46,7 @@ export const signUp = async (
     const { fingerprint } = req
     if (!fingerprint) return res.status(500).send("Fingerprint not generated")
 
-    const result = await AuthService.signUp(
+    const result = await authService.signUp(
       email,
       username,
       password,
@@ -70,7 +70,7 @@ export const signIn = async (
     const { fingerprint } = req
     if (!fingerprint) return res.status(500).send("Fingerprint not generated")
 
-    const result = await AuthService.signIn(email, password, fingerprint)
+    const result = await authService.signIn(email, password, fingerprint)
     const accessTokenExpiration = setTokens(res, result)
 
     res.status(200).json({ accessTokenExpiration })
@@ -86,7 +86,7 @@ export const refreshToken = async (req: Request<{}, {}, {}>, res: Response) => {
     const { fingerprint } = req
     if (!fingerprint) return res.status(500).send("Fingerprint not generated")
 
-    const result = await AuthService.refreshToken(oldRefreshToken, fingerprint)
+    const result = await authService.refreshToken(oldRefreshToken, fingerprint)
 
     const accessTokenExpiration = setTokens(res, result)
     res.status(200).json({ accessTokenExpiration })
@@ -103,7 +103,7 @@ export const logout = async (req: AuthRequest, res: Response) => {
     const { fingerprint } = req
     if (!fingerprint) return res.status(500).send("Fingerprint not generated")
 
-    await AuthService.logout(sessionId, fingerprint)
+    await authService.logout(sessionId, fingerprint)
 
     res.cookie("refreshToken", "", refreshTokenCookieParams(new Date(0)))
     res.cookie("accessToken", "", accessTokenCookieParams(new Date(0)))

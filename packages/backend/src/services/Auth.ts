@@ -1,7 +1,7 @@
 import User from "../models/sql/User"
-import createError from "http-errors"
+import createHttpError from "http-errors"
 import bcrypt from "bcryptjs"
-import TokenService from "./Token"
+import tokenService, { TokenService } from "./Token"
 import RefreshSession from "../models/sql/RefreshSession"
 import { config } from "../config"
 import { FingerprintResult } from "express-fingerprint"
@@ -13,34 +13,39 @@ export interface CreateRefreshSessionRes {
   refreshTokenExpiration: Date
 }
 
-const getRefreshSessionByRefreshToken = async (
-  refreshToken: string,
-  fingerprint: FingerprintResult,
-) => {
-  const refreshTokenPayload = TokenService.decodeToken(
-    refreshToken,
-    "refresh",
-  ) as {
-    userId: number
-    sessionId: number
+class AuthService {
+  private tokenService: TokenService
+
+  constructor(tokenService: TokenService) {
+    this.tokenService = tokenService
   }
 
-  const { userId, sessionId } = refreshTokenPayload
+  async getRefreshSessionByRefreshToken(
+    refreshToken: string,
+    fingerprint: FingerprintResult,
+  ) {
+    const refreshTokenPayload = this.tokenService.decodeRefreshToken(
+      refreshToken,
+    ) as {
+      userId: number
+      sessionId: number
+    }
 
-  const session = await RefreshSession.findOne({
-    where: {
-      id: sessionId,
-      userId,
-      fingerprint: fingerprint.hash,
-    },
-  })
+    const { userId, sessionId } = refreshTokenPayload
 
-  if (!session) throw createError(401, "Invalid refresh token")
-  return session
-}
+    const session = await RefreshSession.findOne({
+      where: {
+        id: sessionId,
+        userId,
+        fingerprint: fingerprint.hash,
+      },
+    })
 
-class AuthService {
-  static async createRefreshSession(
+    if (!session) throw createHttpError(404, "Refresh session not found")
+    return session
+  }
+
+  async createRefreshSession(
     userId: number,
     fingerprint: FingerprintResult,
     expiresAt: Date = new Date(Date.now() + config.REFRESH_TOKEN_EXPIRATION),
@@ -51,11 +56,11 @@ class AuthService {
       expiresAt: expiresAt,
     })
 
-    const accessToken = TokenService.generateAccessToken({
+    const accessToken = this.tokenService.generateAccessToken({
       userId,
       sessionId: refreshSession.id,
     })
-    const refreshToken = TokenService.generateRefreshToken({
+    const refreshToken = this.tokenService.generateRefreshToken({
       userId,
       sessionId: refreshSession.id,
     })
@@ -70,20 +75,21 @@ class AuthService {
     }
   }
 
-  static async signIn(
+  async signIn(
     email: string,
     password: string,
     fingerprint: FingerprintResult,
   ): Promise<CreateRefreshSessionRes> {
     const user = await User.findOne({ where: { email } })
-    if (!user) throw createError(401, "Invalid credentials")
+    if (!user) throw createHttpError(401, "Invalid credentials")
 
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash)
-    if (!isPasswordValid) throw createError(401, "Invalid credentials")
+    if (!isPasswordValid) throw createHttpError(401, "Invalid credentials")
 
     return await this.createRefreshSession(user.id, fingerprint)
   }
-  static async signUp(
+
+  async signUp(
     email: string,
     username: string,
     password: string,
@@ -91,7 +97,7 @@ class AuthService {
   ): Promise<CreateRefreshSessionRes> {
     const existingUser = await User.findOne({ where: { email } })
     if (existingUser)
-      throw createError(409, "User with this email already exists")
+      throw createHttpError(409, "User with this email already exists")
     const passwordHash = await bcrypt.hash(password, 10)
 
     const user = await User.create({
@@ -103,11 +109,11 @@ class AuthService {
     return await this.createRefreshSession(user.id, fingerprint)
   }
 
-  static async refreshToken(
+  async refreshToken(
     refreshToken: string,
     fingerprint: FingerprintResult,
   ): Promise<CreateRefreshSessionRes> {
-    const session = await getRefreshSessionByRefreshToken(
+    const session = await this.getRefreshSessionByRefreshToken(
       refreshToken,
       fingerprint,
     )
@@ -116,7 +122,7 @@ class AuthService {
     await session.destroy()
 
     if (new Date() > expiresAt) {
-      throw createError(401, "Invalid refresh token")
+      throw createHttpError(401, "Invalid refresh token")
     }
 
     return await this.createRefreshSession(
@@ -126,7 +132,7 @@ class AuthService {
     )
   }
 
-  static async logout(sessionId: number, fingerprint: FingerprintResult) {
+  async logout(sessionId: number, fingerprint: FingerprintResult) {
     const session = await RefreshSession.findOne({
       where: {
         id: sessionId,
@@ -134,9 +140,11 @@ class AuthService {
       },
     })
 
-    if (!session) throw createError(401, "Session not found")
+    if (!session) throw createHttpError(401, "Session not found")
     await session.destroy()
   }
 }
 
-export default AuthService
+const authService = new AuthService(tokenService)
+
+export default authService

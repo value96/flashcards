@@ -2,25 +2,41 @@ import jwt from "jsonwebtoken"
 import { config } from "../config"
 import createHttpError from "http-errors"
 
-class TokenService {
-  static generateAccessToken(payload: any) {
-    return jwt.sign(payload, config.accessTokenSecret, {
+export class TokenService {
+  private accessTokenSecret: string
+  private refreshTokenSecret: string
+
+  constructor(accessTokenSecret: string, refreshTokenSecret: string) {
+    this.accessTokenSecret = accessTokenSecret
+    this.refreshTokenSecret = refreshTokenSecret
+  }
+
+  generateAccessToken(payload: any) {
+    return jwt.sign(payload, this.accessTokenSecret, {
       expiresIn: "30m",
     })
   }
-  static generateRefreshToken(payload: any) {
-    return jwt.sign(payload, config.refreshTokenSecret, {
+  generateRefreshToken(payload: any) {
+    return jwt.sign(payload, this.refreshTokenSecret, {
       expiresIn: "15d",
     })
   }
-  static checkAccessToken(token: string): any {
-    return jwt.verify(token, config.accessTokenSecret)
+  decodeAccessToken(token: string): any {
+    try {
+      return jwt.verify(token, this.accessTokenSecret)
+    } catch (error) {
+      throw createHttpError(401, "Invalid access token")
+    }
   }
-  static checkRefreshToken(token: string): any {
-    return jwt.verify(token, config.refreshTokenSecret)
+  decodeRefreshToken(token: string): any {
+    try {
+      return jwt.verify(token, this.refreshTokenSecret)
+    } catch (error) {
+      throw createHttpError(401, "Invalid refresh token")
+    }
   }
 
-  static decodeToken(token: string, tokenType: "refresh" | "access"): any {
+  /*   decodeToken(token: string, tokenType: "refresh" | "access"): any {
     try {
       if (tokenType === "access") {
         return this.checkAccessToken(token)
@@ -31,7 +47,12 @@ class TokenService {
     } catch (error) {
       throw createHttpError(401, `Invalid ${tokenType} token`)
     }
-  }
+  } */
 }
 
-export default TokenService
+const tokenService = new TokenService(
+  config.accessTokenSecret,
+  config.refreshTokenSecret,
+)
+
+export default tokenService
