@@ -1,9 +1,6 @@
 import "./App.css"
-
 import Flashcard from "./components/Flashcard/Flashcard"
-
 import { useAppDispatch, useAppSelector } from "./app/hooks"
-
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"
 import { useEffect, useState } from "react"
 import {
@@ -12,17 +9,6 @@ import {
 } from "./features/auth/authSlice"
 import { checkAuth } from "./features/auth/authThunks"
 import HomePage from "./pages/HomePage/HomePage"
-
-const fetchData = async (url: string) => {
-  console.log(`API_URL: ${url}`)
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error("Network response was not ok")
-  }
-  console.log(`${response}`)
-  const json = await response.json()
-  return json
-}
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -45,23 +31,8 @@ const App = () => {
         <Flashcard />
       </ProtectedRoute>
     )
-  else return <HomePage />
+
+  return <HomePage />
 }
 
 export default App
-
-/* <Routes>
-        <Route path="/register" element={<SignUpForm />} />
-        <Route path="/login" element={<SignInForm />} />
-      </Routes> */
-
-/* <Routes>
-        <Route
-          path="/flashcard"
-          element={
-            <ProtectedRoute>
-              <Flashcard />
-            </ProtectedRoute>
-          }
-        />
-      </Routes> */
