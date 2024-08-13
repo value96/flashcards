@@ -1,6 +1,6 @@
 // src/features/auth/authThunks.js
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { API_URL, instance } from "../../api/api"
+import { API_URL, instance } from "../../shared/api/axiosInstance"
 import axios, { AxiosResponse } from "axios"
 import AuthService from "../../services/AuthService"
 import { AuthResponse } from "../../models/Responses/AuthResponse"

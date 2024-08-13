@@ -1,6 +1,6 @@
 import { useState } from "react"
-import SignInForm from "../../components/Forms/SignInForm/SignInForm"
-import SignUpForm from "../../components/Forms/SignUpForm/SignUpForm"
+import SignInForm from "../../features/Authorization/ui/LoginForm"
+import RegisterForm from "../../features/Registration/ui/RegisterForm"
 import styles from "./HomePage.module.css"
 
 const HomePage = () => {
@@ -16,7 +16,7 @@ const HomePage = () => {
   if (isShowRegister)
     return (
       <div className={styles.page}>
-        <SignUpForm />
+        <RegisterForm />
       </div>
     )
 

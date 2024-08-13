@@ -1,14 +1,15 @@
 import "./App.css"
-import Flashcard from "./components/Flashcard/Flashcard"
-import { useAppDispatch, useAppSelector } from "./app/hooks"
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"
-import { useEffect, useState } from "react"
+import Flashcard from "../components/Flashcard/Flashcard"
+
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute"
+import { useEffect } from "react"
 import {
   selectIsAuth,
   selectIsRefreshTokenLoading,
-} from "./features/auth/authSlice"
-import { checkAuth } from "./features/auth/authThunks"
-import HomePage from "./pages/HomePage/HomePage"
+} from "../features/auth/authSlice"
+import { checkAuth } from "../features/auth/authThunks"
+import HomePage from "../pages/HomePage/HomePage"
+import { useAppDispatch, useAppSelector } from "@shared/store"
 
 const App = () => {
   const dispatch = useAppDispatch()

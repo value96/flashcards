@@ -1,5 +1,5 @@
 // src/features/auth/authSlice.js
-import type { PayloadAction} from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit"
 import { createSlice } from "@reduxjs/toolkit"
 import { signIn, signUp, checkAuth, logout } from "./authThunks"
 

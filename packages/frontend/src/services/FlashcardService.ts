@@ -1,5 +1,5 @@
 import type { Word } from "@flashcards/types"
-import instance from "../api/api"
+import instance from "../shared/api/axiosInstance"
 import type { AxiosResponse } from "axios"
 
 export default class FlashcardService {

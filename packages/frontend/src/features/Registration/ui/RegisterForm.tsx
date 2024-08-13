@@ -1,17 +1,21 @@
-import React, { useRef, useState } from "react"
 import type { FormEvent } from "react"
-import EmailInput from "../../Inputs/Email/EmailInput"
-import PasswordInput from "../../Inputs/Password/PasswordInput"
+import React, { useRef, useState } from "react"
+import { EmailInput } from "@shared/ui/Inputs"
+import { PasswordInput } from "@shared/ui/Inputs"
+import { UsernameInput } from "@shared/ui/Inputs"
+import { signUp } from "../../auth/authThunks"
 import { useAppDispatch } from "../../../app/hooks"
-import { signIn } from "../../../features/auth/authThunks"
-import styles from "../Form.module.css"
-
-const LoginForm = () => {
-  console.log("LoginForm render")
+import { styles } from "@shared/ui/Forms"
+const RegisterForm = () => {
+  console.log("SignUpForm render")
   const dispatch = useAppDispatch()
 
   const emailRef = useRef("")
   const [isEmailFullfilled, setIsEmailFullfilled] = useState(false)
+
+  const usernameRef = useRef("")
+  const [isUsernameFullfilled, setIsUsernameFullfilled] = useState(false)
+
   const passRef = useRef("")
   const [isPassFullfilled, setIsPassFullfilled] = useState(false)
 
@@ -21,18 +25,29 @@ const LoginForm = () => {
     e.preventDefault()
     setIsSubmitting(true)
     await dispatch(
-      signIn({ email: emailRef.current, password: passRef.current }),
+      signUp({
+        email: emailRef.current,
+        username: usernameRef.current,
+        password: passRef.current,
+      }),
     )
+
     setIsSubmitting(false)
   }
 
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
-      <h2>Authorization</h2>
+      <h2>Registration</h2>
       <div className={styles.formGroup}>
         <EmailInput
           setIsEmailFullfilled={setIsEmailFullfilled}
           emailRef={emailRef}
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <UsernameInput
+          setIsUsernameFullfilled={setIsUsernameFullfilled}
+          usernameRef={usernameRef}
         />
       </div>
       <div className={styles.formGroup}>
@@ -44,12 +59,15 @@ const LoginForm = () => {
       <button
         className={styles.button}
         type="submit"
-        disabled={isSubmitting || !(isEmailFullfilled && isPassFullfilled)}
+        disabled={
+          isSubmitting ||
+          !(isEmailFullfilled && isPassFullfilled && isUsernameFullfilled)
+        }
       >
-        Login
+        Register
       </button>
     </form>
   )
 }
 
-export default LoginForm
+export default RegisterForm

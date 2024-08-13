@@ -1,13 +1,13 @@
-import axios, { AxiosError } from "axios"
+import axios from "axios"
 
 export const API_URL = import.meta.env.VITE_API_URL
 
-export const instance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: API_URL,
   withCredentials: true,
 })
 
-instance.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   config => {
     return config
   },
@@ -27,7 +27,7 @@ instance.interceptors.response.use(
           "accessTokenExpiration",
           response.data.accessTokenExpiration.toString(),
         )
-        return instance.request(originalRequest)
+        return axiosInstance.request(originalRequest)
       } catch (e: any) {
         console.log("Not Auth")
       }
@@ -36,7 +36,7 @@ instance.interceptors.response.use(
   },
 )
 
-export default instance
+export default axiosInstance
 
 /* const handleError = (err: AxiosError): void => {
   const errorMessage: string =
