@@ -26,8 +26,8 @@ class RefreshSession extends Model<
 RefreshSession.init(
   {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     fingerprint: {

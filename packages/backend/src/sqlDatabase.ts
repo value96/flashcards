@@ -34,7 +34,7 @@ const sequelize = new Sequelize(
   dbConnectionParams,
 )
 
-export const runSqlDB = async () => {
+export const connectToSqlDB = async () => {
   try {
     await sequelize.authenticate()
     console.log("Connection to SQL DB has been established successfully.")

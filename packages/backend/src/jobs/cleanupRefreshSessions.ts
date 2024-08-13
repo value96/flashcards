@@ -1,5 +1,5 @@
 import { Op } from "sequelize"
-import RefreshSession from "../models/RefreshSession"
+import RefreshSession from "../models/sql/RefreshSession"
 
 export const deleteExpiredSessions = async () => {
   try {

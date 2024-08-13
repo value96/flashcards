@@ -5,7 +5,12 @@ export const errorHandler = (err: any, req: Request, res: Response) => {
   if (createError.isHttpError(err)) {
     return res.status(err.status).json({ error: err.message })
   } else {
-    return res.status(500).json({ error: "Internal Server Error" })
+    return res
+      .status(500)
+      .json({
+        error:
+          "Internal Server Error" + (err.message ? `: ${err.message}` : ""),
+      })
   }
 }
 

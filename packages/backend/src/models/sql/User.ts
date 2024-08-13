@@ -21,10 +21,10 @@ import sequelize from "../../sqlDatabase"
 import RefreshSession from "./RefreshSession"
 
 class User extends Model<
-  InferAttributes<User, { omit: "refreshSessions" }>,
-  InferCreationAttributes<User, { omit: "refreshSessions" }>
+  InferAttributes<User /* , { omit: "refreshSessions" } */>,
+  InferCreationAttributes<User /* , { omit: "refreshSessions" } */>
 > {
-  declare id: CreationOptional<number>
+  declare id: string
   declare email: string
   declare username: string
   declare passwordHash: string
@@ -71,12 +71,11 @@ class User extends Model<
 User.init(
   {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
+      type: DataTypes.STRING(36),
       primaryKey: true,
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(30),
       allowNull: false,
       unique: true,
     },

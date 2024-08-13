@@ -1,10 +1,12 @@
-import User from "../models/sql/User"
 import createHttpError from "http-errors"
 import bcrypt from "bcryptjs"
 import tokenService, { TokenService } from "./Token"
 import RefreshSession from "../models/sql/RefreshSession"
 import { config } from "../config"
 import { FingerprintResult } from "express-fingerprint"
+import userRepository, {
+  UserRepository,
+} from "../models/repositories/UserRepository"
 
 export interface CreateRefreshSessionRes {
   accessToken: string
@@ -46,7 +48,7 @@ class AuthService {
   }
 
   async createRefreshSession(
-    userId: number,
+    userId: string,
     fingerprint: FingerprintResult,
     expiresAt: Date = new Date(Date.now() + config.REFRESH_TOKEN_EXPIRATION),
   ): Promise<CreateRefreshSessionRes> {
@@ -80,7 +82,7 @@ class AuthService {
     password: string,
     fingerprint: FingerprintResult,
   ): Promise<CreateRefreshSessionRes> {
-    const user = await User.findOne({ where: { email } })
+    const user = await userRepository.findOneByEmail(email)
     if (!user) throw createHttpError(401, "Invalid credentials")
 
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash)
@@ -95,12 +97,12 @@ class AuthService {
     password: string,
     fingerprint: FingerprintResult,
   ): Promise<CreateRefreshSessionRes> {
-    const existingUser = await User.findOne({ where: { email } })
+    const existingUser = await userRepository.findOneByEmail(email)
     if (existingUser)
       throw createHttpError(409, "User with this email already exists")
     const passwordHash = await bcrypt.hash(password, 10)
 
-    const user = await User.create({
+    const user = await userRepository.create({
       email,
       username,
       passwordHash,

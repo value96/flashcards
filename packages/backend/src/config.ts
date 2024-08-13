@@ -34,6 +34,9 @@ if (!POSTGRES_URL) throw Error(`POSTGRES_URL is ${POSTGRES_URL}`)
 const MONGO_URL = process.env.MONGO_URL
 if (!MONGO_URL) throw Error(`MONGO_URL not found`)
 
+const MONGO_TEST_URL = process.env.MONGO_TEST_URL
+if (!MONGO_TEST_URL) throw Error(`MONGO_TEST_URL not found`)
+
 console.log(`nodeEnv: ${nodeEnv}`)
 
 export const config = {
@@ -49,6 +52,7 @@ export const config = {
   POSTGRES_PASS: POSTGRES_PASS,
   POSTGRES_URL: POSTGRES_URL,
   MONGO_URL: MONGO_URL,
+  MONGO_TEST_URL: MONGO_TEST_URL,
 }
 
 export const accessTokenCookieParams = (expires: Date): CookieOptions => ({
