@@ -1,30 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { login } from "./authThunk"
-import { Status } from "@shared/api"
 
-interface AuthState {
+import { Status } from "@shared/api"
+import { register } from "./registerThunk"
+
+interface RegisterState {
   status: Status
 }
 
-const initialState: AuthState = {
+const initialState: RegisterState = {
   status: Status.idle,
 }
 
-const authSlice = createSlice({
-  name: "authorization",
+const registerSlice = createSlice({
+  name: "registration",
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(login.fulfilled, state => {
+    builder.addCase(register.fulfilled, state => {
       state.status = Status.succeeded
     }),
-      builder.addCase(login.pending, state => {
+      builder.addCase(register.pending, state => {
         state.status = Status.loading
       }),
-      builder.addCase(login.rejected, state => {
+      builder.addCase(register.rejected, state => {
         state.status = Status.failed
       })
   },
 })
 
-export default authSlice
+export default registerSlice

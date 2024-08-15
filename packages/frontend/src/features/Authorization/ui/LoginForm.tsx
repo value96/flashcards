@@ -1,29 +1,32 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import type { FormEvent } from "react"
 import { EmailInput } from "@shared/ui/Inputs"
 import { PasswordInput } from "@shared/ui/Inputs"
-import { useAppDispatch } from "../../../app/hooks"
-import { signIn } from "../../auth/authThunks"
 import { styles } from "@shared/ui/Forms"
+import { useSendData } from "@shared/hooks/useSendData"
+import { login } from "../model/authThunk"
+import { toast } from "react-toastify"
 
 const LoginForm = () => {
   console.log("LoginForm render")
-  const dispatch = useAppDispatch()
+
+  const { sendData: auth, error, isLoading } = useSendData(login)
 
   const emailRef = useRef("")
   const [isEmailFullfilled, setIsEmailFullfilled] = useState(false)
   const passRef = useRef("")
   const [isPassFullfilled, setIsPassFullfilled] = useState(false)
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsSubmitting(true)
-    await dispatch(
-      signIn({ email: emailRef.current, password: passRef.current }),
-    )
-    setIsSubmitting(false)
+
+    await auth({ email: emailRef.current, password: passRef.current })
   }
 
   return (
@@ -44,7 +47,7 @@ const LoginForm = () => {
       <button
         className={styles.button}
         type="submit"
-        disabled={isSubmitting || !(isEmailFullfilled && isPassFullfilled)}
+        disabled={isLoading || !(isEmailFullfilled && isPassFullfilled)}
       >
         Login
       </button>

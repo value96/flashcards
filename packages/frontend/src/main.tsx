@@ -5,6 +5,7 @@ import App from "./app"
 import { store } from "./app/store"
 import "./index.css"
 import { BrowserRouter } from "react-router-dom"
+import { ToastContainer } from "react-toastify"
 
 const container = document.getElementById("root")
 
@@ -13,6 +14,7 @@ if (container) {
 
   root.render(
     <React.StrictMode>
+      <ToastContainer />
       <App />
     </React.StrictMode>,
   )

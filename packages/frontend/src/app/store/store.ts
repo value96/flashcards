@@ -2,10 +2,9 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { combineSlices, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 
-import authSlice from "../../features/auth/authSlice"
-import flashcardSlice from "../../features/flashcard/flashcardSlice"
+import { userSlice } from "entities/User"
 
-const rootReducer = combineSlices(flashcardSlice, authSlice)
+const rootReducer = combineSlices(userSlice)
 
 export type State = ReturnType<typeof rootReducer>
 
@@ -23,7 +22,7 @@ export const store = makeStore()
 
 export type AppStore = typeof store
 export type Dispatch = AppStore["dispatch"]
-export type AppThunk<ThunkReturnType = void> = ThunkAction<
+export type Thunk<ThunkReturnType = void> = ThunkAction<
   Promise<ThunkReturnType>,
   State,
   unknown,

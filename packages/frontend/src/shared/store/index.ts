@@ -3,3 +3,4 @@ import { AppDispatch, RootState } from "vite-env"
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 export const useAppSelector = useSelector.withTypes<RootState>()
+export { type AppThunk } from "vite-env"

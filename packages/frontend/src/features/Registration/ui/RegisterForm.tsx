@@ -1,14 +1,17 @@
 import type { FormEvent } from "react"
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { EmailInput } from "@shared/ui/Inputs"
 import { PasswordInput } from "@shared/ui/Inputs"
 import { UsernameInput } from "@shared/ui/Inputs"
-import { signUp } from "../../auth/authThunks"
-import { useAppDispatch } from "../../../app/hooks"
 import { styles } from "@shared/ui/Forms"
+import { useSendData } from "@shared/hooks/useSendData"
+import { register } from "../model/registerThunk"
+import { toast } from "react-toastify"
+
 const RegisterForm = () => {
   console.log("SignUpForm render")
-  const dispatch = useAppDispatch()
+
+  const { sendData: reg, error, isLoading } = useSendData(register)
 
   const emailRef = useRef("")
   const [isEmailFullfilled, setIsEmailFullfilled] = useState(false)
@@ -19,20 +22,19 @@ const RegisterForm = () => {
   const passRef = useRef("")
   const [isPassFullfilled, setIsPassFullfilled] = useState(false)
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsSubmitting(true)
-    await dispatch(
-      signUp({
-        email: emailRef.current,
-        username: usernameRef.current,
-        password: passRef.current,
-      }),
-    )
-
-    setIsSubmitting(false)
+    await reg({
+      email: emailRef.current,
+      username: usernameRef.current,
+      password: passRef.current,
+    })
   }
 
   return (
@@ -60,7 +62,7 @@ const RegisterForm = () => {
         className={styles.button}
         type="submit"
         disabled={
-          isSubmitting ||
+          isLoading ||
           !(isEmailFullfilled && isPassFullfilled && isUsernameFullfilled)
         }
       >

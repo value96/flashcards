@@ -2,7 +2,7 @@ import type { PayloadAction, EntityState } from "@reduxjs/toolkit"
 import type { AppThunk, RootState } from "../../app/store"
 import type { Word } from "@flashcards/types"
 
-import { Status } from "../../types/Status"
+import { Status } from "../../shared/api/statusEnums"
 import {
   createAsyncThunk,
   createEntityAdapter,

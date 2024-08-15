@@ -1,24 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { signUp } from "../api/registerApi"
-export interface SignUpData {
+import { setAuth } from "entities/User/model/userSlice"
+
+interface SignUpData {
   username: string
   email: string
   password: string
 }
 
-export const register = createAsyncThunk<
-  true,
-  SignUpData,
-  { rejectValue: string }
->(
-  "auth/signUp",
-  async ({ email, username, password }: SignUpData, { rejectWithValue }) => {
+export const register = createAsyncThunk(
+  "register",
+  async (
+    { email, username, password }: SignUpData,
+    { rejectWithValue, dispatch },
+  ) => {
     try {
       const response = await signUp(email, username, password)
       localStorage.setItem(
         "accessTokenExpiration",
         response.data.accessTokenExpiration.toString(),
       )
+      dispatch(setAuth(true))
       return true
     } catch (e: any) {
       console.log(`Failed to sign up: ${e.response?.data?.error}`)

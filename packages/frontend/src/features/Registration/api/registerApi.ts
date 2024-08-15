@@ -1,7 +1,7 @@
 import { axiosInstance } from "@shared/api"
 import { AxiosResponse } from "axios"
 
-export interface AuthResponseDTO {
+interface AuthResponseDTO {
   accessTokenExpiration: string
 }
 

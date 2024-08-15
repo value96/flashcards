@@ -7,7 +7,7 @@ import {
   loadWords,
   selectAllWords,
 } from "../../features/flashcard/flashcardSlice"
-import { Status } from "../../types/Status"
+import { Status } from "../../shared/api/statusEnums"
 import { logout } from "../../features/auth/authThunks"
 
 const Flashcard = ({}) => {
