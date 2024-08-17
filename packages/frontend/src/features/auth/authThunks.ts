@@ -1,4 +1,4 @@
-// src/features/auth/authThunks.js
+/* // src/features/auth/authThunks.js
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { API_URL, instance } from "../../shared/api/axiosInstance"
 import axios, { AxiosResponse } from "axios"
@@ -103,3 +103,4 @@ export const logout = createAsyncThunk(
     }
   },
 )
+ */

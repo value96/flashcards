@@ -5,8 +5,8 @@ import { errorHandler } from "../utils/handleErrors"
 import createHttpError from "http-errors"
 
 export interface AuthRequest extends Request {
-  userId?: number
-  sessionId?: number
+  userId?: string
+  sessionId?: string
 }
 
 export const isAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
@@ -18,8 +18,8 @@ export const isAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
     }
 
     const decoded = TokenService.decodeAccessToken(token) as {
-      userId: number
-      sessionId: number
+      userId: string
+      sessionId: string
     }
     req.userId = decoded.userId
     req.sessionId = decoded.sessionId

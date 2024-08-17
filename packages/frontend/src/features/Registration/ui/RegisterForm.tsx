@@ -22,11 +22,11 @@ const RegisterForm = () => {
   const passRef = useRef("")
   const [isPassFullfilled, setIsPassFullfilled] = useState(false)
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (error) {
       toast.error(error)
     }
-  }, [error])
+  }, [error]) */
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -58,6 +58,7 @@ const RegisterForm = () => {
           passRef={passRef}
         />
       </div>
+      {error ? error : null}
       <button
         className={formsStyles.button}
         type="submit"

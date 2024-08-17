@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 import { useAppDispatch } from "@shared/store"
 
 import { AsyncThunk } from "@reduxjs/toolkit"
@@ -10,18 +10,21 @@ export const useSendData = <Params>(
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useAppDispatch()
 
-  const sendData = async (arg: Params) => {
-    setIsLoading(true)
-    setError(null)
-    try {
-      await dispatch(thunkFunction(arg))
-      // Дальнейшие действия после успешного логина
-    } catch (err) {
-      setError(`sendData error: ${err}`)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const sendData = useCallback(
+    async (arg: Params) => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        await dispatch(thunkFunction(arg)).unwrap()
+      } catch (err: any) {
+        setError(`${err.message}`)
+      } finally {
+        console.log(`finally in useSendData`)
+        setIsLoading(false)
+      }
+    },
+    [dispatch, thunkFunction],
+  )
 
   return { sendData, error, isLoading }
 }

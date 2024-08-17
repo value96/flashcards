@@ -1,7 +1,8 @@
 /// <reference types="vite/client" />
 
-import { State, Dispatch, Thunk } from "./app/store"
+import { type State, type Dispatch, type Thunk, type Store } from "./app/store"
 
-declare type RootState = State
 declare type AppDispatch = Dispatch
+declare type RootState = State
 declare type AppThunk = Thunk
+declare type AppStore = Store

@@ -1,4 +1,4 @@
-import type { PayloadAction, EntityState } from "@reduxjs/toolkit"
+/* import type { PayloadAction, EntityState } from "@reduxjs/toolkit"
 import type { AppThunk, RootState } from "../../app/store"
 import type { Word } from "@flashcards/types"
 
@@ -14,7 +14,9 @@ type FlashcardState = EntityState<Word, string> & {
   status: Status //"idle" | "loading" | "succeeded" | "failed"
   error: string | null
 }
+ */
 
+/* 
 const flashcardAdapter = createEntityAdapter<Word>()
 
 const initialState: FlashcardState = flashcardAdapter.getInitialState({
@@ -60,16 +62,14 @@ const flashcardSlice = createSlice({
       })
   },
 
-  /* selectors: {
-    selectWords: flashcard => flashcard.words,
-  }, */
+
 })
 
 export const { addWord, addWords, updateWord, removeWord } =
   flashcardSlice.actions
+ */
 
-//export const { selectWords } = flashcardSlice.selectors
-
+/* 
 export const {
   selectAll: selectAllWords,
   selectById: selectWordById,
@@ -115,3 +115,4 @@ export const nextFlashcard =
   }
 
 export default flashcardSlice
+  */

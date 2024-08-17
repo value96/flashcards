@@ -13,7 +13,7 @@ class RefreshSession extends Model<
   InferAttributes<RefreshSession>,
   InferCreationAttributes<RefreshSession>
 > {
-  declare id: CreationOptional<number>
+  declare id: CreationOptional<string>
   declare userId: ForeignKey<User["id"]>
 
   declare fingerprint: string

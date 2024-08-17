@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+/* import React, { useEffect } from "react"
 import styles from "./Flashcard.module.css"
 import { WordComponent } from "../Word/Word"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
@@ -56,3 +56,4 @@ const Flashcard = ({}) => {
 }
 
 export default Flashcard
+ */

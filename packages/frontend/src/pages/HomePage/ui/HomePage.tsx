@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { LoginForm } from "features/Authorization"
+import { LoginForm } from "@features/Authorization"
 import { RegisterForm } from "@features/Registration"
 import styles from "./HomePage.module.css"
 

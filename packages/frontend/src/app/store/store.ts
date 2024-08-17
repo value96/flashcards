@@ -21,8 +21,8 @@ export const makeStore = (preloadedState?: Partial<State>) => {
 
 export const store = makeStore()
 
-export type AppStore = typeof store
-export type Dispatch = AppStore["dispatch"]
+export type Store = typeof store
+export type Dispatch = Store["dispatch"]
 export type Thunk<ThunkReturnType = void> = ThunkAction<
   Promise<ThunkReturnType>,
   State,

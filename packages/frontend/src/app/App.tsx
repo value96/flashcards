@@ -1,19 +1,19 @@
 import "./App.css"
-import Flashcard from "../components/Flashcard/Flashcard"
 
-import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute"
+import { ProtectedRoute } from "./routers"
 import { useEffect } from "react"
 
 import { authModel } from "@features/Authorization"
-import HomePage from "@pages/HomePage"
+import { HomePage } from "@pages/HomePage"
 import { useAppDispatch, useAppSelector } from "@shared/store"
 import { userModel } from "@entities/User"
+import { Status } from "@shared/api"
 
 const App = () => {
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(userModel.selectors.isAuth)
-  const isRefreshTokenLoading = useAppSelector(
-    authModel.selectors.isRefreshTokenLoading,
+  const refreshTokenLoadingStatus = useAppSelector(
+    authModel.selectors.refreshTokenProcessStatus,
   )
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const App = () => {
     }
   }, [])
 
-  if (isRefreshTokenLoading) {
+  if (refreshTokenLoadingStatus === Status.loading) {
     return <div>Loading...</div>
   }
 

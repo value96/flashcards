@@ -16,7 +16,7 @@ const usernameInput: React.FC<UsernameInputProps> = ({
   setIsUsernameFullfilled,
   usernameRef,
 }) => {
-  console.log(`UsernameInput render`)
+  //console.log(`UsernameInput render`)
   const [value, setValue] = useState("")
   const [error, setError] = useState("")
 

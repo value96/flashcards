@@ -10,10 +10,13 @@ if (container) {
   const root = createRoot(container)
 
   root.render(
-    <React.StrictMode>
+    //<React.StrictMode>
+    <>
       <ToastContainer />
       <App />
-    </React.StrictMode>,
+    </>,
+
+    //</React.StrictMode>,
   )
 } else {
   throw new Error(

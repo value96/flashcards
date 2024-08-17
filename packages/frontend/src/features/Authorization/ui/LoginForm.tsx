@@ -4,28 +4,27 @@ import { EmailInput } from "@shared/ui/Inputs"
 import { PasswordInput } from "@shared/ui/Inputs"
 import { styles } from "@shared/ui/Forms"
 import { useSendData } from "@shared/hooks/useSendData"
-import { login } from "../model/authThunks"
+import { thunks } from "../model"
 import { toast } from "react-toastify"
 
 const LoginForm = () => {
   console.log("LoginForm render")
 
-  const { sendData: auth, error, isLoading } = useSendData(login)
+  const { sendData: auth, error, isLoading } = useSendData(thunks.login)
 
   const emailRef = useRef("")
   const [isEmailFullfilled, setIsEmailFullfilled] = useState(false)
   const passRef = useRef("")
   const [isPassFullfilled, setIsPassFullfilled] = useState(false)
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (error) {
-      toast.error(error)
+      toast.error("error")
     }
-  }, [error])
+  }, [error]) */
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     await auth({ email: emailRef.current, password: passRef.current })
   }
 
@@ -44,6 +43,7 @@ const LoginForm = () => {
           passRef={passRef}
         />
       </div>
+      {error ? error : null}
       <button
         className={styles.button}
         type="submit"

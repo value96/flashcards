@@ -15,7 +15,7 @@ const EmailInput: React.FC<EmailInputProps> = ({
   setIsEmailFullfilled,
   emailRef,
 }) => {
-  console.log(`EmailInput render`)
+  //console.log(`EmailInput render`)
   const [value, setValue] = useState("")
   const [error, setError] = useState("")
 

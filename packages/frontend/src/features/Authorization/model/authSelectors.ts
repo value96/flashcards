@@ -1,4 +1,4 @@
-import { RootState } from "@shared"
+import { RootState } from "@shared/store"
 
-export const isRefreshTokenLoading = (state: RootState) =>
+export const refreshTokenProcessStatus = (state: RootState) =>
   state.authorization.refreshTokenProcessStatus

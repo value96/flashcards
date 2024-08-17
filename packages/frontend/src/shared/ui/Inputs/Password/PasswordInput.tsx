@@ -18,7 +18,7 @@ const PasswordInput: React.FC<EmailInputProps> = ({
   setIsPassFullfilled,
   passRef,
 }) => {
-  console.log(`PasswordInput render`)
+  //console.log(`PasswordInput render`)
   const [value, setValue] = useState("")
   const [error, setError] = useState("")
 

@@ -6,7 +6,7 @@ export const updateRefreshToken = createAsyncThunk<
   true,
   void,
   { rejectValue: string }
->("refreshToken", async (_, { rejectWithValue }) => {
+>("refreshToken", async (_, { rejectWithValue, dispatch }) => {
   try {
     console.log("refreshToken start")
     const accessTokenExpiration = await refreshToken()
@@ -14,9 +14,12 @@ export const updateRefreshToken = createAsyncThunk<
       "accessTokenExpiration",
       accessTokenExpiration.toString(),
     )
+    dispatch(userModel.actions.setAuth(true))
     return true
   } catch (e: any) {
+    dispatch(userModel.actions.setAuth(false))
     console.log(`Failed to refresh token: ${e.response?.data?.error}`)
+    localStorage.removeItem("accessTokenExpiration")
     return rejectWithValue(
       `Failed to refresh token: ${e.response?.data?.error}`,
     )
@@ -40,8 +43,8 @@ export const login = createAsyncThunk(
       dispatch(userModel.actions.setAuth(true))
       return true
     } catch (e: any) {
-      console.log(`Failed to sign in: ${e.response?.data?.error}`)
-      return rejectWithValue(`Failed to sign in: ${e.response?.data?.error}`)
+      throw new Error(`Failed to sign in: ${e.response?.data?.error}`)
+      //return rejectWithValue(`Failed to sign in: ${e.response?.data?.error}`)
     }
   },
 )

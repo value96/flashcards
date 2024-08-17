@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+/* import React, { useState } from "react"
 import styles from "./Word.module.css"
 import { useAppDispatch } from "../../app/hooks"
 import { forgottenWord } from "../../features/flashcard/flashcardSlice"
@@ -30,3 +30,4 @@ export const WordComponent = React.memo(({ id, vocabWord }: Word) => {
     </div>
   )
 })
+ */

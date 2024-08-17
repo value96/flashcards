@@ -29,12 +29,23 @@ class AuthService {
     const refreshTokenPayload = this.tokenService.decodeRefreshToken(
       refreshToken,
     ) as {
-      userId: number
-      sessionId: number
+      userId: string
+      sessionId: string
     }
 
     const { userId, sessionId } = refreshTokenPayload
 
+    console.log(
+      JSON.stringify(
+        {
+          id: sessionId,
+          userId,
+          fingerprint: fingerprint.hash,
+        },
+        null,
+        2,
+      ),
+    )
     const session = await RefreshSession.findOne({
       where: {
         id: sessionId,
@@ -134,7 +145,7 @@ class AuthService {
     )
   }
 
-  async logout(sessionId: number, fingerprint: FingerprintResult) {
+  async logout(sessionId: string, fingerprint: FingerprintResult) {
     const session = await RefreshSession.findOne({
       where: {
         id: sessionId,

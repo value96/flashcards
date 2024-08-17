@@ -1,4 +1,4 @@
-// src/features/auth/authSlice.js
+/* // src/features/auth/authSlice.js
 import type { PayloadAction } from "@reduxjs/toolkit"
 import { createSlice } from "@reduxjs/toolkit"
 import { signIn, signUp, checkAuth, logout } from "./authThunks"
@@ -92,15 +92,7 @@ const authSlice = createSlice({
         },
       )
   },
-  /* selectors: {
-    isAuthenticated: auth => auth.isAuthenticated,
-    signInProcessLoading: auth => auth.signInProcessLoading,
-    signUpProcessLoading: auth => auth.signUpProcessLoading,
-    refreshTokenLoading: auth => auth.refreshTokenLoading,
-    refreshTokenError: auth => auth.refreshTokenError,
-    signInError: auth => auth.signInError,
-    signUpError: auth => auth.signUpError,
-  }, */
+
 })
 
 export const { setAuth: setAuthenticated } = authSlice.actions
@@ -119,3 +111,4 @@ export const selectSignInError = (state: RootState) => state.auth.signInError
 export const selectSignUpError = (state: RootState) => state.auth.signUpError
 
 export default authSlice
+ */
