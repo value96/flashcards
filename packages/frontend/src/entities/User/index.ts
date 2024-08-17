@@ -1,1 +1,1 @@
-export { userSlice, setAuth } from "./model"
+export * as userModel from "./model"

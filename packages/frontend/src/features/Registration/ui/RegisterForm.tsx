@@ -1,11 +1,11 @@
 import type { FormEvent } from "react"
 import React, { useEffect, useRef, useState } from "react"
-import { EmailInput } from "@shared/ui/Inputs"
-import { PasswordInput } from "@shared/ui/Inputs"
-import { UsernameInput } from "@shared/ui/Inputs"
-import { styles } from "@shared/ui/Forms"
+import { EmailInput } from "@shared/ui"
+import { PasswordInput } from "@shared/ui"
+import { UsernameInput } from "@shared/ui"
+import { formsStyles } from "@shared/ui"
 import { useSendData } from "@shared/hooks/useSendData"
-import { register } from "../model/registerThunk"
+import { register } from "../model/registerThunks"
 import { toast } from "react-toastify"
 
 const RegisterForm = () => {
@@ -38,28 +38,28 @@ const RegisterForm = () => {
   }
 
   return (
-    <form className={styles.container} onSubmit={handleSubmit}>
+    <form className={formsStyles.container} onSubmit={handleSubmit}>
       <h2>Registration</h2>
-      <div className={styles.formGroup}>
+      <div className={formsStyles.formGroup}>
         <EmailInput
           setIsEmailFullfilled={setIsEmailFullfilled}
           emailRef={emailRef}
         />
       </div>
-      <div className={styles.formGroup}>
+      <div className={formsStyles.formGroup}>
         <UsernameInput
           setIsUsernameFullfilled={setIsUsernameFullfilled}
           usernameRef={usernameRef}
         />
       </div>
-      <div className={styles.formGroup}>
+      <div className={formsStyles.formGroup}>
         <PasswordInput
           setIsPassFullfilled={setIsPassFullfilled}
           passRef={passRef}
         />
       </div>
       <button
-        className={styles.button}
+        className={formsStyles.button}
         type="submit"
         disabled={
           isLoading ||

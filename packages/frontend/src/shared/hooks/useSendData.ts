@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { useAppDispatch } from "@shared/store"
-import { login } from "features/Authorization/model/authThunk"
 
 import { AsyncThunk } from "@reduxjs/toolkit"
 

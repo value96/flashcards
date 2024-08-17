@@ -3,22 +3,22 @@ import Flashcard from "../components/Flashcard/Flashcard"
 
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute"
 import { useEffect } from "react"
-import {
-  selectIsAuth,
-  selectIsRefreshTokenLoading,
-} from "../features/auth/authSlice"
-import { checkAuth } from "../features/auth/authThunks"
-import HomePage from "../pages/HomePage/HomePage"
+
+import { authModel } from "@features/Authorization"
+import HomePage from "@pages/HomePage"
 import { useAppDispatch, useAppSelector } from "@shared/store"
+import { userModel } from "@entities/User"
 
 const App = () => {
   const dispatch = useAppDispatch()
-  const isAuth = useAppSelector(selectIsAuth)
-  const isRefreshTokenLoading = useAppSelector(selectIsRefreshTokenLoading)
+  const isAuth = useAppSelector(userModel.selectors.isAuth)
+  const isRefreshTokenLoading = useAppSelector(
+    authModel.selectors.isRefreshTokenLoading,
+  )
 
   useEffect(() => {
     if (localStorage.getItem("accessTokenExpiration")) {
-      dispatch(checkAuth())
+      dispatch(authModel.thunks.updateRefreshToken())
     }
   }, [])
 
@@ -29,7 +29,8 @@ const App = () => {
   if (isAuth)
     return (
       <ProtectedRoute>
-        <Flashcard />
+        <h1>Flashcards</h1>
+        {/* <Flashcard /> */}
       </ProtectedRoute>
     )
 

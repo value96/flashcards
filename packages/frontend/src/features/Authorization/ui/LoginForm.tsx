@@ -4,7 +4,7 @@ import { EmailInput } from "@shared/ui/Inputs"
 import { PasswordInput } from "@shared/ui/Inputs"
 import { styles } from "@shared/ui/Forms"
 import { useSendData } from "@shared/hooks/useSendData"
-import { login } from "../model/authThunk"
+import { login } from "../model/authThunks"
 import { toast } from "react-toastify"
 
 const LoginForm = () => {

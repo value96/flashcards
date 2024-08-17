@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { signUp } from "../api/registerApi"
-import { setAuth } from "entities/User/model/userSlice"
+import { userModel } from "@entities/User"
 
 interface SignUpData {
   username: string
@@ -20,7 +20,7 @@ export const register = createAsyncThunk(
         "accessTokenExpiration",
         response.data.accessTokenExpiration.toString(),
       )
-      dispatch(setAuth(true))
+      dispatch(userModel.actions.setAuth(true))
       return true
     } catch (e: any) {
       console.log(`Failed to sign up: ${e.response?.data?.error}`)

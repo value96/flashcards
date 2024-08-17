@@ -1,6 +1,6 @@
 import { useState } from "react"
-import SignInForm from "../../features/Authorization/ui/LoginForm"
-import RegisterForm from "../../features/Registration/ui/RegisterForm"
+import { LoginForm } from "features/Authorization"
+import { RegisterForm } from "@features/Registration"
 import styles from "./HomePage.module.css"
 
 const HomePage = () => {
@@ -10,7 +10,7 @@ const HomePage = () => {
   if (isShowLogin)
     return (
       <div className={styles.page}>
-        <SignInForm />
+        <LoginForm />
       </div>
     )
   if (isShowRegister)

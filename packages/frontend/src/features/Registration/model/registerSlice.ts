@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 
 import { Status } from "@shared/api"
-import { register } from "./registerThunk"
+import { register } from "./registerThunks"
 
 interface RegisterState {
   status: Status

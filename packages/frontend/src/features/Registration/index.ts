@@ -1,2 +1,2 @@
 export { RegisterForm } from "./ui"
-export { registerSlice } from "./model"
+export * as registerModel from "./model"

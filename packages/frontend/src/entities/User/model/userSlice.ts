@@ -18,6 +18,6 @@ const userSlice = createSlice({
   },
 })
 
-export const { setAuth } = userSlice.actions
+export const actions = userSlice.actions
 
 export default userSlice

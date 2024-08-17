@@ -1,2 +1,2 @@
-export { default as registerSlice } from "./registerSlice"
-export { register } from "./registerThunk"
+export { default as slice } from "./registerSlice"
+export * as thunks from "./registerThunks"

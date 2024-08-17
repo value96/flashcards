@@ -1,9 +1,9 @@
+import { API_ENDPOINTS } from "@shared/config"
+import { API_BASE_URL } from "@shared/config/env"
 import axios from "axios"
 
-export const API_URL = import.meta.env.VITE_API_URL
-
 export const axiosInstance = axios.create({
-  baseURL: API_URL,
+  baseURL: API_BASE_URL,
   withCredentials: true,
 })
 
@@ -20,9 +20,12 @@ axiosInstance.interceptors.response.use(
     ) {
       originalRequest._isRetry = true
       try {
-        const response = await axios.get(`${API_URL}/auth/refresh-token`, {
-          withCredentials: true,
-        })
+        const response = await axios.get(
+          API_BASE_URL + API_ENDPOINTS.refreshToken,
+          {
+            withCredentials: true,
+          },
+        )
         localStorage.setItem(
           "accessTokenExpiration",
           response.data.accessTokenExpiration.toString(),

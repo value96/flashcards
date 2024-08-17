@@ -1,13 +1,15 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { login } from "./authThunk"
+import { createSlice } from "@reduxjs/toolkit"
+import { login, updateRefreshToken } from "./authThunks"
 import { Status } from "@shared/api"
 
 interface AuthState {
-  status: Status
+  authProcessStatus: Status
+  refreshTokenProcessStatus: Status
 }
 
 const initialState: AuthState = {
-  status: Status.idle,
+  authProcessStatus: Status.idle,
+  refreshTokenProcessStatus: Status.idle,
 }
 
 const authSlice = createSlice({
@@ -16,13 +18,22 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(login.fulfilled, state => {
-      state.status = Status.succeeded
+      state.authProcessStatus = Status.succeeded
     }),
       builder.addCase(login.pending, state => {
-        state.status = Status.loading
+        state.authProcessStatus = Status.loading
       }),
       builder.addCase(login.rejected, state => {
-        state.status = Status.failed
+        state.authProcessStatus = Status.failed
+      }),
+      builder.addCase(updateRefreshToken.fulfilled, state => {
+        state.refreshTokenProcessStatus = Status.succeeded
+      }),
+      builder.addCase(updateRefreshToken.pending, state => {
+        state.refreshTokenProcessStatus = Status.loading
+      }),
+      builder.addCase(updateRefreshToken.rejected, state => {
+        state.refreshTokenProcessStatus = Status.failed
       })
   },
 })
