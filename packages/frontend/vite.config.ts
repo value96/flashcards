@@ -23,7 +23,10 @@ export default defineConfig({
       "@features": path.resolve(__dirname, "src/features"),
       "@entities": path.resolve(__dirname, "src/entities"),
       "@shared": path.resolve(__dirname, "src/shared"),
-      "@flashcards/types": path.resolve(__dirname, "../types/dist/index.d.ts"),
+      "@flashcards/flashcard-types": path.resolve(
+        __dirname,
+        "../flashcard-types/dist/index.d.ts",
+      ),
     },
   },
 })

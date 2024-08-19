@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import VocabWord from "../models/sql/VocabWord"
 import User from "../models/sql/User"
-import { Translations } from "@flashcards/types"
+import { Translations } from "@shared/lib"
 
 export const getVWords = async (req: Request, res: Response) => {
   try {

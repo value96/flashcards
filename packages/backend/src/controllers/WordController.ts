@@ -1,4 +1,4 @@
-import { Word, VocabWord } from "@flashcards/types"
+import { Word, VocabWord } from "@shared/lib"
 
 import { Request, Response } from "express"
 import { getMessage } from "../utils/handleErrors"

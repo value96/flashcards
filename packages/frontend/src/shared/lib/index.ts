@@ -1,1 +1,1 @@
-export { type Word } from "./generalTypes"
+export { type Word } from "./flashcard-types"

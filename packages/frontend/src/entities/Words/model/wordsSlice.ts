@@ -7,6 +7,7 @@ import {
 import { Status } from "@shared/api"
 
 import { Word } from "@shared/lib"
+
 import { loadWords } from "./wordsThunks"
 
 type WordsState = EntityState<Word, string> & {

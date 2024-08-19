@@ -15,7 +15,6 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@flashcards/types": "*",
     "@hookform/resolvers": "^3.6.0",
     "@reduxjs/toolkit": "^2.0.1",
     "axios": "^1.6.8",
@@ -28,6 +27,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@flashcards/flashcard-types": "*",
     "@testing-library/dom": "^9.3.4",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^14.1.2",
