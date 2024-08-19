@@ -1,0 +1,15 @@
+.wordContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2em;
+}
+
+.word {
+  background-color: #f3e5ab;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+}

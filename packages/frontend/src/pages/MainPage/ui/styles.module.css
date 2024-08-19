@@ -29,21 +29,6 @@
   }
 }
 
-.content {
-  flex-grow: 1; /* Разрешаем содержимому занимать оставшееся пространство */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-.wordsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Промежуток между плитками слов */
-}
-
 .buttonsContainer {
   display: flex;
   flex-direction: column;
@@ -67,11 +52,4 @@
 
 .button:hover {
   background-color: #0056b3;
-}
-
-.wordContainer {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.2em;
 }

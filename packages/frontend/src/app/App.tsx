@@ -4,10 +4,11 @@ import { ProtectedRoute } from "./routers"
 import { useEffect } from "react"
 
 import { authModel } from "@features/Authorization"
-import { HomePage } from "@pages/HomePage"
+import { WelcomePage } from "@pages/WelcomePage"
 import { useAppDispatch, useAppSelector } from "@shared/store"
 import { userModel } from "@entities/User"
 import { Status } from "@shared/api"
+import { MainPage } from "@pages/MainPage"
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -29,12 +30,12 @@ const App = () => {
   if (isAuth)
     return (
       <ProtectedRoute>
-        <h1>Flashcards</h1>
+        <MainPage />
         {/* <Flashcard /> */}
       </ProtectedRoute>
     )
 
-  return <HomePage />
+  return <WelcomePage />
 }
 
 export default App

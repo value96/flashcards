@@ -1,5 +1,5 @@
 import type React from "react"
-import { HomePage } from "@pages/HomePage"
+import { WelcomePage } from "@pages/WelcomePage"
 import { ReactNode } from "react"
 import { useAppSelector } from "@shared/store"
 import { userModel } from "@entities/User"
@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }: Props) => {
   const isAuthenticated = useAppSelector(userModel.selectors.isAuth)
 
   if (!isAuthenticated) {
-    return <HomePage /> //<Navigate to="/login" />
+    return <WelcomePage /> //<Navigate to="/login" />
   }
 
   return children

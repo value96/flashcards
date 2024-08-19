@@ -1,0 +1,14 @@
+.content {
+  flex-grow: 1; /* Разрешаем содержимому занимать оставшееся пространство */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.wordsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Промежуток между плитками слов */
+}
