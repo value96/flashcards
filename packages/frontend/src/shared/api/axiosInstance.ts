@@ -1,6 +1,6 @@
-import { API_ENDPOINTS } from "@shared/config"
 import { API_BASE_URL } from "@shared/config/env"
 import axios from "axios"
+import { endpoints } from "@shared/api"
 
 export const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -21,7 +21,7 @@ axiosInstance.interceptors.response.use(
       originalRequest._isRetry = true
       try {
         const response = await axios.get(
-          API_BASE_URL + API_ENDPOINTS.refreshToken,
+          API_BASE_URL + endpoints.authEndpoints.refreshToken,
           {
             withCredentials: true,
           },

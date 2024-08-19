@@ -14,9 +14,7 @@ type FlashcardState = EntityState<Word, string> & {
   status: Status //"idle" | "loading" | "succeeded" | "failed"
   error: string | null
 }
- */
 
-/* 
 const flashcardAdapter = createEntityAdapter<Word>()
 
 const initialState: FlashcardState = flashcardAdapter.getInitialState({
@@ -33,12 +31,9 @@ export const loadWords = createAsyncThunk(
   },
 )
 
-// If you are not using async thunks you can use the standalone `createSlice`.
 const flashcardSlice = createSlice({
   name: "flashcard",
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     addWord: flashcardAdapter.addOne,
     addWords: flashcardAdapter.addMany,
@@ -61,15 +56,12 @@ const flashcardSlice = createSlice({
         state.error = action.error.message || "Failed to load words"
       })
   },
-
-
 })
 
 export const { addWord, addWords, updateWord, removeWord } =
-  flashcardSlice.actions
- */
+  flashcardSlice.actions */
 
-/* 
+/*   
 export const {
   selectAll: selectAllWords,
   selectById: selectWordById,
@@ -115,4 +107,4 @@ export const nextFlashcard =
   }
 
 export default flashcardSlice
-  */
+ */

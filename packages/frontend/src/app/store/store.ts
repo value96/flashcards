@@ -4,8 +4,13 @@ import { setupListeners } from "@reduxjs/toolkit/query"
 
 import { userModel } from "@entities/User"
 import { authModel } from "@features/Authorization"
+import { wordsModel } from "@entities/Words"
 
-const rootReducer = combineSlices(userModel.slice, authModel.slice)
+const rootReducer = combineSlices(
+  userModel.slice,
+  authModel.slice,
+  wordsModel.slice,
+)
 
 export type State = ReturnType<typeof rootReducer>
 

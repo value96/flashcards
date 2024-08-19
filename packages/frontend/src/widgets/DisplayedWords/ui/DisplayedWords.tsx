@@ -1,39 +1,61 @@
 import { WordCard } from "@entities/Words"
 import styles from "./DisplayedWords.module.css"
+import { FormEvent, useState } from "react"
 
 const MAX_COUNT_SHOWED = 5
 
-const words = [
+const wordsInit = [
   {
-    word: "cat",
-    comment: "кэт",
+    eng: "cat",
+    rus: "кошка",
+    toggle: false,
   },
   {
-    word: "dog",
-    comment: "дог",
+    eng: "dog",
+    rus: "собака",
+    toggle: false,
   },
   {
-    word: "car",
-    comment: null,
+    eng: "car",
+    rus: "автомобиль",
+    toggle: false,
   },
   {
-    word: "table",
-    comment: null,
+    eng: "table",
+    rus: "стол",
+    toggle: false,
   },
   {
-    word: "chair",
-    comment: null,
+    eng: "chair",
+    rus: "стул",
+    toggle: false,
   },
 ]
 
 export default () => {
+  const [words, setWords] = useState(wordsInit)
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const target = e.target as HTMLDivElement
+    const index = target.closest("[data-index]")?.getAttribute("data-index")
+    if (typeof index === "string") {
+      setWords(prev => [
+        ...prev.slice(0, +index),
+        { ...prev[+index], toggle: !prev[+index].toggle },
+        ...prev.slice(+index + 1, prev.length),
+      ])
+    }
+  }
+
   return (
-    <div className={styles.content}>
-      <div className={styles.wordsContainer}>
-        {words.map((word, index) => (
-          <WordCard key={index} text={word.word} />
-        ))}
-      </div>
+    <div className={styles.content} onClick={handleClick}>
+      {words.map((word, index) => (
+        <WordCard
+          key={index}
+          index={index.toString()}
+          text={word.toggle ? word.rus : word.eng}
+        />
+      ))}
     </div>
   )
 }

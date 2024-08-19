@@ -3,8 +3,9 @@ import { render } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import type { PropsWithChildren, ReactElement } from "react"
 import { Provider } from "react-redux"
-import type { AppStore, RootState } from "@shared/store"
+
 import { makeStore } from "../app/store"
+import { AppStore, RootState } from "vite-env"
 
 /**
  * This type extends the default options for

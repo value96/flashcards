@@ -6,7 +6,7 @@ export const updateRefreshToken = createAsyncThunk<
   true,
   void,
   { rejectValue: string }
->("refreshToken", async (_, { rejectWithValue, dispatch }) => {
+>("Authorization/refreshToken", async (_, { rejectWithValue, dispatch }) => {
   try {
     console.log("refreshToken start")
     const accessTokenExpiration = await refreshToken()
@@ -32,7 +32,7 @@ interface SignInData {
 }
 
 export const login = createAsyncThunk(
-  "login",
+  "Authorization/login",
   async ({ email, password }: SignInData, { rejectWithValue, dispatch }) => {
     try {
       const response = await signIn(email, password)

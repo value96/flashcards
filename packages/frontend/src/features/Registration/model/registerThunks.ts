@@ -9,7 +9,7 @@ interface SignUpData {
 }
 
 export const register = createAsyncThunk(
-  "register",
+  "Registration/register",
   async (
     { email, username, password }: SignUpData,
     { rejectWithValue, dispatch },

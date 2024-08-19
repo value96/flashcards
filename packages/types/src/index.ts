@@ -1,1 +1,1 @@
-export * from "./Word/Word";
+export * as flashcardTypes from "./generalTypes";

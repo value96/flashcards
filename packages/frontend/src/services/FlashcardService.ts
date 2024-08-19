@@ -1,4 +1,4 @@
-import type { Word } from "@flashcards/types"
+/* import type { Word } from "@flashcards/types"
 import instance from "../shared/api/axiosInstance"
 import type { AxiosResponse } from "axios"
 
@@ -17,3 +17,4 @@ export default class FlashcardService {
     return this.sendWord(word, "words/repeated-word")
   }
 }
+ */

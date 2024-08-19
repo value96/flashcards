@@ -9,12 +9,4 @@ export type Translations = {
 export type VocabWord = {
   id: string;
   translate: Translations;
-}; //
-
-export type Word = {
-  id: string;
-  vocabWord: VocabWord;
-  lastShowDate: string;
-  futureShowDate: string;
-  spaceShowSec: number;
 };

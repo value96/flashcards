@@ -1,8 +1,7 @@
-import { axiosInstance } from "@shared/api"
-import { API_ENDPOINTS } from "@shared/config"
+import { axiosInstance, endpoints } from "@shared/api"
 import { AxiosResponse } from "axios"
 
-interface AuthResponseDTO {
+interface signUpDTO {
   accessTokenExpiration: string
 }
 
@@ -10,8 +9,8 @@ export const signUp = async (
   email: string,
   username: string,
   password: string,
-): Promise<AxiosResponse<AuthResponseDTO>> => {
-  return axiosInstance.post<AuthResponseDTO>(API_ENDPOINTS.signUp, {
+): Promise<AxiosResponse<signUpDTO>> => {
+  return axiosInstance.post<signUpDTO>(endpoints.authEndpoints.signUp, {
     email,
     username,
     password,

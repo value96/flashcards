@@ -1,6 +1,9 @@
+import React from "react"
 import styles from "./WordCard.module.css"
 
-export const WordCard = ({ text }: { text: string }) => {
+type Props = { text: string; index: string }
+
+export const WordCard = React.memo(({ text, index }: Props) => {
   /* const [text, setText] = useState(vocabWord.translate.eng)
     const toggleTranslate = () => {
       setText(prev =>
@@ -9,11 +12,11 @@ export const WordCard = ({ text }: { text: string }) => {
           : vocabWord.translate.eng,
       )
     } */
-
+  console.log(`render WordCard ${index}`)
   return (
-    <div className={styles.wordContainer}>
+    <div data-index={index} className={styles.wordContainer}>
       <div className={styles.word}>{text}</div>
       <button className={styles.forgotButton}>forgot</button>
     </div>
   )
-}
+})

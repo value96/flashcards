@@ -6,9 +6,3 @@
   align-items: center;
   gap: 10px;
 }
-
-.wordsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Промежуток между плитками слов */
-}
