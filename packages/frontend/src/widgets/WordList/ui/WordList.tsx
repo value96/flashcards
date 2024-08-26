@@ -1,5 +1,5 @@
 import { VocabWord } from "@shared/lib"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import WordBlock from "./WordBlock"
 import styles from "./WordList.module.css"
 const words: VocabWord[] = [
@@ -28,35 +28,43 @@ const words: VocabWord[] = [
 
 const WordList = () => {
   const [selectMode, setSelectMode] = useState(false)
-  const [selectedWords, setSelectedWords] = useState<VocabWord[]>([])
+  const [selectedWords, setSelectedWords] = useState<{
+    [key: string]: boolean
+  }>({})
   const [longPressWord, setLongPressWord] = useState<VocabWord | null>(null)
+
   const toggleSelectMode = () => {
     setSelectMode(selectMode => !selectMode)
-    setSelectedWords([])
+    setSelectedWords({})
   }
 
   const handleShiftSelect = (startIndex: number, endIndex: number) => {
-    const selectedRange = words.slice(
-      Math.min(startIndex, endIndex),
-      Math.max(startIndex, endIndex) + 1,
-    )
-    setSelectedWords([...selectedWords, ...selectedRange])
+    const startMinIndex = Math.min(startIndex, endIndex)
+    const startMaxIndex = Math.max(startIndex, endIndex)
+    const newSelectedWords: {
+      [key: string]: boolean
+    } = {}
+    for (let i = startMinIndex; i <= startMaxIndex; i++)
+      newSelectedWords[words[i].id] = true
+
+    setSelectedWords(prev => ({ ...prev, ...newSelectedWords }))
   }
 
   const handleWordPress = (word: VocabWord) => {
     if (selectMode) {
-      // Долгое нажатие для выбора диапазона
       if (!longPressWord) {
         setLongPressWord(word)
+        const index = words.findIndex(w => w.id === word.id)
+        handleShiftSelect(index, index)
       } else {
         const startIndex = words.findIndex(w => w.id === longPressWord.id)
         const endIndex = words.findIndex(w => w.id === word.id)
+        console.log(`startIndex: ${startIndex} endIndex: ${endIndex}`)
         handleShiftSelect(startIndex, endIndex)
-        setLongPressWord(null) // Завершаем выбор диапазона
+        setLongPressWord(null)
       }
     } else {
-      // Долгое нажатие для контекстного меню
-      openContextMenu(word) // Функция для открытия контекстного меню
+      openContextMenu(word)
     }
   }
 
@@ -65,21 +73,25 @@ const WordList = () => {
   }
 
   const handleSingleSelect = (word: VocabWord) => {
-    if (selectedWords.includes(word)) {
-      setSelectedWords(selectedWords.filter(w => w.id !== word.id))
+    console.log("handleSingleSelect")
+    if (word.id in selectedWords) {
+      setSelectedWords(prev => {
+        const { [word.id]: _, ...next } = prev
+        return next
+      })
     } else {
-      setSelectedWords([...selectedWords, word])
+      setSelectedWords(prev => ({ ...prev, [word.id]: true }))
     }
   }
 
   return (
     <div>
-      <button className={styles.button} onClick={toggleSelectMode}>
+      <button className={styles.wordListButton} onClick={toggleSelectMode}>
         {selectMode ? "Cancel Selection" : "Select"}
       </button>
 
-      {selectMode && selectedWords.length > 0 && (
-        <button className={styles.button}>Change Status</button> // Кнопка изменения статуса становится активной при выборе слов
+      {selectMode && Object.keys(selectedWords).length > 0 && (
+        <button className={styles.wordListButton}>Change Status</button>
       )}
 
       <div className={styles.wordList}>
@@ -88,7 +100,7 @@ const WordList = () => {
             key={wordObj.id}
             word={wordObj}
             selectMode={selectMode}
-            isSelected={selectedWords.includes(wordObj)}
+            isSelected={wordObj.id in selectedWords}
             onLongPress={handleWordPress}
             onSingleSelect={handleSingleSelect}
           />

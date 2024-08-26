@@ -17,17 +17,36 @@ const WordBlock = ({
   onSingleSelect,
 }: WordBlockProps) => {
   const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null)
+  const [preventClick, setPreventClick] = useState(false)
 
   // Обработчик для долгого нажатия
   const handlePressStart = () => {
     const timer = setTimeout(() => {
+      setPreventClick(true)
       onLongPress(word)
-    }, 1000)
+    }, 200)
     setPressTimer(timer)
   }
 
   const handlePressEnd = () => {
-    if (pressTimer !== null) clearTimeout(pressTimer)
+    if (pressTimer !== null) {
+      clearTimeout(pressTimer)
+      setPressTimer(null)
+    }
+  }
+
+  const handleClick = () => {
+    console.log("handleClick")
+    if (selectMode) {
+      console.log(`handleClick-> ${selectMode}`)
+      if (preventClick) {
+        console.log(`handleClick-> ${selectMode}-> ${preventClick}->return`)
+        setPreventClick(false)
+        return
+      }
+      console.log("onclick")
+      onSingleSelect(word)
+    }
   }
 
   return (
@@ -37,21 +56,18 @@ const WordBlock = ({
       onMouseUp={handlePressEnd}
       onTouchStart={handlePressStart}
       onTouchEnd={handlePressEnd}
-      onClick={() => {
-        if (selectMode) {
-          onSingleSelect(word) // Одиночное нажатие в режиме выбора
-        }
-      }}
+      onClick={handleClick}
     >
       {selectMode && (
         <input
           className={styles.checkbox}
           type="checkbox"
           checked={isSelected}
-          onChange={() => onSingleSelect(word)}
+          readOnly={true}
+          /* onChange={() => onSingleSelect(word)} */
         />
       )}
-      <span>{word.translate.eng}</span>
+      <span>{word.id}</span>
     </div>
   )
 }
