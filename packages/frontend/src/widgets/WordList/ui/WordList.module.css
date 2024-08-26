@@ -1,0 +1,24 @@
+.wordList {
+  display: flex;
+  flex-direction: column;
+  max-height: 400px; /* Ограничение высоты */
+  overflow-y: scroll; /* Скролл для списка */
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: 2px solid #ff7300;
+  background-color: white;
+  color: #ff7300;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+}
+
+button:hover {
+  background-color: #ff7300;
+  color: white;
+}

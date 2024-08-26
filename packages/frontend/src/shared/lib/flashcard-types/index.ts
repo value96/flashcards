@@ -1,1 +1,1 @@
-export { type Word } from "@flashcards/flashcard-types"
+export { type Word, type VocabWord } from "@flashcards/flashcard-types"

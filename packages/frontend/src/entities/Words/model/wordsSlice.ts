@@ -41,10 +41,13 @@ const wordsSlice = createSlice({
         wordsAdapter.setAll(state, action.payload)
         console.log("seted All")
       })
-      .addCase(loadWords.rejected, (state, action) => {
-        state.status = Status.failed
-        state.error = action.error.message || "Failed to load words"
-      })
+      .addCase(
+        loadWords.rejected,
+        (state, action: PayloadAction<string | undefined>) => {
+          state.status = Status.failed
+          state.error = action.payload || "Failed to load words"
+        },
+      )
   },
 })
 

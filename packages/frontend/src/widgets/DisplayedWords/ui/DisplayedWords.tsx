@@ -1,59 +1,53 @@
-import { WordCard } from "@entities/Words"
+import { WordCard, wordsModel } from "@entities/Words"
 import styles from "./DisplayedWords.module.css"
-import { FormEvent, useState } from "react"
+import { useAppDispatch, useAppSelector } from "@shared/store"
+import { useEffect, useState } from "react"
 
 const MAX_COUNT_SHOWED = 5
 
-const wordsInit = [
-  {
-    eng: "cat",
-    rus: "кошка",
-    toggle: false,
-  },
-  {
-    eng: "dog",
-    rus: "собака",
-    toggle: false,
-  },
-  {
-    eng: "car",
-    rus: "автомобиль",
-    toggle: false,
-  },
-  {
-    eng: "table",
-    rus: "стол",
-    toggle: false,
-  },
-  {
-    eng: "chair",
-    rus: "стул",
-    toggle: false,
-  },
-]
-
 export default () => {
-  const [words, setWords] = useState(wordsInit)
+  const dispatch = useAppDispatch()
+  const words = useAppSelector(wordsModel.selectors.selectAllWords)
+
+  const [flippedWords, setFlippedWords] = useState<{ [key: string]: boolean }>(
+    {},
+  )
+
+  useEffect(() => {
+    const initialFlippedWords: { [key: string]: boolean } = {}
+    words.forEach(word => {
+      initialFlippedWords[word.id] = false // Инициализируем перевёрнутость как false
+    })
+    setFlippedWords(initialFlippedWords)
+  }, [words])
+
+  useEffect(() => {
+    dispatch(wordsModel.thunks.loadWords(MAX_COUNT_SHOWED))
+  }, [])
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const target = e.target as HTMLDivElement
-    const index = target.closest("[data-index]")?.getAttribute("data-index")
-    if (typeof index === "string") {
-      setWords(prev => [
-        ...prev.slice(0, +index),
-        { ...prev[+index], toggle: !prev[+index].toggle },
-        ...prev.slice(+index + 1, prev.length),
-      ])
+    const wordElement = target.closest("[data-id]")
+    if (wordElement) {
+      const wordId = wordElement.getAttribute("data-id")
+      if (wordId) {
+        setFlippedWords(prevState => ({
+          ...prevState,
+          [wordId]: !prevState[wordId], // Переключаем состояние перевёрнутости для слова
+        }))
+      }
     }
   }
 
   return (
     <div className={styles.content} onClick={handleClick}>
-      {words.map((word, index) => (
+      {words.map(({ id, vocabWord }) => (
         <WordCard
-          key={index}
-          index={index.toString()}
-          text={word.toggle ? word.rus : word.eng}
+          key={id}
+          id={id}
+          text={
+            flippedWords[id] ? vocabWord.translate.rus : vocabWord.translate.eng
+          }
         />
       ))}
     </div>
