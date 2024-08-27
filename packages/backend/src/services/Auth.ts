@@ -1,12 +1,10 @@
 import createHttpError from "http-errors"
 import bcrypt from "bcryptjs"
 import tokenService, { TokenService } from "./Token"
-import RefreshSession from "../models/sql/RefreshSession"
+import { RefreshSession } from "../models"
 import { config } from "../config"
 import { FingerprintResult } from "express-fingerprint"
-import userRepository, {
-  UserRepository,
-} from "../models/repositories/UserRepository"
+import { userRepository } from "../models"
 
 export interface CreateRefreshSessionRes {
   accessToken: string

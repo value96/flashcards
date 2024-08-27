@@ -1,8 +1,6 @@
 import express from "express"
 import cors from "cors"
-import userRoutes from "./routes/UserRoutes"
-import wordRoutes from "./routes/WordRoutes"
-import authRoutes from "./routes/AuthRoutes"
+
 import Fingerprint from "express-fingerprint"
 import cookieParser from "cookie-parser"
 import {
@@ -11,6 +9,12 @@ import {
   geoip,
 } from "express-fingerprint/lib/parameters"
 import { config } from "./config"
+import {
+  AuthRouter,
+  DisplayedWordsRouter,
+  UserRouter,
+  WordsListRouter,
+} from "routers"
 
 const app = express()
 
@@ -24,8 +28,9 @@ app.use(
   }),
 )
 
-app.use("/auth", authRoutes)
-app.use("/words", wordRoutes)
-app.use("/users", userRoutes)
+app.use("/words-list", WordsListRouter)
+app.use("/auth", AuthRouter)
+app.use("/words", DisplayedWordsRouter)
+app.use("/users", UserRouter)
 
 export default app

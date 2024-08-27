@@ -19,7 +19,6 @@ const WordBlock = ({
   const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null)
   const [preventClick, setPreventClick] = useState(false)
 
-  // Обработчик для долгого нажатия
   const handlePressStart = () => {
     const timer = setTimeout(() => {
       setPreventClick(true)
@@ -36,15 +35,15 @@ const WordBlock = ({
   }
 
   const handleClick = () => {
-    console.log("handleClick")
+    //console.log("handleClick")
     if (selectMode) {
-      console.log(`handleClick-> ${selectMode}`)
+      //console.log(`handleClick-> ${selectMode}`)
       if (preventClick) {
-        console.log(`handleClick-> ${selectMode}-> ${preventClick}->return`)
+        //console.log(`handleClick-> ${selectMode}-> ${preventClick}->return`)
         setPreventClick(false)
         return
       }
-      console.log("onclick")
+      //console.log("onclick")
       onSingleSelect(word)
     }
   }
@@ -67,7 +66,7 @@ const WordBlock = ({
           /* onChange={() => onSingleSelect(word)} */
         />
       )}
-      <span>{word.id}</span>
+      <span>{word.translate.eng}</span>
     </div>
   )
 }

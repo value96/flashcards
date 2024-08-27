@@ -24,6 +24,20 @@ const words: VocabWord[] = [
       rus: "автомобиль",
     },
   },
+  {
+    id: "dfioiwl",
+    translate: {
+      eng: "table",
+      rus: "стол",
+    },
+  },
+  {
+    id: "dfkgso",
+    translate: {
+      eng: "chair",
+      rus: "стул",
+    },
+  },
 ]
 
 const WordList = () => {
@@ -73,7 +87,7 @@ const WordList = () => {
   }
 
   const handleSingleSelect = (word: VocabWord) => {
-    console.log("handleSingleSelect")
+    //console.log("handleSingleSelect")
     if (word.id in selectedWords) {
       setSelectedWords(prev => {
         const { [word.id]: _, ...next } = prev

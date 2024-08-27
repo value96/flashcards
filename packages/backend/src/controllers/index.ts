@@ -1,4 +1,4 @@
-export * as WordController from "./WordController"
-export * as VocabWordController from "./VocabWordController"
-export * as UserController from "./UserController"
-export * as AuthController from "./AuthController"
+export * as DisplayedWordsController from "./DisplayedWords"
+export * as WordsListController from "./WordsList"
+export * as UserController from "./User"
+export * as AuthController from "./Auth"
