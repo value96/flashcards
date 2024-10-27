@@ -1,3 +1,3 @@
-export { default as RefreshSession } from "./RefreshSession"
-export { default as UserSql } from "./User"
-export { default as VocabWord } from "./VocabWord"
+export { RefreshSession as RefreshSessionSql } from "./RefreshSession"
+export { User as UserSql } from "./User"
+export { VocabWord as VocabWordSql } from "./VocabWord"

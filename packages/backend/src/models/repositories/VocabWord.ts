@@ -1,4 +1,4 @@
-import { VocabWord } from "models/sql"
+import { VocabWordSql } from "../sql"
 
 export type VocabWordData = {
   id: number
@@ -19,7 +19,7 @@ class VocabWordRepository {
     let vocabWord: VocabWordData | undefined | null = this.vocabMap.get(id)
 
     if (!vocabWord) {
-      const result = await VocabWord.findOne({ where: { id } })
+      const result = await VocabWordSql.findOne({ where: { id } })
 
       if (result) {
         vocabWord = {
@@ -45,7 +45,7 @@ class VocabWordRepository {
       })
       return result
     } else {
-      const allWordsFromDb = await VocabWord.findAll()
+      const allWordsFromDb = await VocabWordSql.findAll()
       const allWordsFromDbData = allWordsFromDb.reduce(
         (allWords, word) => {
           allWords[word.id.toString()] = {
@@ -65,5 +65,4 @@ class VocabWordRepository {
     }
   }
 }
-
-export default new VocabWordRepository()
+export const vocabWordRepository = new VocabWordRepository()

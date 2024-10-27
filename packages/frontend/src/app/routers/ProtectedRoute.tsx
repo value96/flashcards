@@ -1,5 +1,3 @@
-import type React from "react"
-import { WelcomePage } from "@pages/WelcomePage"
 import { ReactNode } from "react"
 import { useAppSelector } from "@shared/store"
 import { userModel } from "@entities/User"
@@ -11,10 +9,10 @@ type Props = {
 
 const ProtectedRoute = ({ children }: Props) => {
   const isAuthenticated = useAppSelector(userModel.selectors.isAuth)
-
+  console.log(`isAuthenticated: ${isAuthenticated}`)
   if (!isAuthenticated) {
     //return <WelcomePage /> //<Navigate to="/login" />
-    ;<Navigate to="/auth" replace={true} />
+    return <Navigate to="/auth" replace={true} />
   }
 
   return children

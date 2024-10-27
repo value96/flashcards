@@ -14,7 +14,7 @@ import { WordsPage } from "@pages/WordsPage/ui"
 
 const App = () => {
   const dispatch = useAppDispatch()
-  const isAuth = useAppSelector(userModel.selectors.isAuth)
+  //const isAuth = useAppSelector(userModel.selectors.isAuth)
   const refreshTokenLoadingStatus = useAppSelector(
     authModel.selectors.refreshTokenProcessStatus,
   )

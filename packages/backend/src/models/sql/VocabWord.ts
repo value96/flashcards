@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize"
 import sequelize from "../../sqlDatabase"
 
-class VocabWord extends Model {
+export class VocabWord extends Model {
   public id!: number
   public eng!: string
   public rus!: string
@@ -26,5 +26,3 @@ VocabWord.init(
     timestamps: true,
   },
 )
-
-export default VocabWord

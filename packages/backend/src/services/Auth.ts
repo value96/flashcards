@@ -1,7 +1,7 @@
 import createHttpError from "http-errors"
 import bcrypt from "bcryptjs"
 import tokenService, { TokenService } from "./Token"
-import { RefreshSession } from "../models"
+import { refreshSession } from "../models"
 import { config } from "../config"
 import { FingerprintResult } from "express-fingerprint"
 import { userRepository } from "../models"
@@ -33,23 +33,10 @@ class AuthService {
 
     const { userId, sessionId } = refreshTokenPayload
 
-    console.log(
-      JSON.stringify(
-        {
-          id: sessionId,
-          userId,
-          fingerprint: fingerprint.hash,
-        },
-        null,
-        2,
-      ),
-    )
-    const session = await RefreshSession.findOne({
-      where: {
-        id: sessionId,
-        userId,
-        fingerprint: fingerprint.hash,
-      },
+    const session = await refreshSession.findOne({
+      id: sessionId,
+      userId,
+      fingerprint: fingerprint.hash,
     })
 
     if (!session) throw createHttpError(404, "Refresh session not found")
@@ -61,7 +48,7 @@ class AuthService {
     fingerprint: FingerprintResult,
     expiresAt: Date = new Date(Date.now() + config.REFRESH_TOKEN_EXPIRATION),
   ): Promise<CreateRefreshSessionRes> {
-    const refreshSession = await RefreshSession.create({
+    const session = await refreshSession.create({
       userId: userId,
       fingerprint: fingerprint.hash,
       expiresAt: expiresAt,
@@ -69,11 +56,11 @@ class AuthService {
 
     const accessToken = this.tokenService.generateAccessToken({
       userId,
-      sessionId: refreshSession.id,
+      sessionId: session.id,
     })
     const refreshToken = this.tokenService.generateRefreshToken({
       userId,
-      sessionId: refreshSession.id,
+      sessionId: session.id,
     })
 
     return {
@@ -143,12 +130,9 @@ class AuthService {
     )
   }
 
-  async logout(sessionId: string, fingerprint: FingerprintResult) {
-    const session = await RefreshSession.findOne({
-      where: {
-        id: sessionId,
-        fingerprint: fingerprint.hash,
-      },
+  async logout(sessionId: string) {
+    const session = await refreshSession.findOne({
+      id: sessionId,
     })
 
     if (!session) throw createHttpError(401, "Session not found")

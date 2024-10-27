@@ -1,4 +1,4 @@
-import { IWord, WordMongo } from "models/mongo"
+import { IWord, WordMongo } from "../mongo"
 
 class WordRepository {
   async getAllForUser(userId: string): Promise<IWord[] | null> {
@@ -6,4 +6,4 @@ class WordRepository {
   }
 }
 
-export default new WordRepository()
+export const wordRepository = new WordRepository()

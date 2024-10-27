@@ -1,10 +1,11 @@
 import { Request, Response } from "express"
-import { UserSql } from "../models"
+
 import { UserView } from "../views"
+import { userRepository } from "../models"
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
-    const users = await UserSql.findAll()
+    const users = await userRepository.findAll()
     res.json(UserView.formatUsers(users))
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch users" })

@@ -18,9 +18,9 @@ import {
   HasManyCreateAssociationMixin,
 } from "sequelize"
 import sequelize from "../../sqlDatabase"
-import RefreshSession from "./RefreshSession"
+import { RefreshSession } from "./RefreshSession"
 
-class User extends Model<
+export class User extends Model<
   InferAttributes<User /* , { omit: "refreshSessions" } */>,
   InferCreationAttributes<User /* , { omit: "refreshSessions" } */>
 > {
@@ -103,5 +103,3 @@ User.hasMany(RefreshSession, {
   foreignKey: "userId",
   as: "refreshSessions",
 })
-
-export default User

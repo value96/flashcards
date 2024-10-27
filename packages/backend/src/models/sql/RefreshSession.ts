@@ -7,9 +7,9 @@ import {
   ForeignKey,
 } from "sequelize"
 import sequelize from "../../sqlDatabase"
-import User from "./User"
+import { User } from "./User"
 
-class RefreshSession extends Model<
+export class RefreshSession extends Model<
   InferAttributes<RefreshSession>,
   InferCreationAttributes<RefreshSession>
 > {
@@ -52,4 +52,3 @@ RefreshSession.init(
   as: "user",
 })
  */
-export default RefreshSession

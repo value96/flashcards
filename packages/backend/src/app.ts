@@ -12,9 +12,9 @@ import { config } from "./config"
 import {
   AuthRouter,
   DisplayedWordsRouter,
-  UserRouter,
   WordsListRouter,
-} from "routers"
+  UserRouter,
+} from "./routers"
 
 const app = express()
 
