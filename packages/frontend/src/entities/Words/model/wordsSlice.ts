@@ -37,9 +37,7 @@ const wordsSlice = createSlice({
       })
       .addCase(loadWords.fulfilled, (state, action: PayloadAction<Word[]>) => {
         state.status = Status.succeeded
-        console.log("setted Status.succeeded")
         wordsAdapter.setAll(state, action.payload)
-        console.log("seted All")
       })
       .addCase(
         loadWords.rejected,

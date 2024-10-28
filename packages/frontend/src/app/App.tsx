@@ -1,7 +1,7 @@
 import "./App.css"
 
 import { ProtectedRoute, Routes } from "./routers"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { authModel } from "@features/Authorization"
 import { WelcomePage } from "@pages/WelcomePage"
@@ -11,22 +11,27 @@ import { Status } from "@shared/api"
 import { MainPage } from "@pages/MainPage"
 import { Route } from "react-router-dom"
 import { WordsPage } from "@pages/WordsPage/ui"
+import { selectors, thunks } from "./store"
 
-const App = () => {
+const { selectAppStatus } = selectors
+const { initializeApp } = thunks
+
+export const App = () => {
   const dispatch = useAppDispatch()
-  //const isAuth = useAppSelector(userModel.selectors.isAuth)
-  const refreshTokenLoadingStatus = useAppSelector(
-    authModel.selectors.refreshTokenProcessStatus,
-  )
+  const status = useAppSelector(selectAppStatus)
 
   useEffect(() => {
-    if (localStorage.getItem("accessTokenExpiration")) {
-      dispatch(authModel.thunks.updateRefreshToken())
-    }
+    dispatch(initializeApp())
   }, [])
+  console.log(`status: ${status}`)
+  if (status === Status.idle) return ""
 
-  if (refreshTokenLoadingStatus === Status.loading) {
-    return <div>Loading...</div>
+  if (status === Status.loading) {
+    return "Loading..."
+  }
+
+  if (status === Status.failed) {
+    return "error"
   }
 
   return (
@@ -51,5 +56,3 @@ const App = () => {
     </Routes>
   )
 }
-
-export default App

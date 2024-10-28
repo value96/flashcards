@@ -21,7 +21,7 @@ axiosInstance.interceptors.response.use(
       originalRequest._isRetry = true
       try {
         const response = await axios.get(
-          API_BASE_URL + endpoints.authEndpoints.refreshToken,
+          API_BASE_URL + endpoints.authEndpoints.refreshTokenUrl,
           {
             withCredentials: true,
           },

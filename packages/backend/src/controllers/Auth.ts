@@ -107,7 +107,6 @@ export const logout = async (req: AuthRequest, res: Response) => {
 
     res.cookie("refreshToken", "", refreshTokenCookieParams(new Date(0)))
     res.cookie("accessToken", "", accessTokenCookieParams(new Date(0)))
-    console.log("set cookie")
     res.status(204).json({})
   } catch (error) {
     return errorHandler(error, req, res)

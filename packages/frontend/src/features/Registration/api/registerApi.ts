@@ -10,7 +10,7 @@ export const signUp = async (
   username: string,
   password: string,
 ): Promise<AxiosResponse<signUpDTO>> => {
-  return axiosInstance.post<signUpDTO>(endpoints.authEndpoints.signUp, {
+  return axiosInstance.post<signUpDTO>(endpoints.authEndpoints.signUpUrl, {
     email,
     username,
     password,

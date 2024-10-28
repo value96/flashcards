@@ -1,3 +1,3 @@
-export { default as axiosInstance } from "./axiosInstance"
-export { Status } from "./statusEnums"
+export { default as axiosInstance } from "./axios-instance"
+export { Status } from "./status"
 export * as endpoints from "./endpoints"

@@ -5,8 +5,10 @@ import { setupListeners } from "@reduxjs/toolkit/query"
 import { userModel } from "@entities/User"
 import { authModel } from "@features/Authorization"
 import { wordsModel } from "@entities/Words"
+import { appSlice } from "./appSlice"
 
 const rootReducer = combineSlices(
+  appSlice,
   userModel.slice,
   authModel.slice,
   wordsModel.slice,

@@ -19,7 +19,6 @@ export const useSendData = <Params>(
       } catch (err: any) {
         setError(`${err.message}`)
       } finally {
-        console.log(`finally in useSendData`)
         setIsLoading(false)
       }
     },

@@ -2,10 +2,16 @@ import { useState } from "react"
 import { LoginForm } from "@features/Authorization"
 import { RegisterForm } from "@features/Registration"
 import styles from "./HomePage.module.css"
+import { isAuth } from "@entities/User/model/userSelectors"
+import { useAppSelector } from "@shared/store"
+import { Navigate } from "react-router-dom"
 
 const WelcomePage = () => {
+  const isAuthenticated = useAppSelector(isAuth)
   const [isShowLogin, setShowLogin] = useState(false)
   const [isShowRegister, setShowRegister] = useState(false)
+
+  if (isAuthenticated) return <Navigate to="/" replace={true} />
 
   if (isShowLogin)
     return (

@@ -5,13 +5,13 @@ import { PasswordInput } from "@shared/ui"
 import { UsernameInput } from "@shared/ui"
 import { formsStyles } from "@shared/ui"
 import { useSendData } from "@shared/hooks/useSendData"
-import { register } from "../model/registerThunks"
+import { thunks } from "../model"
 import { toast } from "react-toastify"
 
 const RegisterForm = () => {
   console.log("SignUpForm render")
 
-  const { sendData: reg, error, isLoading } = useSendData(register)
+  const { sendData: reg, error, isLoading } = useSendData(thunks.register)
 
   const emailRef = useRef("")
   const [isEmailFullfilled, setIsEmailFullfilled] = useState(false)

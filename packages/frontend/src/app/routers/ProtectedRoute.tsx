@@ -9,7 +9,7 @@ type Props = {
 
 const ProtectedRoute = ({ children }: Props) => {
   const isAuthenticated = useAppSelector(userModel.selectors.isAuth)
-  console.log(`isAuthenticated: ${isAuthenticated}`)
+  /* console.log(`isAuthenticated: ${isAuthenticated}`) */
   if (!isAuthenticated) {
     //return <WelcomePage /> //<Navigate to="/login" />
     return <Navigate to="/auth" replace={true} />

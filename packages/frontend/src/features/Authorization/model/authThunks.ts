@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { refreshToken, signIn } from "../api/loginApi"
+import { refreshTokenReq, signInReq, logoutReq } from "../api/authApi"
 import { userModel } from "@entities/User"
+
+const { setAuth } = userModel.actions
 
 export const updateRefreshToken = createAsyncThunk<
   true,
@@ -9,16 +11,16 @@ export const updateRefreshToken = createAsyncThunk<
 >("Authorization/refreshToken", async (_, { rejectWithValue, dispatch }) => {
   try {
     console.log("refreshToken start")
-    const accessTokenExpiration = await refreshToken()
+    const accessTokenExpiration = await refreshTokenReq()
     localStorage.setItem(
       "accessTokenExpiration",
       accessTokenExpiration.toString(),
     )
-    dispatch(userModel.actions.setAuth(true))
+    dispatch(setAuth(true))
     return true
   } catch (e: any) {
-    dispatch(userModel.actions.setAuth(false))
-    console.log(`Failed to refresh token: ${e.response?.data?.error}`)
+    dispatch(setAuth(false))
+    console.error(`Failed to refresh token: ${e.response?.data?.error}`)
     localStorage.removeItem("accessTokenExpiration")
     return rejectWithValue(
       `Failed to refresh token: ${e.response?.data?.error}`,
@@ -35,16 +37,27 @@ export const login = createAsyncThunk(
   "Authorization/login",
   async ({ email, password }: SignInData, { rejectWithValue, dispatch }) => {
     try {
-      const response = await signIn(email, password)
-      localStorage.setItem(
-        "accessTokenExpiration",
-        response.data.accessTokenExpiration.toString(),
-      )
-      dispatch(userModel.actions.setAuth(true))
+      const accessTokenExpiration = await signInReq(email, password)
+      localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
+      dispatch(setAuth(true))
       return true
-    } catch (e: any) {
-      throw new Error(`Failed to sign in: ${e.response?.data?.error}`)
-      //return rejectWithValue(`Failed to sign in: ${e.response?.data?.error}`)
+    } catch (e) {
+      console.error(`Failed to to sign in: ${e}`)
+      return rejectWithValue(`Failed to sign in: ${e}`)
+    }
+  },
+)
+
+export const logout = createAsyncThunk(
+  "Authorization/logout",
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      await logoutReq()
+      localStorage.removeItem("accessTokenExpiration")
+      dispatch(setAuth(false))
+    } catch (e) {
+      console.error(`Failed to logout: ${e}`)
+      return rejectWithValue(`Failed to logout: ${e}`)
     }
   },
 )

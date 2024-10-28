@@ -1,3 +1,4 @@
-export const signUp = "/auth/sign-up"
-export const signIn = "/auth/sign-in"
-export const refreshToken = "/auth/refresh-token"
+export const signUpUrl = "/auth/sign-up"
+export const signInUrl = "/auth/sign-in"
+export const refreshTokenUrl = "/auth/refresh-token"
+export const logoutUrl = "/auth/logout"
