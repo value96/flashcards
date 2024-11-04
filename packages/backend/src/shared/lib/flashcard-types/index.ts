@@ -1,5 +1,10 @@
 export {
   type Word,
   type Translations,
+  type Language,
   type VocabWord,
-} from "@flashcards/flashcard-types"
+  type WordStatus,
+  type HistoryPoint,
+  wordStatusEnum,
+  languageEnum,
+} from '@flashcards/flashcard-types'

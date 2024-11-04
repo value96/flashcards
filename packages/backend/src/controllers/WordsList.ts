@@ -1,8 +1,8 @@
-import { Request, Response } from "express"
+import { Request, Response } from 'express'
 
-import { errorHandler } from "../utils/handleErrors"
-import { AuthRequest } from "../middlewares/isAuth"
-import { vocabWordRepository, wordRepository } from "../models"
+import { errorHandler } from '../utils/handleErrors'
+import { AuthRequest } from '../middlewares/isAuth'
+import { vocabWordRepository, wordRepository } from '../models'
 
 export const getWords = async (req: AuthRequest, res: Response) => {
   try {

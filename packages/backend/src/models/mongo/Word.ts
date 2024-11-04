@@ -1,46 +1,61 @@
-import { Schema, Document, model } from "mongoose"
+import { Schema, Document, model as mongooseModel } from 'mongoose'
 
-export enum WordStatus {
-  study = "study",
-  learned = "learned",
-  suspend = "suspend",
+const wordStatusEnum = {
+  learning: 'learning',
+  hasLearned: 'hasLearned',
+  suspended: 'suspended',
 }
 
-export type SuccessRating = "-3" | "-2" | "-1" | "0" | "1"
+export type WordStatus = keyof typeof wordStatusEnum
+
+const languageEnum = {
+  rus: 'rus',
+  eng: 'eng',
+} as const
+
+export type Language = keyof typeof languageEnum
+
+export type HistoryPoint = {
+  date: string
+  showedTranslate: Language
+  isSuccessRepeated: boolean
+}
 
 export interface IWord extends Document {
   userId: string
-  vocabWordId: number
   status: WordStatus
-  successRating: SuccessRating
+  vocabWordId: number
+
+  learningHistory: HistoryPoint[]
+  nextShowTime: Date
+  lastShowTimeDelta: number // in hours
   addedDate: Date
-  repeatHistory: Array<{ repeatDate: Date; isSuccess: boolean }>
-  nextRepeat: Date
 }
 
-const repeatHistorySchema = new Schema({
-  repeatDate: { type: Date, required: true },
-  isSuccess: { type: Boolean, required: true },
+const historyPoint = new Schema({
+  date: { type: Date, required: true },
+  showedTranslate: { type: languageEnum, required: true },
+  isSuccessRepeated: { type: Boolean, required: true },
 })
 
 const wordSchema = new Schema<IWord>(
   {
     userId: { type: String, required: true },
-    vocabWordId: { type: Number, required: true },
-    status: { type: String, enum: Object.values(WordStatus), required: true },
-    successRating: {
+    status: {
       type: String,
-      enum: ["-3", "-2", "-1", "0", "1"],
+      enum: Object.values(wordStatusEnum),
       required: true,
     },
+    vocabWordId: { type: Number, required: true },
+    learningHistory: [historyPoint],
+    nextShowTime: { type: Date, required: true },
+    lastShowTimeDelta: { type: Number, required: true },
     addedDate: { type: Date, required: true },
-    repeatHistory: [repeatHistorySchema],
-    nextRepeat: { type: Date, required: true },
   },
   { timestamps: true },
 )
 
-wordSchema.index({ userId: 1 })
-wordSchema.index({ userId: 1, nextRepeat: 1 })
+/* wordSchema.index({ userId: 1 })
+wordSchema.index({ userId: 1, nextShowTime: 1 }) */
 
-export default model<IWord>("Word", wordSchema)
+export const model = mongooseModel<IWord>('Word', wordSchema)

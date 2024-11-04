@@ -1,28 +1,28 @@
-import { Word, VocabWord } from "@shared/lib"
+import { Word, VocabWord } from '@shared/lib'
 
-import { Request, Response } from "express"
-import { getMessage } from "../utils/handleErrors"
+import { Request, Response } from 'express'
+import { getMessage } from '../utils/handleErrors'
 
 const data: VocabWord[] = [
   {
-    id: "sjdsid",
+    id: 'sjdsid',
     translate: {
-      eng: "arouse",
-      rus: "вызывать, пробуждать",
+      eng: 'arouse',
+      rus: 'вызывать, пробуждать',
     },
   },
   {
-    id: "sjdfk",
+    id: 'sjdfk',
     translate: {
-      eng: "pretty",
-      rus: "довольно-таки",
+      eng: 'pretty',
+      rus: 'довольно-таки',
     },
   },
   {
-    id: "sdfkdo",
+    id: 'sdfkdo',
     translate: {
-      eng: "grand",
-      rus: "большой, великий",
+      eng: 'grand',
+      rus: 'большой, великий',
     },
   },
 ]
@@ -30,9 +30,10 @@ const data: VocabWord[] = [
 export const words: Word[] = data.map((word, index) => ({
   id: index.toString(),
   vocabWord: word,
-  lastShowDate: new Date().toISOString(),
-  futureShowDate: new Date().toISOString(),
-  spaceShowSec: 86400,
+  learningHistory: [],
+  nextShowTime: new Date().toISOString(),
+  lastShowTimeDelta: 86400,
+  state: 'learning',
 }))
 
 let curIndex = 0
@@ -49,7 +50,7 @@ export const getSome = async (req: Request, res: Response) => {
     const errMassage = getMessage(err)
     console.error(errMassage)
     res.status(500).json({
-      message: "failed to get words->".concat(errMassage),
+      message: 'failed to get words->'.concat(errMassage),
     })
   }
 }
@@ -61,7 +62,7 @@ export const acceptForgottenWord = async (req: Request, res: Response) => {
     const errMassage = getMessage(err)
     console.error(errMassage)
     res.status(500).json({
-      message: "failed to accept ForgottenWord->".concat(errMassage),
+      message: 'failed to accept ForgottenWord->'.concat(errMassage),
     })
   }
 }
@@ -73,7 +74,7 @@ export const acceptRepeatedWord = async (req: Request, res: Response) => {
     const errMassage = getMessage(err)
     console.error(errMassage)
     res.status(500).json({
-      message: "failed to accept RepeatedWord->".concat(errMassage),
+      message: 'failed to accept RepeatedWord->'.concat(errMassage),
     })
   }
 }

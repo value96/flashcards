@@ -1,2 +1,2 @@
-export { default as UserMongo } from "./User"
-export { default as WordMongo, IWord, WordStatus, SuccessRating } from "./Word"
+export { default as UserMongo } from './User'
+export * as WordMongo from './Word'

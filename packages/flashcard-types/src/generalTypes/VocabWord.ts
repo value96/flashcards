@@ -1,12 +1,15 @@
-export enum Language {
-  rus = "rus",
-  eng = "eng",
-}
+export const languageEnum = {
+  rus: 'rus',
+  eng: 'eng',
+} as const
+
+export type Language = keyof typeof languageEnum
+
 export type Translations = {
-  [key in Language]: string;
-};
+  [key in Language]: string
+}
 
 export type VocabWord = {
-  id: string;
-  translate: Translations;
-};
+  id: string
+  translate: Translations
+}
