@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit"
-import { login, updateRefreshToken } from "./authThunks"
-import { Status } from "@shared/api"
+import { createSlice } from '@reduxjs/toolkit'
+import { login, updateRefreshToken } from './authThunks'
+import { Status } from '@shared/api'
 
 interface AuthState {
   authProcessStatus: Status
@@ -12,8 +12,8 @@ const initialState: AuthState = {
   refreshTokenProcessStatus: Status.idle,
 }
 
-const authSlice = createSlice({
-  name: "authorization",
+export const authSlice = createSlice({
+  name: 'authorization',
   initialState,
   reducers: {},
   extraReducers: builder => {
@@ -37,5 +37,3 @@ const authSlice = createSlice({
       })
   },
 })
-
-export default authSlice

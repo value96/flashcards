@@ -1,12 +1,12 @@
-import { wordsModel } from "@entities/Words"
-import styles from "./DisplayedWords.module.css"
-import { useAppDispatch, useAppSelector } from "@shared/store"
-import { useEffect, useState } from "react"
-import { WordCard } from "./WordCard"
+import { useEffect, useState } from 'react'
+import styles from './styles.module.scss'
+import { wordsModel } from '@entities/Words'
+import { useAppDispatch, useAppSelector } from '@shared/store'
+import { WordCard } from './WordCard'
 
 const MAX_COUNT_SHOWED = 5
 
-export default () => {
+export const DisplayedWords = () => {
   const dispatch = useAppDispatch()
   const words = useAppSelector(wordsModel.selectors.selectAllWords)
 
@@ -28,9 +28,9 @@ export default () => {
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const target = e.target as HTMLDivElement
-    const wordElement = target.closest("[data-id]")
+    const wordElement = target.closest('[data-id]')
     if (wordElement) {
-      const wordId = wordElement.getAttribute("data-id")
+      const wordId = wordElement.getAttribute('data-id')
       if (wordId) {
         setFlippedWords(prevState => ({
           ...prevState,

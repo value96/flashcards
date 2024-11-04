@@ -1,27 +1,18 @@
-import React, { useEffect, useRef, useState } from "react"
-import type { FormEvent } from "react"
-import { EmailInput } from "@shared/ui/Inputs"
-import { PasswordInput } from "@shared/ui/Inputs"
-import { styles } from "@shared/ui/Forms"
-import { useSendData } from "@shared/hooks/useSendData"
-import { thunks } from "../model"
-import { toast } from "react-toastify"
+import { useRef, useState, type FormEvent } from 'react'
+import { EmailInput, PasswordInput } from '@shared/ui'
+import styles from './styles.module.scss'
+import { useSendData } from '@shared/hooks'
+import { thunks } from '../../model'
 
-const LoginForm = () => {
-  console.log("LoginForm render")
+export const LoginForm = () => {
+  console.log('LoginForm render')
 
   const { sendData: auth, error, isLoading } = useSendData(thunks.login)
 
-  const emailRef = useRef("")
+  const emailRef = useRef('')
   const [isEmailFullfilled, setIsEmailFullfilled] = useState(false)
-  const passRef = useRef("")
+  const passRef = useRef('')
   const [isPassFullfilled, setIsPassFullfilled] = useState(false)
-
-  /*   useEffect(() => {
-    if (error) {
-      toast.error("error")
-    }
-  }, [error]) */
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -54,5 +45,3 @@ const LoginForm = () => {
     </form>
   )
 }
-
-export default LoginForm

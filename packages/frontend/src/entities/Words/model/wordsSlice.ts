@@ -3,12 +3,12 @@ import {
   createSlice,
   EntityState,
   PayloadAction,
-} from "@reduxjs/toolkit"
-import { Status } from "@shared/api"
+} from '@reduxjs/toolkit'
+import { Status } from '@shared/api'
 
-import { Word } from "@shared/lib"
+import { Word } from '@shared/lib'
 
-import { loadWords } from "./wordsThunks"
+import { loadWords } from './wordsThunks'
 
 type WordsState = EntityState<Word, string> & {
   status: Status //"idle" | "loading" | "succeeded" | "failed"
@@ -21,8 +21,8 @@ const initialState: WordsState = wordsAdapter.getInitialState({
   error: null,
 })
 
-const wordsSlice = createSlice({
-  name: "words",
+export const wordsSlice = createSlice({
+  name: 'words',
   initialState,
   reducers: {
     addWord: wordsAdapter.addOne,
@@ -43,12 +43,10 @@ const wordsSlice = createSlice({
         loadWords.rejected,
         (state, action: PayloadAction<string | undefined>) => {
           state.status = Status.failed
-          state.error = action.payload || "Failed to load words"
+          state.error = action.payload || 'Failed to load words'
         },
       )
   },
 })
 
 export const { addWord, addWords, updateWord, removeWord } = wordsSlice.actions
-
-export default wordsSlice

@@ -1,12 +1,14 @@
-import { useState } from "react"
-import { LoginForm } from "@features/Authorization"
-import { RegisterForm } from "@features/Registration"
-import styles from "./HomePage.module.css"
-import { isAuth } from "@entities/User/model/userSelectors"
-import { useAppSelector } from "@shared/store"
-import { Navigate } from "react-router-dom"
+import { useState } from 'react'
+import { Navigate } from 'react-router-dom'
+import styles from './styles.module.scss'
+import { LoginForm } from '@features/Authorization'
+import { RegisterForm } from '@features/Registration'
+import { userModel } from '@entities/User'
+import { useAppSelector } from '@shared/store'
 
-const WelcomePage = () => {
+const { isAuth } = userModel.selectors
+
+export const WelcomePage = () => {
   const isAuthenticated = useAppSelector(isAuth)
   const [isShowLogin, setShowLogin] = useState(false)
   const [isShowRegister, setShowRegister] = useState(false)
@@ -48,5 +50,3 @@ const WelcomePage = () => {
     </div>
   )
 }
-
-export default WelcomePage

@@ -1,5 +1,5 @@
-import React from "react"
-import styles from "./WordCard.module.css"
+import React from 'react'
+import styles from './styles.module.scss'
 
 type Props = { text: string; id: string }
 

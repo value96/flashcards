@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 import { useAppSelector } from "@shared/store"
 import { userModel } from "@entities/User"
 import { Navigate } from "react-router-dom"

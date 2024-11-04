@@ -1,3 +1,3 @@
-import { RootState } from "vite-env"
+import { type RootState } from "vite-env"
 
 export const isAuth = (state: RootState) => state.user.isAuth

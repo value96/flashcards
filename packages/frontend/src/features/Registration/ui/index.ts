@@ -1,1 +1,1 @@
-export { default as RegisterForm } from "./RegisterForm"
+export { RegisterForm } from "./RegisterForm"

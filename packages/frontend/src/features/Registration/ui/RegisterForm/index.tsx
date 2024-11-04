@@ -1,32 +1,20 @@
-import type { FormEvent } from "react"
-import React, { useEffect, useRef, useState } from "react"
-import { EmailInput } from "@shared/ui"
-import { PasswordInput } from "@shared/ui"
-import { UsernameInput } from "@shared/ui"
-import { formsStyles } from "@shared/ui"
-import { useSendData } from "@shared/hooks/useSendData"
-import { thunks } from "../model"
-import { toast } from "react-toastify"
+import { useRef, useState, type FormEvent } from 'react'
+import { PasswordInput, UsernameInput, EmailInput } from '@shared/ui'
+import styles from './styles.module.scss'
+import { useSendData } from '@shared/hooks'
+import { thunks } from '../../model'
 
-const RegisterForm = () => {
-  console.log("SignUpForm render")
-
+export const RegisterForm = () => {
   const { sendData: reg, error, isLoading } = useSendData(thunks.register)
 
-  const emailRef = useRef("")
+  const emailRef = useRef('')
   const [isEmailFullfilled, setIsEmailFullfilled] = useState(false)
 
-  const usernameRef = useRef("")
+  const usernameRef = useRef('')
   const [isUsernameFullfilled, setIsUsernameFullfilled] = useState(false)
 
-  const passRef = useRef("")
+  const passRef = useRef('')
   const [isPassFullfilled, setIsPassFullfilled] = useState(false)
-
-  /* useEffect(() => {
-    if (error) {
-      toast.error(error)
-    }
-  }, [error]) */
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -38,21 +26,21 @@ const RegisterForm = () => {
   }
 
   return (
-    <form className={formsStyles.container} onSubmit={handleSubmit}>
+    <form className={styles.container} onSubmit={handleSubmit}>
       <h2>Registration</h2>
-      <div className={formsStyles.formGroup}>
+      <div className={styles.formGroup}>
         <EmailInput
           setIsEmailFullfilled={setIsEmailFullfilled}
           emailRef={emailRef}
         />
       </div>
-      <div className={formsStyles.formGroup}>
+      <div className={styles.formGroup}>
         <UsernameInput
           setIsUsernameFullfilled={setIsUsernameFullfilled}
           usernameRef={usernameRef}
         />
       </div>
-      <div className={formsStyles.formGroup}>
+      <div className={styles.formGroup}>
         <PasswordInput
           setIsPassFullfilled={setIsPassFullfilled}
           passRef={passRef}
@@ -60,7 +48,7 @@ const RegisterForm = () => {
       </div>
       {error ? error : null}
       <button
-        className={formsStyles.button}
+        className={styles.button}
         type="submit"
         disabled={
           isLoading ||
@@ -72,5 +60,3 @@ const RegisterForm = () => {
     </form>
   )
 }
-
-export default RegisterForm

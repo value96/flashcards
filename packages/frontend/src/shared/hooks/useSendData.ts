@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from "react"
+import { useCallback, useState } from "react"
 import { useAppDispatch } from "@shared/store"
 
-import { AsyncThunk } from "@reduxjs/toolkit"
+import { type AsyncThunk } from "@reduxjs/toolkit"
 
 export const useSendData = <Params>(
   thunkFunction: AsyncThunk<any, Params, {}>,
