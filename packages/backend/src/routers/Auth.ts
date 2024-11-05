@@ -1,9 +1,10 @@
-import { Router } from "express"
-import { AuthController } from "../controllers"
-import { AuthValidators, handleValidationErrors } from "../validators"
-import { isAuth } from "../middlewares/isAuth"
+import { Router } from 'express'
+import { AuthController } from '../controllers'
+import { AuthValidators, handleValidationErrors } from '../validators'
+import { isAuth } from '../middlewares/isAuth'
+import { withAuthHandler } from '@shared/api'
 
-const router = Router()
+export const authRouter = Router()
 
 /* router.post(
   "/sign-up",
@@ -11,15 +12,13 @@ const router = Router()
   handleValidationErrors,
   AuthController.signUp,
 ) */
-router.post(
-  "/sign-in",
+authRouter.post(
+  '/sign-in',
   AuthValidators.signIn,
   handleValidationErrors,
   AuthController.signIn,
 )
 
-router.post("/logout", isAuth, AuthController.logout)
+authRouter.post('/logout', isAuth, withAuthHandler(AuthController.logout))
 
-router.get("/refresh-token", AuthController.refreshToken)
-
-export default router
+authRouter.get('/refresh-token', AuthController.refreshToken)

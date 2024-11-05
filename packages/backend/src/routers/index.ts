@@ -1,4 +1,4 @@
-export { default as AuthRouter } from "./Auth"
-export { default as DisplayedWordsRouter } from "./DisplayedWords"
-export { default as WordsListRouter } from "./WordsList"
-export { default as UserRouter } from "./User"
+export { authRouter } from './Auth'
+export { displayedWordsRouter } from './DisplayedWords'
+
+export { userRouter } from './User'

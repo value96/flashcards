@@ -4,7 +4,7 @@ const wordStatusEnum = {
   learning: 'learning',
   hasLearned: 'hasLearned',
   suspended: 'suspended',
-}
+} as const
 
 export type WordStatus = keyof typeof wordStatusEnum
 
@@ -16,7 +16,7 @@ const languageEnum = {
 export type Language = keyof typeof languageEnum
 
 export type HistoryPoint = {
-  date: string
+  date: Date
   showedTranslate: Language
   isSuccessRepeated: boolean
 }
@@ -26,6 +26,7 @@ export interface IWord extends Document {
   status: WordStatus
   vocabWordId: number
 
+  nextShowTranslate: Language
   learningHistory: HistoryPoint[]
   nextShowTime: Date
   lastShowTimeDelta: number // in hours
@@ -34,7 +35,11 @@ export interface IWord extends Document {
 
 const historyPoint = new Schema({
   date: { type: Date, required: true },
-  showedTranslate: { type: languageEnum, required: true },
+  showedTranslate: {
+    type: String,
+    enum: Object.values(languageEnum),
+    required: true,
+  },
   isSuccessRepeated: { type: Boolean, required: true },
 })
 
@@ -47,6 +52,11 @@ const wordSchema = new Schema<IWord>(
       required: true,
     },
     vocabWordId: { type: Number, required: true },
+    nextShowTranslate: {
+      type: String,
+      enum: Object.values(languageEnum),
+      required: true,
+    },
     learningHistory: [historyPoint],
     nextShowTime: { type: Date, required: true },
     lastShowTimeDelta: { type: Number, required: true },
@@ -55,7 +65,8 @@ const wordSchema = new Schema<IWord>(
   { timestamps: true },
 )
 
+export type WordType = Omit<IWord, keyof Document>
+export const model = mongooseModel<IWord>('Word', wordSchema)
+
 /* wordSchema.index({ userId: 1 })
 wordSchema.index({ userId: 1, nextShowTime: 1 }) */
-
-export const model = mongooseModel<IWord>('Word', wordSchema)

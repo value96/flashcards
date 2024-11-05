@@ -1,8 +1,9 @@
-import { vocabWordRepository, wordModel, type VocabWordData } from 'models'
-/*import { type Word } from '@shared/lib' */
+import { vocabWordModel, wordModel } from 'models'
 
+const { vocabWordRepository } = vocabWordModel
 const { wordRepository } = wordModel
 type WordType = wordModel.WordType
+type VocabWordData = vocabWordModel.VocabWordData
 
 type AllWords = VocabWordData & {
   word: WordType | null
@@ -40,11 +41,22 @@ class WordsService {
     return resultWords
   }
 
-  async getSomeLearnableWords(n: number) {
-    // получить n слов у котороых nextShowTime < current Time
+  async addNewWords(userId: string, vocabWordsIds: string[]) {
+    const newWords: wordModel.WordType[] = vocabWordsIds.map(vocabWordId => ({
+      userId,
+      status: 'learning',
+      vocabWordId: parseInt(vocabWordId),
+      nextShowTranslate: 'eng',
+      learningHistory: [],
+      nextShowTime: new Date(),
+      lastShowTimeDelta: 8,
+      addedDate: new Date(),
+    }))
+
+    await wordRepository.addNewWords(newWords)
   }
 
-  async acceptSomeLearnableWords(n: number) {
+  async getSomeLearnableWords(n: number) {
     // получить n слов у котороых nextShowTime < current Time
   }
 }

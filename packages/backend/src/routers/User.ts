@@ -1,10 +1,9 @@
-import { Router } from "express"
-import { UserController } from "../controllers/index"
-import { isAuth } from "../middlewares/isAuth"
+import { Router } from 'express'
+import { UserController } from '../controllers'
+import { isAuth } from '../middlewares/isAuth'
+import { withAuthHandler } from '@shared/api'
 
-const router = Router()
+export const userRouter = Router()
 
-router.get("/", isAuth, UserController.getUsers)
+userRouter.get('/', isAuth, withAuthHandler(UserController.getUsers))
 //router.post("/", isAuth, UserController.createUser)
-
-export default router

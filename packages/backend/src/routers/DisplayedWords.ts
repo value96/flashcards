@@ -1,18 +1,17 @@
-import { Router } from "express"
-import { DisplayedWordsController } from "../controllers/index"
-import { isAuth } from "../middlewares/isAuth"
+import { Router } from 'express'
+import { DisplayedWordsController } from '../controllers'
+import { isAuth } from '../middlewares/isAuth'
 
-const router = Router()
+export const displayedWordsRouter = Router()
 
-router.get("/:count", isAuth, DisplayedWordsController.getSome)
-router.post(
-  "/forgotten-word",
+displayedWordsRouter.get('/:count', isAuth, DisplayedWordsController.getSome)
+displayedWordsRouter.post(
+  '/forgotten-word',
   isAuth,
   DisplayedWordsController.acceptForgottenWord,
 )
-router.post(
-  "/repeated-word",
+displayedWordsRouter.post(
+  '/repeated-word',
   isAuth,
   DisplayedWordsController.acceptRepeatedWord,
 )
-export default router
