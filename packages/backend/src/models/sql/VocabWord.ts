@@ -1,12 +1,12 @@
-import { DataTypes, Model } from "sequelize"
-import sequelize from "../../sqlDatabase"
+import { CreationOptional, DataTypes, Model } from 'sequelize'
+import sequelize from '../../sqlDatabase'
 
 export class VocabWord extends Model {
   public id!: number
   public eng!: string
   public rus!: string
-  public readonly createdAt!: Date
-  public readonly updatedAt!: Date
+  public readonly createdAt!: CreationOptional<Date>
+  public readonly updatedAt!: CreationOptional<Date>
 }
 
 VocabWord.init(
@@ -19,10 +19,12 @@ VocabWord.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   },
   {
     sequelize,
-    modelName: "VocabWord",
+    modelName: 'VocabWord',
     timestamps: true,
   },
 )

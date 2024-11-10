@@ -1,21 +1,21 @@
 import { Router } from 'express'
 import { AuthController } from '../controllers'
-import { AuthValidators, handleValidationErrors } from '../validators'
-import { isAuth } from '../middlewares/isAuth'
-import { withAuthHandler } from '@shared/api'
+import { AuthValidators, validationErrorHandler } from '../validators'
+import { isAuth } from '../middlewares'
+import { withAuthHandler } from '../shared/api'
 
 export const authRouter = Router()
 
 /* router.post(
   "/sign-up",
-  AuthValidators.signUp,
+  AuthValidators.isSignUpCred,
   handleValidationErrors,
   AuthController.signUp,
 ) */
 authRouter.post(
   '/sign-in',
-  AuthValidators.signIn,
-  handleValidationErrors,
+  AuthValidators.isSignInCred,
+  validationErrorHandler,
   AuthController.signIn,
 )
 

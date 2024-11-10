@@ -1,2 +1,3 @@
-export * as AuthValidators from "./AuthValidators"
-export { default as handleValidationErrors } from "./handleValidationErrors"
+export * as AuthValidators from './AuthValidators'
+export * as WordsValidators from './WordsValidators'
+export { validationErrorHandler } from './handleValidationErrors'

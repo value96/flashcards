@@ -1,4 +1,5 @@
-import { VocabWordSql } from "../sql"
+import { Op } from 'sequelize'
+import { VocabWordSql } from '../sql'
 
 export type VocabWordData = {
   id: number
@@ -7,16 +8,16 @@ export type VocabWordData = {
 }
 
 class VocabWordRepository {
-  private vocabMap: Map<number, VocabWordData>
+  private vocabMap: Map<string, VocabWordData>
   private isFullCached: boolean
 
   constructor() {
-    this.vocabMap = new Map<number, VocabWordData>()
+    this.vocabMap = new Map<string, VocabWordData>()
     this.isFullCached = false
   }
 
-  async findOneById(id: number): Promise<VocabWordData | null> {
-    let vocabWord: VocabWordData | undefined | null = this.vocabMap.get(id)
+  /* async findOneById(id: number): Promise<VocabWordData | null> {
+    let vocabWord: VocabWordData | undefined | null = this.vocabMap.get(id.toString())
 
     if (!vocabWord) {
       const result = await VocabWordSql.findOne({ where: { id } })
@@ -28,7 +29,7 @@ class VocabWordRepository {
           rus: result.rus,
         }
 
-        this.vocabMap.set(id, vocabWord)
+        this.vocabMap.set(id.toString(), vocabWord)
       } else {
         vocabWord = null
       }
@@ -36,16 +37,36 @@ class VocabWordRepository {
 
     return vocabWord
   }
+ */
+  async isAllElementsExistent(ids: Number[]) {
+    const count = await VocabWordSql.count({
+      where: {
+        id: {
+          [Op.in]: ids,
+        },
+      },
+    })
+    return count === ids.length
+  }
 
-  async findAll(): Promise<{ [key: string]: VocabWordData }> {
+  async findAll(): Promise<Record<string, VocabWordData>> {
     if (this.isFullCached) {
-      const result: { [key: string]: VocabWordData } = {}
+      const result: Record<string, VocabWordData> = {}
+
       this.vocabMap.forEach((value, key) => {
         result[key.toString()] = value
       })
       return result
     } else {
       const allWordsFromDb = await VocabWordSql.findAll()
+
+      allWordsFromDb.forEach(word =>
+        this.vocabMap.set(word.id.toString(), {
+          id: word.id,
+          eng: word.eng,
+          rus: word.rus,
+        }),
+      )
       const allWordsFromDbData = allWordsFromDb.reduce(
         (allWords, word) => {
           allWords[word.id.toString()] = {
@@ -55,10 +76,8 @@ class VocabWordRepository {
           }
           return allWords
         },
-        {} as { [key: string]: VocabWordData },
+        {} as Record<string, VocabWordData>,
       )
-
-      allWordsFromDb.forEach(word => this.vocabMap.set(word.id, word))
 
       this.isFullCached = true
       return allWordsFromDbData

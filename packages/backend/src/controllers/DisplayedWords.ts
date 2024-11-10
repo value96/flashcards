@@ -1,9 +1,7 @@
-import { Word, VocabWord } from '@shared/lib'
-
 import { Request, Response } from 'express'
 import { getMessage } from '../utils/handleErrors'
 
-const data: VocabWord[] = [
+/* const data: VocabWord[] = [
   {
     id: 'sjdsid',
     translate: {
@@ -42,9 +40,7 @@ export const getSome = async (req: Request, res: Response) => {
   try {
     const count = Number(req.params.count)
     const doc: Word[] = []
-    /* for (let i = curIndex; i < curIndex + count; i++) doc.push(words[i])
-    curIndex = (curIndex + count) % words.length
-    res.json(doc) */
+
     res.json(words)
   } catch (err) {
     const errMassage = getMessage(err)
@@ -53,7 +49,7 @@ export const getSome = async (req: Request, res: Response) => {
       message: 'failed to get words->'.concat(errMassage),
     })
   }
-}
+} */
 
 export const acceptForgottenWord = async (req: Request, res: Response) => {
   try {

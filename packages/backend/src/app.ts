@@ -9,7 +9,12 @@ import {
   geoip,
 } from 'express-fingerprint/lib/parameters'
 import { config } from './config'
-import { authRouter, displayedWordsRouter, userRouter } from './routers'
+import {
+  authRouter,
+  displayedWordsRouter,
+  userRouter,
+  wordsRouter,
+} from './routers'
 
 const app = express()
 
@@ -24,7 +29,7 @@ app.use(
 )
 
 app.use('/auth', authRouter)
-app.use('/words', displayedWordsRouter)
 app.use('/users', userRouter)
+app.use('/words', wordsRouter)
 
 export default app

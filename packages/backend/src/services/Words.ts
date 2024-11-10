@@ -1,4 +1,4 @@
-import { vocabWordModel, wordModel } from 'models'
+import { vocabWordModel, wordModel } from '../models'
 
 const { vocabWordRepository } = vocabWordModel
 const { wordRepository } = wordModel
@@ -23,7 +23,7 @@ class WordsService {
 
     const resultWords: AllWords[] = []
 
-    for (const key in Object.keys(vocabWords)) {
+    for (const key of Object.keys(vocabWords)) {
       const userWord = userWordsMap.get(key)
       if (userWord) {
         resultWords.push({
@@ -41,11 +41,11 @@ class WordsService {
     return resultWords
   }
 
-  async addNewWords(userId: string, vocabWordsIds: string[]) {
+  async addNewWords(userId: string, vocabWordsIds: number[]) {
     const newWords: wordModel.WordType[] = vocabWordsIds.map(vocabWordId => ({
       userId,
       status: 'learning',
-      vocabWordId: parseInt(vocabWordId),
+      vocabWordId: vocabWordId,
       nextShowTranslate: 'eng',
       learningHistory: [],
       nextShowTime: new Date(),
@@ -56,6 +56,44 @@ class WordsService {
     await wordRepository.addNewWords(newWords)
   }
 
+  async removeWords(wordIds: string[]) {
+    await wordRepository.removeWords(wordIds)
+  }
+
+  async updateWordsStatus(wordIds: string[], status: wordModel.WordStatus) {
+    return await wordRepository.updateFieldForMany(wordIds, 'status', status)
+  }
+
+  async isAllThisWordsHaveSameStatus(
+    wordIds: string[],
+    status: wordModel.WordStatus,
+  ) {
+    return await wordRepository.checkIfAllElementsHaveFieldWithValue(
+      wordIds,
+      'status',
+      status,
+    )
+  }
+
+  async isAllVocabWordsExistent(wordIds: number[]) {
+    return await vocabWordRepository.isAllElementsExistent(wordIds)
+  }
+
+  async isUserHasAnyVocabWordFromThisList(
+    userId: string,
+    vocabWordIds: number[],
+  ) {
+    return (await wordRepository.findOneByVocabWordIdForUser(
+      userId,
+      vocabWordIds,
+    ))
+      ? true
+      : false
+  }
+
+  async isAllWordsExistent(wordIds: string[]) {
+    return await wordRepository.isAllElementsExistent(wordIds)
+  }
   async getSomeLearnableWords(n: number) {
     // получить n слов у котороых nextShowTime < current Time
   }

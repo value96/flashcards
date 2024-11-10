@@ -7,6 +7,10 @@ class WordRepository {
     return await WordMongo.model.find({ userId: userId })
   }
 
+  async findOneById(id: string) {
+    return await WordMongo.model.findById(id)
+  }
+
   async addNewWord(newWord: WordType) {
     return await WordMongo.model.create(newWord)
   }
@@ -19,8 +23,44 @@ class WordRepository {
     return await WordMongo.model.findByIdAndDelete(wordId)
   }
 
-  async updateWordStatus(wordId: string, status: WordStatus) {
-    return await WordMongo.model.findByIdAndUpdate(wordId, { status })
+  async removeWords(wordIds: string[]) {
+    return await WordMongo.model.deleteMany({ _id: { $in: wordIds } })
+  }
+
+  async checkIfAllElementsHaveFieldWithValue(
+    ids: string[],
+    field: string,
+    value: string | number,
+  ) {
+    const elements = await WordMongo.model.find({
+      _id: { $in: ids },
+      [field]: value,
+    })
+    if (elements?.length === ids.length) return true
+    else return false
+  }
+
+  async findOneByVocabWordIdForUser(userId: string, ids: number[]) {
+    return await WordMongo.model.findOne({
+      userId: userId,
+      vocabWordId: { $in: ids },
+    })
+  }
+
+  async updateFieldForMany(
+    ids: string[],
+    field: string,
+    value: string | number,
+  ) {
+    return await WordMongo.model.updateMany(
+      { _id: { $in: ids } },
+      { [field]: value },
+    )
+  }
+
+  async isAllElementsExistent(ids: string[]) {
+    const count = await WordMongo.model.countDocuments({ _id: { $in: ids } })
+    return count === ids.length
   }
 
   async getWordForUser(
