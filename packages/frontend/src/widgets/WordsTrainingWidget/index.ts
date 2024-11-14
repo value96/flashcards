@@ -1,0 +1,1 @@
+export { WordsTrainingWidget } from './ui'

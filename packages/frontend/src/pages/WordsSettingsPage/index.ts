@@ -1,0 +1,1 @@
+export { WordsSettingsPage } from './ui'

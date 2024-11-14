@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '@shared/store'
 import { Status } from '@shared/api'
 import { MainPage } from '@pages/MainPage'
 import { Route } from 'react-router-dom'
-import { WordsPage } from '@pages/WordsPage'
+import { WordsSettingsPage } from '@pages/WordsSettingsPage'
 import { selectors, thunks } from './store'
 
 const { selectAppStatus } = selectors
@@ -47,7 +47,7 @@ export const App = () => {
         path="/word-list"
         element={
           <ProtectedRoute>
-            <WordsPage />
+            <WordsSettingsPage />
           </ProtectedRoute>
         }
       />

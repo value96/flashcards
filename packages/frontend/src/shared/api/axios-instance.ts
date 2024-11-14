@@ -1,6 +1,6 @@
-import { API_BASE_URL } from "@shared/config/env"
-import axios from "axios"
-import { endpoints } from "@shared/api"
+import { API_BASE_URL } from '@shared/config/env'
+import axios from 'axios'
+import { endpoints } from '@shared/api'
 
 export const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -27,19 +27,17 @@ axiosInstance.interceptors.response.use(
           },
         )
         localStorage.setItem(
-          "accessTokenExpiration",
+          'accessTokenExpiration',
           response.data.accessTokenExpiration.toString(),
         )
         return axiosInstance.request(originalRequest)
       } catch (e: any) {
-        console.log("Not Auth")
+        console.log('Not Auth')
       }
     }
     throw error
   },
 )
-
-export default axiosInstance
 
 /* const handleError = (err: AxiosError): void => {
   const errorMessage: string =

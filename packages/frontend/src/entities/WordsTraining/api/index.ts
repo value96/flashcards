@@ -1,0 +1,1 @@
+export { getNextBunchWords } from './wordsApi'

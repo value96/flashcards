@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 import { useNavigate } from 'react-router-dom'
-import { DisplayedWords } from '@widgets/DisplayedWords'
+import { WordsTrainingWidget } from '@widgets/WordsTrainingWidget'
 import { useAppDispatch } from '@shared/store'
 import { authModel } from '@features/Authorization'
 
@@ -19,7 +19,7 @@ export const MainPage = () => {
 
   return (
     <div className={styles.container}>
-      <DisplayedWords />
+      <WordsTrainingWidget />
       <div className={styles.buttonsContainer}>
         <button className={styles.button} onClick={handleLogout}>
           logout
