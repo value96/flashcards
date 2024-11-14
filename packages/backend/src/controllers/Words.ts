@@ -94,11 +94,13 @@ export const removeWords = async (
   }
 }
 
+// протестировали
 export const changeWordsStatus = async (
   req: AuthRequest<{}, {}, { wordIds: string[]; status: wordModel.WordStatus }>,
   res: Response,
 ) => {
   try {
+    const userId = req.userId
     const wordIds = req.body.wordIds
     const status = req.body.status
 
@@ -127,9 +129,8 @@ export const changeWordsStatus = async (
       return res.status(204).json({})
     }
     if (currentStatus === 'hasLearned' && status === 'learning') {
-      await wordsService.removeWords(wordIds)
-      //await wordsService.addNewWords(userId, newVocabWordsIds)
-      // доделать
+      const vocabWordIds = await wordsService.removeWords(wordIds)
+      await wordsService.addNewWords(userId, vocabWordIds)
       return res.status(204).json({})
     }
     if (currentStatus === 'learning' && status === 'suspended') {
@@ -163,18 +164,70 @@ export const changeWordsStatus = async (
   }
 }
 
+// протестированно
 export const getNextBunchLearnableWords = async (
-  req: AuthRequest,
+  req: AuthRequest<
+    {},
+    {},
+    {
+      count: number
+      wordsData: { wordId: string; isSuccessRepeated: boolean }[]
+    }
+  >,
   res: Response,
 ) => {
   try {
-    // 5ч
+    // 2ч
     // это должен быть пост запрос !!!
     // здесь мы принимаем повторённые слова из предыдущего обращения к getNextBunchLearnableWords со стороны фронтенда
-    // проверяем допустимость смены их состояния, если какое то слово запрещено менять состояние то ошибка!
-    // обновляем состояния
+    // если это первый запрос за сессию, то массив слов в теле запроса может быть пустым
+    // проверить состояния всех поступивших слов
+    // состояния всех слов которые приходят, должны быть learning, смена состояния в этом контроллере возможа только на hasLearn
+    // применяем логику для обновления learningHistory, nextShowTime, lastShowTimeDelta, status если слово было повторено достаточное
+    // количество раз, чтобы считаться hasLearned
     // возвращаем следующую партию слов для повторения
-    // если getNextBunchLearnableWords вызывается с пустым телом запроса, значит переходим сразу к выдаче партии слов
+
+    const userId = req.userId
+    const count = req.body.count
+    const wordsData = req.body.wordsData
+    const wordIds = wordsData.map(d => d.wordId)
+
+    if (wordsData.length > 0) {
+      const isAllWordsExistent = await wordsService.isAllWordsExistent(wordIds)
+      if (!isAllWordsExistent)
+        throw Error('not all words from given ids list are existed')
+
+      const statusOfFirstWord = (await wordService.getWord(wordIds[0]))!.status
+
+      if (statusOfFirstWord !== 'learning')
+        throw Error(
+          'all words must have the same status for changing to another one',
+        )
+
+      const isAllThisWordsHasSameStatus =
+        await wordsService.isAllThisWordsHaveSameStatus(
+          wordIds,
+          statusOfFirstWord,
+        )
+      if (!isAllThisWordsHasSameStatus)
+        throw Error(
+          'all words must have the same status for changing to another one',
+        )
+
+      for (const wData of wordsData) {
+        if (wData.isSuccessRepeated)
+          await wordService.successRepeat(wData.wordId)
+        if (!wData.isSuccessRepeated)
+          await wordService.failedRepeat(wData.wordId)
+      }
+    }
+
+    const nextBunchOfWords = await wordsService.getNextBunchLearnableWords(
+      userId,
+      count,
+    )
+
+    res.status(200).json(nextBunchOfWords)
   } catch (err) {
     const errMassage = getMessage(err)
     console.error(errMassage)

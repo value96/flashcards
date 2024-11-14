@@ -49,7 +49,7 @@ class WordsService {
       nextShowTranslate: 'eng',
       learningHistory: [],
       nextShowTime: new Date(),
-      lastShowTimeDelta: 8,
+      lastShowTimeDelta: 4,
       addedDate: new Date(),
     }))
 
@@ -57,7 +57,12 @@ class WordsService {
   }
 
   async removeWords(wordIds: string[]) {
+    // перед удалением получить ids vocabWords
+    const vocabWordIds = (await wordRepository.findManyByIds(wordIds)).map(
+      word => word.vocabWordId,
+    )
     await wordRepository.removeWords(wordIds)
+    return vocabWordIds
   }
 
   async updateWordsStatus(wordIds: string[], status: wordModel.WordStatus) {
@@ -94,8 +99,9 @@ class WordsService {
   async isAllWordsExistent(wordIds: string[]) {
     return await wordRepository.isAllElementsExistent(wordIds)
   }
-  async getSomeLearnableWords(n: number) {
+  async getNextBunchLearnableWords(userId: string, count: number) {
     // получить n слов у котороых nextShowTime < current Time
+    return await wordRepository.findAllWithPastShowTime(userId, count)
   }
 }
 

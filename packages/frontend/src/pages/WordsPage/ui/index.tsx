@@ -1,11 +1,11 @@
-import { WordList } from "@widgets/WordList/ui"
-import { useNavigate } from "react-router-dom"
+import { WordList } from '@widgets/WordList'
+import { useNavigate } from 'react-router-dom'
 
-export default () => {
+export const WordsPage = () => {
   const navigate = useNavigate()
 
   const handleClick = () => {
-    navigate("/")
+    navigate('/')
   }
 
   return (

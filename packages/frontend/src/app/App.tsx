@@ -1,17 +1,15 @@
-import "./App.css"
+import './App.css'
 
-import { ProtectedRoute, Routes } from "./routers"
-import { useEffect, useState } from "react"
+import { ProtectedRoute, Routes } from './routers'
+import { useEffect } from 'react'
+import { WelcomePage } from '@pages/WelcomePage'
+import { useAppDispatch, useAppSelector } from '@shared/store'
 
-import { authModel } from "@features/Authorization"
-import { WelcomePage } from "@pages/WelcomePage"
-import { useAppDispatch, useAppSelector } from "@shared/store"
-import { userModel } from "@entities/User"
-import { Status } from "@shared/api"
-import { MainPage } from "@pages/MainPage"
-import { Route } from "react-router-dom"
-import { WordsPage } from "@pages/WordsPage/ui"
-import { selectors, thunks } from "./store"
+import { Status } from '@shared/api'
+import { MainPage } from '@pages/MainPage'
+import { Route } from 'react-router-dom'
+import { WordsPage } from '@pages/WordsPage'
+import { selectors, thunks } from './store'
 
 const { selectAppStatus } = selectors
 const { initializeApp } = thunks
@@ -24,14 +22,14 @@ export const App = () => {
     dispatch(initializeApp())
   }, [])
   console.log(`status: ${status}`)
-  if (status === Status.idle) return ""
+  if (status === Status.idle) return ''
 
   if (status === Status.loading) {
-    return "Loading..."
+    return 'Loading...'
   }
 
   if (status === Status.failed) {
-    return "error"
+    return 'error'
   }
 
   return (

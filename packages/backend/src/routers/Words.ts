@@ -35,3 +35,11 @@ wordsRouter.post(
   validationErrorHandler,
   withAuthHandler(WordsController.changeWordsStatus),
 )
+
+wordsRouter.post(
+  '/next-bunch-words',
+  isAuth,
+  WordsValidators.validateReqForLearnableWords,
+  validationErrorHandler,
+  withAuthHandler(WordsController.getNextBunchLearnableWords),
+)

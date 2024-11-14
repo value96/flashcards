@@ -1,46 +1,46 @@
-import { VocabWord } from "@shared/lib"
-import { useEffect, useState } from "react"
-import WordBlock from "./WordBlock"
-import styles from "./WordList.module.css"
+import { VocabWord } from '@shared/lib'
+import { useState } from 'react'
+import { WordBlock } from './WordBlock'
+import styles from './styles.module.scss'
 const words: VocabWord[] = [
   {
-    id: "skdks",
+    id: 'skdks',
     translate: {
-      eng: "cat",
-      rus: "кошка",
+      eng: 'cat',
+      rus: 'кошка',
     },
   },
   {
-    id: "ksdlopf",
+    id: 'ksdlopf',
     translate: {
-      eng: "dog",
-      rus: "собака",
+      eng: 'dog',
+      rus: 'собака',
     },
   },
   {
-    id: "sld98fd9",
+    id: 'sld98fd9',
     translate: {
-      eng: "car",
-      rus: "автомобиль",
+      eng: 'car',
+      rus: 'автомобиль',
     },
   },
   {
-    id: "dfioiwl",
+    id: 'dfioiwl',
     translate: {
-      eng: "table",
-      rus: "стол",
+      eng: 'table',
+      rus: 'стол',
     },
   },
   {
-    id: "dfkgso",
+    id: 'dfkgso',
     translate: {
-      eng: "chair",
-      rus: "стул",
+      eng: 'chair',
+      rus: 'стул',
     },
   },
 ]
 
-const WordList = () => {
+export const WordList = () => {
   const [selectMode, setSelectMode] = useState(false)
   const [selectedWords, setSelectedWords] = useState<{
     [key: string]: boolean
@@ -101,7 +101,7 @@ const WordList = () => {
   return (
     <div>
       <button className={styles.wordListButton} onClick={toggleSelectMode}>
-        {selectMode ? "Cancel Selection" : "Select"}
+        {selectMode ? 'Cancel Selection' : 'Select'}
       </button>
 
       {selectMode && Object.keys(selectedWords).length > 0 && (
@@ -123,5 +123,3 @@ const WordList = () => {
     </div>
   )
 }
-
-export default WordList

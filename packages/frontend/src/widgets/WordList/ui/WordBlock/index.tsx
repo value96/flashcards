@@ -1,6 +1,6 @@
-import React, { useState } from "react"
-import { VocabWord } from "@shared/lib"
-import styles from "./WordBlock.module.css"
+import { useState } from 'react'
+import { VocabWord } from '@shared/lib'
+import styles from './styles.module.scss'
 interface WordBlockProps {
   word: VocabWord
   selectMode: boolean
@@ -9,7 +9,7 @@ interface WordBlockProps {
   onSingleSelect: (word: VocabWord) => void
 }
 
-const WordBlock = ({
+export const WordBlock = ({
   word,
   selectMode,
   isSelected,
@@ -50,7 +50,7 @@ const WordBlock = ({
 
   return (
     <div
-      className={`${styles.wordBlock} ${isSelected ? styles.selected : ""}`}
+      className={`${styles.wordBlock} ${isSelected ? styles.selected : ''}`}
       onMouseDown={handlePressStart}
       onMouseUp={handlePressEnd}
       onTouchStart={handlePressStart}
@@ -70,5 +70,3 @@ const WordBlock = ({
     </div>
   )
 }
-
-export default WordBlock
