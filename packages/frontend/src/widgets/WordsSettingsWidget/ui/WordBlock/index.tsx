@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { VocabWord } from '@shared/lib'
+import { wordsSettingsModel } from '@entities/WordsSettings'
 import styles from './styles.module.scss'
+
+type VocabWord = wordsSettingsModel.types.VocabWord
 interface WordBlockProps {
   word: VocabWord
   selectMode: boolean
@@ -66,7 +68,7 @@ export const WordBlock = ({
           /* onChange={() => onSingleSelect(word)} */
         />
       )}
-      <span>{word.translate.eng}</span>
+      <span>{word.eng}</span>
     </div>
   )
 }

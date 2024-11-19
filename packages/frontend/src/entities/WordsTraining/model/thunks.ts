@@ -1,17 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { getNextBunchWords } from '../api'
-import { Word } from '@shared/model'
-import { NextBunchWordsParams } from './types'
+import { WordsTraining } from './types'
+import { selectWordsData } from './selectors'
+import { RootState } from 'vite-env'
 
 export const loadNextBunchWords = createAsyncThunk<
-  Word[], // type of returned staff
-  NextBunchWordsParams, // type of argument
-  { rejectValue: string }
+  WordsTraining[], // type of returned staff
+  { count: number; isNeedSendRepeatedWords: boolean },
+  // type of argument
+  { state: RootState; rejectValue: string }
 >(
   'wordsTraining/loadNextBunchWords',
-  async (data: NextBunchWordsParams, { rejectWithValue }) => {
+  async ({ count, isNeedSendRepeatedWords }, { getState, rejectWithValue }) => {
     try {
-      return await getNextBunchWords(data)
+      if (isNeedSendRepeatedWords) {
+        const wordsData = selectWordsData(getState())
+        return await getNextBunchWords({ count, wordsData })
+      }
+      return await getNextBunchWords({ count, wordsData: [] })
     } catch (e: any) {
       console.error(`Failed to load words: ${e.response?.data?.error}`)
       return rejectWithValue(`Failed to load words: ${e.response?.data?.error}`)

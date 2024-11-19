@@ -20,6 +20,12 @@ export type HistoryPoint = {
   isSuccessRepeated: boolean
 }
 
+export type VocabWordData = {
+  id: number
+  eng: string
+  rus: string
+}
+
 export type Word = {
   _id: string
   userId: string

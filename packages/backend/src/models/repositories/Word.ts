@@ -2,7 +2,8 @@ import { WordMongo } from '../mongo'
 
 export type WordType = WordMongo.WordType
 export type WordStatus = WordMongo.WordStatus
-type HistoryPoint = WordMongo.HistoryPoint
+export type Language = WordMongo.Language
+export type HistoryPoint = WordMongo.HistoryPoint
 class WordRepository {
   async getAllForUser(userId: string) {
     return await WordMongo.model.find({ userId: userId })
@@ -38,6 +39,7 @@ class WordRepository {
       nextShowTime: Date
       lastShowTimeDelta: number
       nextShowTranslate?: WordMongo.Language
+      status?: WordMongo.WordStatus
       learningHistory: WordMongo.HistoryPoint[]
     },
   ) {

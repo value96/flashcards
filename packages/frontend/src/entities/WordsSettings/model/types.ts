@@ -1,8 +1,3 @@
-import { Language, Word } from '@shared/model'
+import { Word, VocabWordData } from '@shared/model'
 
-export type VocabWord = {
-  id: number
-  word: Word
-} & {
-  [key in Language]: string
-}
+export type VocabWord = VocabWordData & { word: Word }

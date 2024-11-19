@@ -1,9 +1,15 @@
 import { axiosInstance, endpoints } from '@shared/api'
-import { Word } from '@shared/model'
-import { NextBunchWordsParams } from '../model/types'
+import { WordsTraining } from '../model/types'
+
+export type NextBunchWordsParams = {
+  count: number
+  wordsData: { wordId: string; isSuccessRepeated: boolean }[]
+}
 
 export const getNextBunchWords = async (data: NextBunchWordsParams) => {
   return axiosInstance
-    .post<Word[]>(endpoints.wordsTrainingEndpoints.nextBunchWordsUrl, data)
+    .post<
+      WordsTraining[]
+    >(endpoints.wordsTrainingEndpoints.nextBunchWordsUrl, data)
     .then(res => res.data)
 }

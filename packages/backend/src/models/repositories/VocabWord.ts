@@ -16,8 +16,8 @@ class VocabWordRepository {
     this.isFullCached = false
   }
 
-  /* async findOneById(id: number): Promise<VocabWordData | null> {
-    let vocabWord: VocabWordData | undefined | null = this.vocabMap.get(id.toString())
+  async findOneById(id: number): Promise<VocabWordData | null> {
+    let vocabWord = this.vocabMap.get(id.toString()) ?? null
 
     if (!vocabWord) {
       const result = await VocabWordSql.findOne({ where: { id } })
@@ -30,14 +30,12 @@ class VocabWordRepository {
         }
 
         this.vocabMap.set(id.toString(), vocabWord)
-      } else {
-        vocabWord = null
       }
     }
 
     return vocabWord
   }
- */
+
   async isAllElementsExistent(ids: Number[]) {
     const count = await VocabWordSql.count({
       where: {

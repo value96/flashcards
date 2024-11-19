@@ -1,22 +1,22 @@
 import React from 'react'
 import styles from './styles.module.scss'
 
-type Props = { text: string; id: string }
+type Props = {
+  text: string
+  id: string
+  onClickCard: (id: string) => void
+  onClickForgot: (id: string) => void
+}
 
-export const WordCard = React.memo(({ text, id }: Props) => {
-  /* const [text, setText] = useState(vocabWord.translate.eng)
-    const toggleTranslate = () => {
-      setText(prev =>
-        prev === vocabWord.translate.eng
-          ? vocabWord.translate.rus
-          : vocabWord.translate.eng,
-      )
-    } */
-  console.log(`render WordCard ${id}`)
+export const WordCard = ({ text, id, onClickCard, onClickForgot }: Props) => {
   return (
-    <div data-id={id} className={styles.wordContainer}>
-      <div className={styles.word}>{text}</div>
-      <button className={styles.forgotButton}>forgot</button>
+    <div className={styles.wordContainer}>
+      <div className={styles.word} onClick={() => onClickCard(id)}>
+        {text}
+      </div>
+      <button className={styles.forgotButton} onClick={() => onClickForgot(id)}>
+        forgot
+      </button>
     </div>
   )
-})
+}

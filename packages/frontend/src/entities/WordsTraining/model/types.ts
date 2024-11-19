@@ -1,4 +1,7 @@
-export type NextBunchWordsParams = {
-  count: number
-  wordsData: { wordId: string; isSuccessRepeated: boolean }[]
+import { Language, VocabWordData } from '@shared/model'
+
+export type WordsTraining = {
+  _id: string
+  nextShowTranslate: Language
+  vocabWord: VocabWordData | null
 }

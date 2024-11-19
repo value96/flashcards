@@ -9,6 +9,12 @@ type AllWords = VocabWordData & {
   word: WordType | null
 }
 
+type WordsTraining = {
+  _id: string
+  nextShowTranslate: wordModel.Language
+  vocabWord: VocabWordData | null
+}
+
 class WordsService {
   async getAllWords(userId: string): Promise<AllWords[]> {
     const vocabWords = await vocabWordRepository.findAll()
@@ -49,7 +55,7 @@ class WordsService {
       nextShowTranslate: 'eng',
       learningHistory: [],
       nextShowTime: new Date(),
-      lastShowTimeDelta: 4,
+      lastShowTimeDelta: 8,
       addedDate: new Date(),
     }))
 
@@ -101,7 +107,15 @@ class WordsService {
   }
   async getNextBunchLearnableWords(userId: string, count: number) {
     // получить n слов у котороых nextShowTime < current Time
-    return await wordRepository.findAllWithPastShowTime(userId, count)
+    const words = await wordRepository.findAllWithPastShowTime(userId, count)
+
+    return Promise.all(
+      words.map(async word => ({
+        _id: String(word._id),
+        nextShowTranslate: word.nextShowTranslate,
+        vocabWord: await vocabWordRepository.findOneById(word.vocabWordId),
+      })),
+    ).then(d => d)
   }
 }
 

@@ -1,51 +1,24 @@
-import { VocabWord } from '@shared/lib'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { WordBlock } from './WordBlock'
 import styles from './styles.module.scss'
-const words: VocabWord[] = [
-  {
-    id: 'skdks',
-    translate: {
-      eng: 'cat',
-      rus: 'кошка',
-    },
-  },
-  {
-    id: 'ksdlopf',
-    translate: {
-      eng: 'dog',
-      rus: 'собака',
-    },
-  },
-  {
-    id: 'sld98fd9',
-    translate: {
-      eng: 'car',
-      rus: 'автомобиль',
-    },
-  },
-  {
-    id: 'dfioiwl',
-    translate: {
-      eng: 'table',
-      rus: 'стол',
-    },
-  },
-  {
-    id: 'dfkgso',
-    translate: {
-      eng: 'chair',
-      rus: 'стул',
-    },
-  },
-]
+import { useAppDispatch, useAppSelector } from '@shared/store'
+import { wordsSettingsModel } from '@entities/WordsSettings'
+
+type VocabWord = wordsSettingsModel.types.VocabWord
 
 export const WordsSettingsWidget = () => {
+  const dispatch = useAppDispatch()
   const [selectMode, setSelectMode] = useState(false)
   const [selectedWords, setSelectedWords] = useState<{
-    [key: string]: boolean
+    [key: number]: boolean
   }>({})
   const [longPressWord, setLongPressWord] = useState<VocabWord | null>(null)
+
+  const words = useAppSelector(wordsSettingsModel.selectors.selectAllWords)
+
+  useEffect(() => {
+    dispatch(wordsSettingsModel.thunks.loadAllWords())
+  }, [])
 
   const toggleSelectMode = () => {
     setSelectMode(selectMode => !selectMode)
@@ -56,7 +29,7 @@ export const WordsSettingsWidget = () => {
     const startMinIndex = Math.min(startIndex, endIndex)
     const startMaxIndex = Math.max(startIndex, endIndex)
     const newSelectedWords: {
-      [key: string]: boolean
+      [key: number]: boolean
     } = {}
     for (let i = startMinIndex; i <= startMaxIndex; i++)
       newSelectedWords[words[i].id] = true
@@ -73,7 +46,6 @@ export const WordsSettingsWidget = () => {
       } else {
         const startIndex = words.findIndex(w => w.id === longPressWord.id)
         const endIndex = words.findIndex(w => w.id === word.id)
-        console.log(`startIndex: ${startIndex} endIndex: ${endIndex}`)
         handleShiftSelect(startIndex, endIndex)
         setLongPressWord(null)
       }
@@ -87,7 +59,6 @@ export const WordsSettingsWidget = () => {
   }
 
   const handleSingleSelect = (word: VocabWord) => {
-    //console.log("handleSingleSelect")
     if (word.id in selectedWords) {
       setSelectedWords(prev => {
         const { [word.id]: _, ...next } = prev
@@ -109,12 +80,12 @@ export const WordsSettingsWidget = () => {
       )}
 
       <div className={styles.wordList}>
-        {words.map(wordObj => (
+        {words.map(word => (
           <WordBlock
-            key={wordObj.id}
-            word={wordObj}
+            key={word.id}
+            word={word}
             selectMode={selectMode}
-            isSelected={wordObj.id in selectedWords}
+            isSelected={word.id in selectedWords}
             onLongPress={handleWordPress}
             onSingleSelect={handleSingleSelect}
           />
