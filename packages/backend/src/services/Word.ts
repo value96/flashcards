@@ -68,7 +68,7 @@ class WordService {
     }
   }
 
-  // 0, 8h, 16h, 1d 8h, 2d 16h, 5d 8h, 10d 16h, 21d 8h, 42d 16h, 85d 8h,   10 repeats
+  // 0, 8h, 16h, 1d 8h, 2d 16h, 5d 8h, 10d 16h, 21d 8h, 42d 16h, 85d 8h,   10 repeats пока выбран такой вариант
   // 0, 8h, 1d, 2d, 4d, 7d, 14d, 1month, 2 month, 4 month  10 repeats
 
   async failedRepeat(wordId: string) {
