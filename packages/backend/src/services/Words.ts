@@ -9,12 +9,6 @@ type AllWords = VocabWordData & {
   word: WordType | null
 }
 
-type WordsTraining = {
-  _id: string
-  nextShowTranslate: wordModel.Language
-  vocabWord: VocabWordData | null
-}
-
 class WordsService {
   async getAllWords(userId: string): Promise<AllWords[]> {
     const vocabWords = await vocabWordRepository.findAll()

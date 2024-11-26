@@ -1,17 +1,34 @@
 .wordBlock {
   padding: 10px;
   margin: 5px;
-  border: 2px solid #007bff;
+  border: 2px solid;
   border-radius: 10px;
-  background-color: #f8f9fa;
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: background-color 0.3s;
 }
 
-.selected {
-  background-color: #cce5ff; /* Цвет фона для выбранных блоков */
+
+.idle {
+  border-color: #dcdcdc;
+  background-color: #f9f9f9;
+
+}
+
+.learning {
+  border-color: #90ee90; /* светло-зелёная граница */
+  background-color: #e8fbe8; /* светлый фон, немного ближе к зелёному */
+}
+
+.suspended {
+  border-color: #c0c0c0; /* серебристая граница */
+  background-color: #e8e8e8; /* светло-серый фон */
+}
+
+.hasLearned {
+  border-color: #ffd700; /* золотая граница */
+  background-color: #fff8dc; /* светло-золотистый фон */
 }
 
 .wordBlock:hover {

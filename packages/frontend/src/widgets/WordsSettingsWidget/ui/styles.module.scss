@@ -1,7 +1,7 @@
 .wordList {
   display: flex;
   flex-direction: column;
-  max-height: 400px; /* Ограничение высоты */
+  //max-height: 400px; /* Ограничение высоты */
   overflow-y: scroll; /* Скролл для списка */
 }
 
@@ -16,6 +16,10 @@
   transition:
     background-color 0.3s,
     border-color 0.3s;
+}
+
+.caution {
+  color: #f01703;
 }
 
 .wordListButton:hover {

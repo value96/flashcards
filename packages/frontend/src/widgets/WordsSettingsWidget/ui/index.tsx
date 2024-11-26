@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { WordBlock } from './WordBlock'
 import styles from './styles.module.scss'
 import { useAppDispatch, useAppSelector } from '@shared/store'
 import { wordsSettingsModel } from '@entities/WordsSettings'
+import { useSelect } from '../hooks'
+import { useChangeStatus } from '../hooks/useChangeStatus'
+import { useNavigate } from 'react-router-dom'
 
 type VocabWord = wordsSettingsModel.types.VocabWord
 
 export const WordsSettingsWidget = () => {
   const dispatch = useAppDispatch()
-  const [selectMode, setSelectMode] = useState(false)
-  const [selectedWords, setSelectedWords] = useState<{
-    [key: number]: boolean
-  }>({})
-  const [longPressWord, setLongPressWord] = useState<VocabWord | null>(null)
 
+  const navigate = useNavigate()
+
+  const handleClose = () => {
+    navigate('/')
+  }
+
+  const [isSelectMode, setIsSelectMode] = useState(false)
   const words = useAppSelector(wordsSettingsModel.selectors.selectAllWords)
 
   useEffect(() => {
@@ -21,73 +26,80 @@ export const WordsSettingsWidget = () => {
   }, [])
 
   const toggleSelectMode = () => {
-    setSelectMode(selectMode => !selectMode)
-    setSelectedWords({})
+    setIsSelectMode(prev => !prev)
+    resetSelectedWords()
   }
 
-  const handleShiftSelect = (startIndex: number, endIndex: number) => {
-    const startMinIndex = Math.min(startIndex, endIndex)
-    const startMaxIndex = Math.max(startIndex, endIndex)
-    const newSelectedWords: {
-      [key: number]: boolean
-    } = {}
-    for (let i = startMinIndex; i <= startMaxIndex; i++)
-      newSelectedWords[words[i].id] = true
+  const openContextMenu = useCallback((id: string) => {
+    // при долгом нажатии без select mode
+    console.log(`Долгий клик для: ${id}`)
+  }, [])
 
-    setSelectedWords(prev => ({ ...prev, ...newSelectedWords }))
-  }
+  const handleFastClick = useCallback((id: string) => {
+    // Ваш код для быстрого клика
+    console.log(`Быстрый клик для: ${id}`)
+  }, [])
 
-  const handleWordPress = (word: VocabWord) => {
-    if (selectMode) {
-      if (!longPressWord) {
-        setLongPressWord(word)
-        const index = words.findIndex(w => w.id === word.id)
-        handleShiftSelect(index, index)
-      } else {
-        const startIndex = words.findIndex(w => w.id === longPressWord.id)
-        const endIndex = words.findIndex(w => w.id === word.id)
-        handleShiftSelect(startIndex, endIndex)
-        setLongPressWord(null)
-      }
-    } else {
-      openContextMenu(word)
-    }
-  }
+  const {
+    selectedItems: selectedWords,
+    handlePressStart,
+    handlePressEnd,
+    reset: resetSelectedWords,
+  } = useSelect<VocabWord>(
+    isSelectMode,
+    handleFastClick,
+    openContextMenu,
+    words,
+  )
 
-  const openContextMenu = (word: VocabWord) => {
-    alert(`Контекстное меню для: ${word.id}`)
-  }
+  const { changeStatusButtons, canChangeStatus } = useChangeStatus(
+    words,
+    selectedWords,
+  )
 
-  const handleSingleSelect = (word: VocabWord) => {
-    if (word.id in selectedWords) {
-      setSelectedWords(prev => {
-        const { [word.id]: _, ...next } = prev
-        return next
-      })
-    } else {
-      setSelectedWords(prev => ({ ...prev, [word.id]: true }))
-    }
-  }
+  console.log('render WordsSettingWidget')
 
   return (
     <div>
+      <button className={styles.wordListButton} onClick={handleClose}>
+        close
+      </button>
       <button className={styles.wordListButton} onClick={toggleSelectMode}>
-        {selectMode ? 'Cancel Selection' : 'Select'}
+        {isSelectMode ? 'Cancel Selection' : 'Select'}
       </button>
 
-      {selectMode && Object.keys(selectedWords).length > 0 && (
+      {/* {isSelectMode && Object.keys(selectedWords).length > 0 && (
         <button className={styles.wordListButton}>Change Status</button>
-      )}
+      )} */}
 
+      {isSelectMode &&
+        changeStatusButtons.map((button, index) => (
+          <button
+            key={index}
+            className={styles.wordListButton}
+            onClick={button.onClick}
+          >
+            {button.text}
+          </button>
+        ))}
+
+      {isSelectMode &&
+        canChangeStatus &&
+        `Chosen: ${Object.keys(selectedWords).length} words.`}
+      {isSelectMode && !canChangeStatus && (
+        <span className={styles.caution}>
+          'all words must have the same status!'
+        </span>
+      )}
       <div className={styles.wordList}>
         {words.map(word => (
           <WordBlock
-            key={word.id}
+            key={String(word.id)}
             word={word}
-            selectMode={selectMode}
+            isSelectMode={isSelectMode}
             isSelected={word.id in selectedWords}
-            onLongPress={handleWordPress}
-            onSingleSelect={handleSingleSelect}
+            onPressDown={handlePressStart}
+            onPressUp={handlePressEnd}
           />
         ))}
       </div>

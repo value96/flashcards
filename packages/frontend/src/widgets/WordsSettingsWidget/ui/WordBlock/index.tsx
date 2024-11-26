@@ -1,74 +1,46 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { wordsSettingsModel } from '@entities/WordsSettings'
 import styles from './styles.module.scss'
 
 type VocabWord = wordsSettingsModel.types.VocabWord
 interface WordBlockProps {
   word: VocabWord
-  selectMode: boolean
+  isSelectMode: boolean
   isSelected: boolean
-  onLongPress: (word: VocabWord) => void
-  onSingleSelect: (word: VocabWord) => void
+
+  onPressDown: (id: string) => void
+  onPressUp: (id: string) => void
 }
 
-export const WordBlock = ({
-  word,
-  selectMode,
-  isSelected,
-  onLongPress,
-  onSingleSelect,
-}: WordBlockProps) => {
-  const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null)
-  const [preventClick, setPreventClick] = useState(false)
-
-  const handlePressStart = () => {
-    const timer = setTimeout(() => {
-      setPreventClick(true)
-      onLongPress(word)
-    }, 200)
-    setPressTimer(timer)
-  }
-
-  const handlePressEnd = () => {
-    if (pressTimer !== null) {
-      clearTimeout(pressTimer)
-      setPressTimer(null)
-    }
-  }
-
-  const handleClick = () => {
-    //console.log("handleClick")
-    if (selectMode) {
-      //console.log(`handleClick-> ${selectMode}`)
-      if (preventClick) {
-        //console.log(`handleClick-> ${selectMode}-> ${preventClick}->return`)
-        setPreventClick(false)
-        return
-      }
-      //console.log("onclick")
-      onSingleSelect(word)
-    }
-  }
-
-  return (
-    <div
-      className={`${styles.wordBlock} ${isSelected ? styles.selected : ''}`}
-      onMouseDown={handlePressStart}
-      onMouseUp={handlePressEnd}
-      onTouchStart={handlePressStart}
-      onTouchEnd={handlePressEnd}
-      onClick={handleClick}
-    >
-      {selectMode && (
-        <input
-          className={styles.checkbox}
-          type="checkbox"
-          checked={isSelected}
-          readOnly={true}
-          /* onChange={() => onSingleSelect(word)} */
-        />
-      )}
-      <span>{word.eng}</span>
-    </div>
-  )
-}
+export const WordBlock = memo(
+  ({
+    word,
+    isSelectMode,
+    isSelected,
+    onPressDown,
+    onPressUp,
+  }: WordBlockProps) => {
+    //if (word.id === 1) console.log(`render WordBlock ${word.id}`)
+    //console.log(`render WordBlock ${word.id}`)
+    const status = word.word?.status
+    return (
+      <div
+        className={`${styles.wordBlock} ${status ? styles[word!.word!.status] : styles.idle}`}
+        onMouseDown={() => onPressDown(String(word.id))}
+        onMouseUp={() => onPressUp(String(word.id))}
+        onTouchStart={() => onPressDown(String(word.id))}
+        onTouchEnd={() => onPressUp(String(word.id))}
+      >
+        {isSelectMode && (
+          <input
+            className={styles.checkbox}
+            type="checkbox"
+            checked={isSelected}
+            readOnly={true}
+          />
+        )}
+        <span>{word.eng}</span>
+      </div>
+    )
+  },
+)

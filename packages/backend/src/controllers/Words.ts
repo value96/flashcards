@@ -10,20 +10,22 @@ import { wordService } from '../services/Word'
 // idle - начальное состояние слова, когда оно не было ещё добавлено в коллекцию юзера,
 // оно существует только как vocabularWord в общем списке слов для всех юзеров
 // learning - слово изучается, выдаётся в выборке getNextBunchLearnableWords
-// hasLearn - изучено, на фронтенде помечается успешным цветом, не выдаётся в выборке getNextBunchLearnableWords
+// hasLearned - изучено, на фронтенде помечается успешным цветом, не выдаётся в выборке getNextBunchLearnableWords
 // suspended - приостановлено в изучении, не выдаётся в выборке getNextBunchLearnableWords
 
 // переходы между состояниями:
 
 // idle -> learning; реализуется вызовом addNewWordsForLearning
-// idle -> hasLearn; реализуется вызовом addNewWordsForLearning + changeWordsStatus(hasLeanred)
-// learning or hasLearn or suspended -> edle; реализуется вызовом removeWords
+// idle -> hasLearned; реализуется вызовом addNewWordsForLearning + changeWordsStatus(hasLeanred)
+// learning or hasLearned or suspended -> edle; реализуется вызовом removeWords
 
-// learning -> hasLearn; changeStatus
-// hasLearn -> learning; changeStatus
+// learning -> hasLearned; changeStatus
+// hasLearned -> learning; changeStatus
 // learning -> suspended; changeStatus
 // suspended -> learning; changeStatus
-// suspended -> hasLearn; changeStatus
+// suspended -> hasLearned; changeStatus
+
+//реализовать // idle -> hasLearned; реализуется вызовом addNewWordsForLearning + changeWordsStatus(hasLeanred)
 
 //протестировано!
 export const getAllWords = async (req: AuthRequest, res: Response) => {
@@ -125,7 +127,7 @@ export const changeWordsStatus = async (
     const currentStatus: wordModel.WordStatus = statusOfFirstWord
 
     if (currentStatus === 'learning' && status === 'hasLearned') {
-      wordsService.updateWordsStatus(wordIds, status)
+      await wordsService.updateWordsStatus(wordIds, status)
       return res.status(204).json({})
     }
     if (currentStatus === 'hasLearned' && status === 'learning') {
@@ -134,15 +136,15 @@ export const changeWordsStatus = async (
       return res.status(204).json({})
     }
     if (currentStatus === 'learning' && status === 'suspended') {
-      wordsService.updateWordsStatus(wordIds, status)
+      await wordsService.updateWordsStatus(wordIds, status)
       return res.status(204).json({})
     }
     if (currentStatus === 'suspended' && status === 'learning') {
-      wordsService.updateWordsStatus(wordIds, status)
+      await wordsService.updateWordsStatus(wordIds, status)
       return res.status(204).json({})
     }
     if (currentStatus === 'suspended' && status === 'hasLearned') {
-      wordsService.updateWordsStatus(wordIds, status)
+      await wordsService.updateWordsStatus(wordIds, status)
       return res.status(204).json({})
     }
 
@@ -182,7 +184,7 @@ export const getNextBunchLearnableWords = async (
     // здесь мы принимаем повторённые слова из предыдущего обращения к getNextBunchLearnableWords со стороны фронтенда
     // если это первый запрос за сессию, то массив слов в теле запроса может быть пустым
     // проверить состояния всех поступивших слов
-    // состояния всех слов которые приходят, должны быть learning, смена состояния в этом контроллере возможа только на hasLearn
+    // состояния всех слов которые приходят, должны быть learning, смена состояния в этом контроллере возможа только на hasLearned
     // применяем логику для обновления learningHistory, nextShowTime, lastShowTimeDelta, status если слово было повторено достаточное
     // количество раз, чтобы считаться hasLearned
     // возвращаем следующую партию слов для повторения
