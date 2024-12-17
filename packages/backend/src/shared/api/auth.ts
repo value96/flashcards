@@ -16,8 +16,13 @@ type AuthRequestHandler<P = {}, ResBody = any, ReqBody = any, ReqQuery = {}> = (
   next: NextFunction,
 ) => any
 
-export function withAuthHandler(handler: AuthRequestHandler): RequestHandler {
+export function withAuthHandler<
+  P = {},
+  ResBody = any,
+  ReqBody = any,
+  ReqQuery = {},
+>(handler: AuthRequestHandler<P, ResBody, ReqBody, ReqQuery>): RequestHandler {
   return function (req: Request, res: Response, next: NextFunction) {
-    return handler(req as AuthRequest, res, next)
+    return handler(req as AuthRequest<P, ResBody, ReqBody, ReqQuery>, res, next)
   }
 }

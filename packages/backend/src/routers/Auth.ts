@@ -6,12 +6,12 @@ import { withAuthHandler } from '../shared/api'
 
 export const authRouter = Router()
 
-/* router.post(
-  "/sign-up",
+authRouter.post(
+  '/sign-up',
   AuthValidators.isSignUpCred,
-  handleValidationErrors,
+  validationErrorHandler,
   AuthController.signUp,
-) */
+)
 authRouter.post(
   '/sign-in',
   AuthValidators.isSignInCred,

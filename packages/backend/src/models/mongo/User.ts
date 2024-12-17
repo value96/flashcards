@@ -1,23 +1,35 @@
-import { Schema, Document, model } from "mongoose"
-
-interface IUser extends Document {
-  id: string
+import { Schema, Document, model as mongooseModel, Types } from 'mongoose'
+import { v4 as uuidv4 } from 'uuid'
+export interface UserData {
   email: string
   username: string
   passwordHash: string
 }
 
+export interface User extends UserData {
+  id: string
+}
+interface IUser extends Document, UserData {}
+
 const UserSchema = new Schema<IUser>(
   {
-    id: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     username: { type: String, required: true },
     passwordHash: { type: String, required: true },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: {
+      transform(_, ret) {
+        return {
+          id: ret._id.toString(),
+          email: ret.email,
+          username: ret.username,
+          passwordHash: ret.passwordHash,
+        }
+      },
+    },
+  },
 )
 
-UserSchema.index({ id: 1 }, { unique: true })
-UserSchema.index({ email: 1 }, { unique: true })
-
-export default model<IUser>("User", UserSchema)
+export const model = mongooseModel<IUser>('User', UserSchema)

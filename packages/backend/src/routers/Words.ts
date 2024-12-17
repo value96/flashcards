@@ -11,6 +11,14 @@ wordsRouter.get(
   isAuth,
   withAuthHandler(WordsController.getAllWords),
 )
+
+wordsRouter.get(
+  '/audio',
+  isAuth,
+  WordsValidators.isQueryParametrInt('id'),
+  withAuthHandler(WordsController.getWordAudio),
+)
+
 //навесить валидаторы
 wordsRouter.post(
   '/add-words',

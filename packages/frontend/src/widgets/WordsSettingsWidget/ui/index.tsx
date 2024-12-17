@@ -58,7 +58,6 @@ export const WordsSettingsWidget = () => {
   )
 
   console.log('render WordsSettingWidget')
-
   return (
     <div>
       <button className={styles.wordListButton} onClick={handleClose}>

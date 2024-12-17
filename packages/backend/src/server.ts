@@ -1,8 +1,8 @@
-import { connectToSqlDB } from "./sqlDatabase"
-import { connectToNoSqlDB } from "./mongoDatabase"
-import { config } from "./config"
-import JobsSheduler from "./jobs"
-import app from "./app"
+import { connectToSqlDB } from './sqlDatabase'
+import { connectToNoSqlDB } from './mongoDatabase'
+import { config } from './config'
+import JobsSheduler from './jobs'
+import app from './app'
 
 const startServer = async () => {
   await connectToSqlDB()

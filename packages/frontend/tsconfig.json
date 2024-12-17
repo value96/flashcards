@@ -27,7 +27,8 @@
     "noEmit": true, // was true by redux template
     "outDir": "./dist",
     "jsx": "react-jsx",
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": ["src"],
   "references": [

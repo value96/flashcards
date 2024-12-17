@@ -1,41 +1,19 @@
-import { InferCreationAttributes } from "sequelize"
-import { UserSql } from "../sql"
-import { v4 as uuidv4 } from "uuid"
-import { UserMongo } from "../mongo"
-
-interface UserData {
-  email: string
-  username: string
-  passwordHash: string
-}
+import { UserMongo } from '../mongo'
 
 class UserRepository {
-  async create(userData: UserData): Promise<UserSql> {
-    const userId = uuidv4()
-    const userSql = await UserSql.create({
-      id: userId,
-      ...userData,
-    } as InferCreationAttributes<UserSql>)
-
-    try {
-      const userMongo = new UserMongo({
-        id: userId,
-        ...userData,
-      })
-
-      await userMongo.save()
-    } catch (error) {
-      await userSql.destroy()
-      throw error
-    }
-    return userSql
+  async create(userData: UserMongo.UserData) {
+    const userMongo = await UserMongo.model.create(userData)
+    const user = userMongo.toJSON() as UserMongo.User
+    /* console.log(JSON.stringify(user, null, 2)) */
+    return user
   }
 
-  async findOneByEmail(email: string): Promise<UserSql | null> {
-    return await UserSql.findOne({ where: { email } })
-  }
-  async findAll() {
-    return await UserSql.findAll()
+  async findOneByEmail(email: string): Promise<UserMongo.User | null> {
+    const user = (await UserMongo.model.findOne({
+      email: email,
+    })) as UserMongo.User
+    /* console.log(JSON.stringify(user, null, 2)) */
+    return user
   }
 }
 

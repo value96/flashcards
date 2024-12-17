@@ -17,10 +17,6 @@ class WordRepository {
     return await WordMongo.model.find({ _id: { $in: ids } })
   }
 
-  async addNewWord(newWord: WordType) {
-    return await WordMongo.model.create(newWord)
-  }
-
   async addNewWords(newWords: WordType[]) {
     return await WordMongo.model.insertMany(newWords, { ordered: true })
   }

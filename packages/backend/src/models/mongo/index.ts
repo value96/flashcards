@@ -1,2 +1,5 @@
-export { default as UserMongo } from './User'
+export * as UserMongo from './User'
 export * as WordMongo from './Word'
+export * as Mp3FileMongo from './Mp3File'
+export * as RefreshSessionMongo from './RefreshSession'
+export * as VocabWordMongo from './VocabWord'

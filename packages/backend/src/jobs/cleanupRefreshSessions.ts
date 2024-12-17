@@ -1,17 +1,13 @@
-import { Op } from "sequelize"
-import { RefreshSession } from "../models"
+import { refreshSessionModel } from '../models'
 
 export const deleteExpiredSessions = async () => {
   try {
-    const result = await RefreshSession.destroy({
-      where: {
-        expiresAt: {
-          [Op.lt]: new Date(),
-        },
-      },
-    })
-    console.log(`Deleted ${result} expired sessions`)
+    const deletedCount =
+      await refreshSessionModel.refreshSessionRepository.removeExpired(
+        new Date(),
+      )
+    console.log(`Deleted ${deletedCount} expired sessions`)
   } catch (error) {
-    console.error("Error deleting expired sessions:", error)
+    console.error('Error deleting expired sessions:', error)
   }
 }

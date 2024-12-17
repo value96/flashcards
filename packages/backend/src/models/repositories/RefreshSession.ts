@@ -1,25 +1,48 @@
-import { RefreshSessionSql } from "../sql"
+import { RefreshSessionMongo } from '../mongo'
 
-interface SessionDataInit {
-  userId: string
-  fingerprint: string
-  expiresAt: Date
-}
-interface SessionData {
-  id: string
-  userId?: string
-  fingerprint?: string
-}
+type RefreshSessionData = RefreshSessionMongo.RefreshSessionData
+type RefreshSession = RefreshSessionMongo.RefreshSession
 
-class RefreshSession {
-  async create(sessionData: SessionDataInit) {
-    return await RefreshSessionSql.create(sessionData)
+class RefreshSessionRepository {
+  async create(sessionData: RefreshSessionData): Promise<RefreshSession> {
+    const refreshSessionMongo =
+      await RefreshSessionMongo.model.create(sessionData)
+    const refreshSession = refreshSessionMongo.toJSON() as RefreshSession
+
+    return refreshSession
   }
-  async findOne(sessionData: SessionData) {
-    return await RefreshSessionSql.findOne({
-      where: { ...sessionData },
+  async findOne(sessionData: {
+    id: string
+    userId?: string
+    fingerprint?: string
+  }): Promise<RefreshSession | null> {
+    const queryParams: Record<string, any> = {
+      _id: sessionData.id,
+    }
+    if (sessionData.userId) {
+      queryParams.userId = sessionData.userId
+    }
+
+    if (sessionData.fingerprint) {
+      queryParams.fingerprint = sessionData.fingerprint
+    }
+
+    const refreshSessionMongo =
+      await RefreshSessionMongo.model.findOne(queryParams)
+    if (refreshSessionMongo) {
+      const refreshSession = refreshSessionMongo.toJSON() as RefreshSession
+      return refreshSession
+    } else return null
+  }
+  async removeOne(id: string) {
+    await RefreshSessionMongo.model.deleteOne({ _id: id })
+  }
+  async removeExpired(date: Date) {
+    const result = await RefreshSessionMongo.model.deleteMany({
+      expiresAt: { $lt: date },
     })
+    return result.deletedCount
   }
 }
 
-export const refreshSession = new RefreshSession()
+export const refreshSessionRepository = new RefreshSessionRepository()

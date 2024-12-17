@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, query } from 'express-validator'
 
 export const isArrayOfString = (path = '') => [
   body(path)
@@ -36,6 +36,14 @@ export const isBoolean = (path = '') => [
     .withMessage('Value must be a boolean')
     .notEmpty()
     .withMessage('Value must not be empty'),
+]
+
+export const isQueryParametrInt = (paramName: string) => [
+  query(paramName)
+    .notEmpty()
+    .withMessage(`${paramName} must not be empty`)
+    .isInt()
+    .withMessage(`${paramName} must be integer`),
 ]
 
 export const validateChangeStatusReq = [

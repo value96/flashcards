@@ -1,11 +1,12 @@
-import { vocabWordModel, wordModel } from '../models'
+import { vocabWordModel, wordModel, vocabWordAudioModel } from '../models'
 
 const { vocabWordRepository } = vocabWordModel
 const { wordRepository } = wordModel
+const { vocabWordAudioRepository } = vocabWordAudioModel
 type WordType = wordModel.WordType
-type VocabWordData = vocabWordModel.VocabWordData
+type VocabWord = vocabWordModel.VocabWord
 
-type AllWords = VocabWordData & {
+type AllWords = VocabWord & {
   word: WordType | null
 }
 
@@ -39,6 +40,10 @@ class WordsService {
     }
 
     return resultWords
+  }
+
+  async getAudio(vocabWordId: string) {
+    return await vocabWordAudioRepository.findOneById(vocabWordId)
   }
 
   async addNewWords(userId: string, vocabWordsIds: number[]) {
