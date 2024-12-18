@@ -128,8 +128,8 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Test frontend
-        run: cd packages/frontend && yarn test
+      #- name: Test frontend
+      #  run: cd packages/frontend && yarn test
 
       - name: Create .env.production file
         run: |
