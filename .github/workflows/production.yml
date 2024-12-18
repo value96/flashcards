@@ -13,7 +13,6 @@ jobs:
     outputs:
       backend: ${{ steps.changes.outputs.backend }}
       frontend: ${{ steps.changes.outputs.frontend }}
-      types: ${{ steps.changes.outputs.types }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -31,48 +30,13 @@ jobs:
               - 'packages/backend/**'
             frontend:
               - 'packages/frontend/**'
-            types:
-              - 'packages/flashcard-types/**'
 
-  types-build:
-    needs: changes
-    runs-on: ubuntu-latest
-    if: ${{needs.changes.outputs.types == 'true' || needs.changes.outputs.backend == 'true' || needs.changes.outputs.frontend == 'true'}}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.15
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/yarn
-            **/node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-          save-always: true
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build project
-        run: cd packages/flashcard-types && yarn build
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: types-build
-          path: packages/flashcard-types/dist/
 
   backend-build:
-    needs: [changes, types-build]
+    needs: [changes]
     runs-on: ubuntu-latest
-    if: ${{needs.changes.outputs.backend == 'true' || needs.changes.outputs.types == 'true'}}
+    if: ${{needs.changes.outputs.backend == 'true'}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -94,12 +58,6 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-
-      - name: Download types artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: types-build
-          path: packages/flashcard-types/dist
 
       - name: Build project
         run: cd packages/backend && yarn build
@@ -141,9 +99,9 @@ jobs:
           https://api.render.com/v1/services/${{  vars.RENDER_SERVICE_ID }}/deploys
 
   frontend-build:
-    needs: [changes, types-build]
+    needs: [changes]
     runs-on: ubuntu-latest
-    if: ${{ needs.changes.outputs.frontend == 'true' || needs.changes.outputs.types == 'true'}}
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -169,15 +127,6 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-
-      - name: Remove original types
-        run: rm -rf packages/flashcard-types/src
-
-      - name: Download types artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: types-build
-          path: packages/flashcard-types/dist
 
       - name: Test frontend
         run: cd packages/frontend && yarn test

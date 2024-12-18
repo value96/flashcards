@@ -1,4 +1,4 @@
-import { CreationOptional } from "sequelize"
+/* import { CreationOptional } from "sequelize"
 
 export type RequiredCreationAttributes<T> = Omit<
   T,
@@ -6,3 +6,4 @@ export type RequiredCreationAttributes<T> = Omit<
     [K in keyof T]: T[K] extends CreationOptional<any> ? K : never
   }[keyof T]
 >
+ */

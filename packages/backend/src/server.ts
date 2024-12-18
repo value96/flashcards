@@ -1,11 +1,11 @@
-import { connectToSqlDB } from './sqlDatabase'
+/* import { connectToSqlDB } from './sqlDatabase' */
 import { connectToNoSqlDB } from './mongoDatabase'
 import { config } from './config'
 import JobsSheduler from './jobs'
 import app from './app'
 
 const startServer = async () => {
-  await connectToSqlDB()
+  /* await connectToSqlDB() */
   await connectToNoSqlDB(config.MONGO_URL)
   JobsSheduler.start()
   app.listen(config.port, () => {

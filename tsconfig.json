@@ -46,9 +46,6 @@
     {
       "path": "packages/frontend"
     }, */
-    {
-      "path": "packages/flashcard-types"
-    }
   ],
   "exclude": ["node_modules", "dist", "*.d.ts"]
 }

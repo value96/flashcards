@@ -1,4 +1,4 @@
-import {
+/* import {
   DataTypes,
   Model,
   InferAttributes,
@@ -47,8 +47,4 @@ RefreshSession.init(
   },
 )
 
-/* RefreshSession.belongsTo(User, {
-  foreignKey: "userId",
-  as: "user",
-})
  */

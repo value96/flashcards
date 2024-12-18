@@ -1,4 +1,4 @@
-import {
+/* import {
   DataTypes,
   Model,
   InferAttributes,
@@ -21,8 +21,8 @@ import sequelize from "../../sqlDatabase"
 import { RefreshSession } from "./RefreshSession"
 
 export class User extends Model<
-  InferAttributes<User /* , { omit: "refreshSessions" } */>,
-  InferCreationAttributes<User /* , { omit: "refreshSessions" } */>
+  InferAttributes<User >,
+  InferCreationAttributes<User >
 > {
   declare id: string
   declare email: string
@@ -103,3 +103,4 @@ User.hasMany(RefreshSession, {
   foreignKey: "userId",
   as: "refreshSessions",
 })
+ */

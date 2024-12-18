@@ -3,18 +3,14 @@ WORKDIR /app
 
 COPY package.json ./package.json
 COPY yarn.lock ./yarn.lock
-COPY packages/flashcard-types/package.json ./packages/flashcard-types/package.json
 COPY packages/backend/package.json ./packages/backend/package.json
-#COPY packages/frontend/package.json ./packages/frontend/package.json
+
 
 RUN yarn install --frozen-lockfile
 
-COPY packages/flashcard-types ./packages/flashcard-types
+
 COPY packages/backend ./packages/backend
 
-WORKDIR /app/packages/flashcard-types
-
-RUN yarn build
 WORKDIR /app/packages/backend
 
 RUN yarn build

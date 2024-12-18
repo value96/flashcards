@@ -1,4 +1,4 @@
-import { Dialect, Sequelize } from 'sequelize'
+/* import { Dialect, Sequelize } from 'sequelize'
 import { config } from './config'
 
 type dbConnectionParamsType = {
@@ -42,3 +42,4 @@ export const connectToSqlDB = async () => {
 }
 
 export default sequelize
+ */

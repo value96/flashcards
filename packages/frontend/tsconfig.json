@@ -9,8 +9,7 @@
       "@widgets/*": ["widgets/*"],
       "@features/*": ["features/*"],
       "@entities/*": ["entities/*"],
-      "@shared/*": ["shared/*"],
-      "@flashcards/flashcard-types": ["../flashcard-types/dist/index.d.ts"]
+      "@shared/*": ["shared/*"]
     },
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -31,10 +30,7 @@
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": ["src"],
-  "references": [
-    { "path": "./tsconfig.node.json" },
-    { "path": "../flashcard-types" }
-  ],
+  "references": [{ "path": "./tsconfig.node.json" }],
   "exclude": [
     "node_modules",
     "dist",

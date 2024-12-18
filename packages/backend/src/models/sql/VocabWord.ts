@@ -1,4 +1,4 @@
-import { CreationOptional, DataTypes, Model } from 'sequelize'
+/* import { CreationOptional, DataTypes, Model } from 'sequelize'
 import sequelize from '../../sqlDatabase'
 
 export class VocabWord extends Model {
@@ -28,3 +28,4 @@ VocabWord.init(
     timestamps: true,
   },
 )
+ */
