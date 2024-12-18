@@ -1,10 +1,10 @@
-import React from "react"
-import { createRoot } from "react-dom/client"
-import App from "./app"
-import "./index.css"
-import { ToastContainer } from "react-toastify"
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './app'
+import './index.css'
+import { ToastContainer } from 'react-toastify'
 
-const container = document.getElementById("root")
+const container = document.getElementById('root')
 
 if (container) {
   const root = createRoot(container)
@@ -16,7 +16,7 @@ if (container) {
       <App />
     </>,
 
-    //</React.StrictMode>,
+    //</React.StrictMode>,//
   )
 } else {
   throw new Error(
