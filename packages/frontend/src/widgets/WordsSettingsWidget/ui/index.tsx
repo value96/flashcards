@@ -3,8 +3,7 @@ import { WordBlock } from './WordBlock'
 import styles from './styles.module.scss'
 import { useAppDispatch, useAppSelector } from '@shared/store'
 import { wordsSettingsModel } from '@entities/WordsSettings'
-import { useSelect } from '../hooks'
-import { useChangeStatus } from '../hooks/useChangeStatus'
+import { useSelect, useChangeStatus } from '../hooks'
 import { useNavigate } from 'react-router-dom'
 
 type VocabWord = wordsSettingsModel.types.VocabWord
@@ -57,7 +56,6 @@ export const WordsSettingsWidget = () => {
     selectedWords,
   )
 
-  console.log('render WordsSettingWidget')
   return (
     <div>
       <button className={styles.wordListButton} onClick={handleClose}>

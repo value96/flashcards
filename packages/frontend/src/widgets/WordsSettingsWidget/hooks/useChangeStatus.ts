@@ -170,7 +170,7 @@ export const useChangeStatus = (
     }
 
     if (choosenWords.every(item => !Boolean(item?.word))) {
-      console.log('no one item has word')
+      //console.log('no one item has word')
       // no one item has word
       // only one option add new words
       setChangeStatusButtons([

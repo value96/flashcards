@@ -21,15 +21,19 @@ export const WordBlock = memo(
     onPressUp,
   }: WordBlockProps) => {
     //if (word.id === 1) console.log(`render WordBlock ${word.id}`)
-    //console.log(`render WordBlock ${word.id}`)
+    console.log(`render WordBlock ${word.id}`)
     const status = word.word?.status
     return (
       <div
         className={`${styles.wordBlock} ${status ? styles[word!.word!.status] : styles.idle}`}
-        onMouseDown={() => onPressDown(String(word.id))}
-        onMouseUp={() => onPressUp(String(word.id))}
-        onTouchStart={() => onPressDown(String(word.id))}
-        onTouchEnd={() => onPressUp(String(word.id))}
+        onPointerDown={() => {
+          console.log('onPointerDown')
+          onPressDown(String(word.id))
+        }}
+        onPointerUp={() => {
+          console.log('onPointerUp')
+          onPressUp(String(word.id))
+        }}
       >
         {isSelectMode && (
           <input

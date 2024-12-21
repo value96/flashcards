@@ -29,14 +29,6 @@ export const WordsTrainingWidget = () => {
   )
 
   useEffect(() => {
-    const initialFlippedWords: { [key: string]: boolean } = {}
-    words.forEach(word => {
-      initialFlippedWords[word._id] = false // Инициализируем перевёрнутость как false
-    })
-    setFlippedWords(initialFlippedWords)
-  }, [words])
-
-  useEffect(() => {
     dispatch(
       wordsTrainingModel.thunks.loadNextBunchWords({
         count: MAX_COUNT_SHOWED,
@@ -56,13 +48,14 @@ export const WordsTrainingWidget = () => {
     dispatch(wordsTrainingModel.actions.forgot(id))
   }
 
-  const handleClickNextWords = () => {
-    dispatch(
+  const handleClickNextWords = async () => {
+    await dispatch(
       wordsTrainingModel.thunks.loadNextBunchWords({
         count: MAX_COUNT_SHOWED,
         isNeedSendRepeatedWords: true,
       }),
     )
+    setFlippedWords({})
   }
 
   return (
