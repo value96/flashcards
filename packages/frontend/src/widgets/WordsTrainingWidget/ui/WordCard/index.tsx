@@ -17,6 +17,7 @@ export const WordCard = ({ text, id, onClickCard, onClickForgot }: Props) => {
       <button className={styles.forgotButton} onClick={() => onClickForgot(id)}>
         forgot
       </button>
+      <button>voice</button>
     </div>
   )
 }
