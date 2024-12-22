@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Word } from '@shared/model'
 import { loadNextBunchWords } from './thunks'
 import { WordsTraining } from './types'
 
-const initialState: (WordsTraining & { isSuccessRepeated: boolean })[] = []
+const initialState: (WordsTraining & {
+  isSuccessRepeated: boolean
+})[] = []
 
 export const slice = createSlice({
   name: 'wordsTraining',
@@ -23,6 +24,7 @@ export const slice = createSlice({
         return action.payload.map(word => ({
           ...word,
           isSuccessRepeated: true,
+          audio: null,
         }))
       },
     )

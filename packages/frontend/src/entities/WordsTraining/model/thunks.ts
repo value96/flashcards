@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { getNextBunchWords } from '../api'
-import { WordsTraining } from './types'
+import { getNextBunchWords, getMp3File } from '../api'
+import { WordAudio, WordsTraining } from './types'
 import { selectWordsData } from './selectors'
 import { RootState } from 'vite-env'
 

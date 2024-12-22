@@ -91,6 +91,7 @@ export const refreshToken = async (req: Request<{}, {}, {}>, res: Response) => {
     const accessTokenExpiration = setTokens(res, result)
     res.status(200).json({ accessTokenExpiration })
   } catch (error) {
+    res.cookie('refreshToken', '', refreshTokenCookieParams(new Date(0)))
     return errorHandler(error, req, res)
   }
 }

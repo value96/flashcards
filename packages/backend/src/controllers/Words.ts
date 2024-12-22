@@ -248,7 +248,6 @@ export const getWordAudio = async (
     const Mp3File = await wordsService.getAudio(vocabWordId)
     if (Mp3File) {
       res.setHeader('Content-Type', 'audio/mpeg')
-      //res.status(200).send(Mp3File.data.toString('base64'))
       res.status(200).send(Mp3File.data)
     } else res.status(410).json('not found audio file for this id')
   } catch (err) {

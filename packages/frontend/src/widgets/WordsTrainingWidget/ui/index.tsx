@@ -71,6 +71,7 @@ export const WordsTrainingWidget = () => {
             <WordCard
               key={_id}
               id={_id}
+              vocabWordId={vocabWord.id}
               text={text}
               onClickCard={handleClickCard}
               onClickForgot={handleClickForgot}

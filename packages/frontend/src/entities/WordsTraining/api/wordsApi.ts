@@ -13,3 +13,11 @@ export const getNextBunchWords = async (data: NextBunchWordsParams) => {
     >(endpoints.wordsTrainingEndpoints.nextBunchWordsUrl, data)
     .then(res => res.data)
 }
+
+export const getMp3File = async (id: number) => {
+  return axiosInstance
+    .get<Blob>(endpoints.wordsTrainingEndpoints.mp3FileUrl + '?id=' + id, {
+      responseType: 'blob',
+    })
+    .then(res => res.data)
+}

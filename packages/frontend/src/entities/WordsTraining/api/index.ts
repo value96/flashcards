@@ -1,1 +1,1 @@
-export { getNextBunchWords } from './wordsApi'
+export * from './wordsApi'
