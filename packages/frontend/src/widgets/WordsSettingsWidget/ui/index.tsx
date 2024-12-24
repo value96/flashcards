@@ -91,9 +91,10 @@ export const WordsSettingsWidget = () => {
         </div>
       </div>
       <div className={styles.wordList}>
-        {words.map(word => (
+        {words.map((word, index) => (
           <WordBlock
             key={String(word.id)}
+            index={index}
             word={word}
             isSelectMode={isSelectMode}
             isSelected={word.id in selectedWords}

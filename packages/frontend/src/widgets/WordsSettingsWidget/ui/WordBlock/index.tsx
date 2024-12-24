@@ -4,6 +4,7 @@ import styles from './styles.module.scss'
 
 type VocabWord = wordsSettingsModel.types.VocabWord
 interface WordBlockProps {
+  index: number
   word: VocabWord
   isSelectMode: boolean
   isSelected: boolean
@@ -14,6 +15,7 @@ interface WordBlockProps {
 
 export const WordBlock = memo(
   ({
+    index,
     word,
     isSelectMode,
     isSelected,
@@ -43,6 +45,7 @@ export const WordBlock = memo(
             readOnly={true}
           />
         )}
+        <div>{index + 1}</div>
         <div className={styles.text}>{word.eng}</div>
       </div>
     )
