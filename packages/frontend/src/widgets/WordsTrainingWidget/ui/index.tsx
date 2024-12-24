@@ -61,25 +61,30 @@ export const WordsTrainingWidget = () => {
   return (
     <>
       <div className={styles.content}>
-        {words.map(({ _id, vocabWord, nextShowTranslate }) => {
-          const text = vocabWord
-            ? vocabWord[
-                chooseWhatSideShow(nextShowTranslate, flippedWords[_id])
-              ]
-            : 'null'
-          return (
-            <WordCard
-              key={_id}
-              id={_id}
-              vocabWordId={vocabWord.id}
-              text={text}
-              onClickCard={handleClickCard}
-              onClickForgot={handleClickForgot}
-            />
-          )
-        })}
+        {words.map(
+          ({ _id, vocabWord, nextShowTranslate, isSuccessRepeated }) => {
+            const text = vocabWord
+              ? vocabWord[
+                  chooseWhatSideShow(nextShowTranslate, flippedWords[_id])
+                ]
+              : 'null'
+            return (
+              <WordCard
+                key={_id}
+                id={_id}
+                vocabWordId={vocabWord.id}
+                text={text}
+                isSuccessRepeated={isSuccessRepeated}
+                onClickCard={handleClickCard}
+                onClickForgot={handleClickForgot}
+              />
+            )
+          },
+        )}
       </div>
-      <button onClick={handleClickNextWords}>Next Words</button>
+      <button className={styles.nextWordsButton} onClick={handleClickNextWords}>
+        Next Words
+      </button>
     </>
   )
 }

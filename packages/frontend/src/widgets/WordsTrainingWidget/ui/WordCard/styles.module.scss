@@ -14,7 +14,7 @@
   font-family: Arial, sans-serif;
 }
 
-.forgotButton {
+/* .forgotButton {
   margin-left: 10px;
   background: none;
   border: none;
@@ -25,4 +25,55 @@
 
 .forgotButton:hover {
   transform: scale(1.2);
+} */
+
+.forgotButton {
+  background-color: #d9f9d9; // Бледно-зеленый цвет по умолчанию
+  color: #333; // Темный текст
+  border: none; // Убираем границу
+  border-radius: 50%; // Круглая форма кнопки
+  width: 40px; // Ширина кнопки
+  height: 40px; // Высота кнопки
+  display: flex; // Для центрирования содержимого
+  align-items: center;
+  justify-content: center;
+  font-size: 16px; // Размер текста
+  font-weight: bold; // Жирный текст
+  cursor: pointer; // Курсор указателя
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); // Легкая тень
+  transition:
+    background-color 0.3s,
+    transform 0.2s; // Плавные переходы
+  margin-right: 10px; // Отступ справа
+
+  &.active {
+    background-color: #f9d9d9; // Бледно-красно-оранжевый цвет при нажатии
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.voiceButton {
+  background-color: #e0e0e0; // Бледно-серый цвет
+  color: #333; // Темно-серый цвет для текста
+  border: none; // Убираем границу
+  border-radius: 50%; // Круглая кнопка
+  width: 40px; // Размер кнопки (ширина)
+  height: 40px; // Размер кнопки (высота)
+  display: flex; // Центрируем содержимое
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; // Курсор указателя
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); // Легкая тень
+  transition: background-color 0.3s; // Плавный переход для фона
+}
+
+.voiceButton:hover {
+  background-color: #d6d6d6; // Темнее при наведении
+}
+
+.voiceButton:active {
+  background-color: #c0c0c0; // Ещё темнее при клике
 }

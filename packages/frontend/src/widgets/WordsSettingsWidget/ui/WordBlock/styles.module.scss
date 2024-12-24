@@ -7,13 +7,24 @@
   align-items: center;
   justify-content: space-between;
   transition: background-color 0.3s;
-}
 
+  .text {
+    text-align: center;
+    flex-grow: 1;
+  }
+
+  .checkbox {
+    margin-right: 10px;
+  }
+
+  &:hover {
+    background-color: #e2e6ea; /* Легкое затемнение при наведении */
+  }
+}
 
 .idle {
   border-color: #dcdcdc;
   background-color: #f9f9f9;
-
 }
 
 .learning {
@@ -29,12 +40,4 @@
 .hasLearned {
   border-color: #ffd700; /* золотая граница */
   background-color: #fff8dc; /* светло-золотистый фон */
-}
-
-.wordBlock:hover {
-  background-color: #e2e6ea; /* Легкое затемнение при наведении */
-}
-
-.checkbox {
-  margin-right: 10px;
 }

@@ -43,7 +43,7 @@ export const WordBlock = memo(
             readOnly={true}
           />
         )}
-        <span>{word.eng}</span>
+        <span className={styles.text}>{word.eng}</span>
       </div>
     )
   },

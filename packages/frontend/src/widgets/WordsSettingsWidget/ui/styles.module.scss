@@ -1,8 +1,32 @@
-.wordList {
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  background-color: white;
   display: flex;
   flex-direction: column;
-  //max-height: 400px; /* Ограничение высоты */
-  overflow-y: scroll; /* Скролл для списка */
+  //gap: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-wrap: wrap; // Позволяет перенос строк при необходимости
+  justify-content: center;
+  // Расстояние между кнопками
+
+  button {
+    flex: 1 1 auto; // Позволяет кнопкам сжиматься и растягиваться
+    padding: 2px;
+    margin: 5px;
+    min-height: 50px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}
+
+.wordList {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .wordListButton {
@@ -20,6 +44,7 @@
 
 .caution {
   color: #f01703;
+  margin: 10px;
 }
 
 .wordListButton:hover {

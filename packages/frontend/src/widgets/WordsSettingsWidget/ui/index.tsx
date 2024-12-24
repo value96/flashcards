@@ -57,37 +57,39 @@ export const WordsSettingsWidget = () => {
   )
 
   return (
-    <div>
-      <button className={styles.wordListButton} onClick={handleClose}>
-        close
-      </button>
-      <button className={styles.wordListButton} onClick={toggleSelectMode}>
-        {isSelectMode ? 'Cancel Selection' : 'Select'}
-      </button>
-
-      {/* {isSelectMode && Object.keys(selectedWords).length > 0 && (
-        <button className={styles.wordListButton}>Change Status</button>
-      )} */}
-
-      {isSelectMode &&
-        changeStatusButtons.map((button, index) => (
-          <button
-            key={index}
-            className={styles.wordListButton}
-            onClick={button.onClick}
-          >
-            {button.text}
+    <>
+      <div className={styles.stickyHeader}>
+        <div className={styles.buttonContainer}>
+          <button className={styles.wordListButton} onClick={handleClose}>
+            close
           </button>
-        ))}
+          <button className={styles.wordListButton} onClick={toggleSelectMode}>
+            {isSelectMode ? 'Cancel Selection' : 'Select'}
+          </button>
 
-      {isSelectMode &&
-        canChangeStatus &&
-        `Chosen: ${Object.keys(selectedWords).length} words.`}
-      {isSelectMode && !canChangeStatus && (
-        <span className={styles.caution}>
-          'all words must have the same status!'
-        </span>
-      )}
+          {isSelectMode &&
+            changeStatusButtons.map((button, index) => (
+              <button
+                key={index}
+                className={styles.wordListButton}
+                onClick={button.onClick}
+              >
+                {button.text}
+              </button>
+            ))}
+        </div>
+
+        <div>
+          {isSelectMode &&
+            canChangeStatus &&
+            `Chosen: ${Object.keys(selectedWords).length} words.`}
+          {isSelectMode && !canChangeStatus && (
+            <span className={styles.caution}>
+              all words must have the same status!
+            </span>
+          )}
+        </div>
+      </div>
       <div className={styles.wordList}>
         {words.map(word => (
           <WordBlock
@@ -100,6 +102,6 @@ export const WordsSettingsWidget = () => {
           />
         ))}
       </div>
-    </div>
+    </>
   )
 }
