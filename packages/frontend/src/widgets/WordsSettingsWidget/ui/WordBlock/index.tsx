@@ -26,24 +26,24 @@ export const WordBlock = memo(
     return (
       <div
         className={`${styles.wordBlock} ${status ? styles[word!.word!.status] : styles.idle}`}
-        onPointerDown={() => {
-          console.log('onPointerDown')
-          onPressDown(String(word.id))
-        }}
-        onPointerUp={() => {
-          console.log('onPointerUp')
-          onPressUp(String(word.id))
-        }}
       >
         {isSelectMode && (
           <input
+            onPointerDown={() => {
+              console.log('onPointerDown')
+              onPressDown(String(word.id))
+            }}
+            onPointerUp={() => {
+              console.log('onPointerUp')
+              onPressUp(String(word.id))
+            }}
             className={styles.checkbox}
             type="checkbox"
             checked={isSelected}
             readOnly={true}
           />
         )}
-        <span className={styles.text}>{word.eng}</span>
+        <div className={styles.text}>{word.eng}</div>
       </div>
     )
   },
