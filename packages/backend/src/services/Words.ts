@@ -54,7 +54,7 @@ class WordsService {
       nextShowTranslate: 'eng',
       learningHistory: [],
       nextShowTime: new Date(),
-      lastShowTimeDelta: 8,
+      lastShowTimeDelta: 4,
       addedDate: new Date(),
     }))
 

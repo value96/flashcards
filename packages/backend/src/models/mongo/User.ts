@@ -1,5 +1,5 @@
-import { Schema, Document, model as mongooseModel, Types } from 'mongoose'
-import { v4 as uuidv4 } from 'uuid'
+import { Schema, Document, model as mongooseModel } from 'mongoose'
+
 export interface UserData {
   email: string
   username: string
