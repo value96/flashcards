@@ -16,7 +16,7 @@ if (container) {
       <App />
     </>,
 
-    //</React.StrictMode>,//
+    //</React.StrictMode>,///
   )
 } else {
   throw new Error(
