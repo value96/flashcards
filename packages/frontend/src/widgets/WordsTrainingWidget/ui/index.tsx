@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@shared/store'
 import { WordCard } from './WordCard'
 import { Language } from '@shared/model'
 
-const MAX_COUNT_SHOWED = 5
+const MAX_COUNT_SHOWED = 7
 
 function chooseWhatSideShow(
   nextShowTranslate: Language,

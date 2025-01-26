@@ -82,11 +82,15 @@ class WordRepository {
     return count === ids.length
   }
 
-  async findAllWithPastShowTime(userId: string, count: number) {
+  async findAllWithPastShowTime(
+    userId: string,
+    status: WordMongo.WordStatus,
+    count: number,
+  ) {
     if (count === 0) return []
     const now = new Date()
     return await WordMongo.model
-      .find({ userId: userId, nextShowTime: { $lt: now } })
+      .find({ userId: userId, status: status, nextShowTime: { $lt: now } })
       .sort({ nextShowTime: 1 })
       .limit(count)
   }

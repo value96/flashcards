@@ -105,8 +105,12 @@ class WordsService {
     return await wordRepository.isAllElementsExistent(wordIds)
   }
   async getNextBunchLearnableWords(userId: string, count: number) {
-    // получить n слов у котороых nextShowTime < current Time
-    const words = await wordRepository.findAllWithPastShowTime(userId, count)
+    // получить n слов со статусом 'learning' у котороых nextShowTime < current Time
+    const words = await wordRepository.findAllWithPastShowTime(
+      userId,
+      'learning',
+      count,
+    )
 
     return Promise.all(
       words.map(async word => ({
