@@ -1,6 +1,5 @@
 import './App.css'
-
-import { ProtectedRoute, Routes } from './routers'
+import { ProtectedRoute, AppRouter } from './routers'
 import { useEffect } from 'react'
 import { WelcomePage } from '@pages/WelcomePage'
 import { useAppDispatch, useAppSelector } from '@shared/store'
@@ -10,6 +9,7 @@ import { MainPage } from '@pages/MainPage'
 import { Route } from 'react-router-dom'
 import { WordsSettingsPage } from '@pages/WordsSettingsPage'
 import { selectors, thunks } from './store'
+import { MainProvider } from './providers'
 
 const { selectAppStatus } = selectors
 const { initializeApp } = thunks
@@ -33,7 +33,8 @@ export const App = () => {
   }
 
   return (
-    <Routes>
+    <MainProvider>
+    <AppRouter>
       <Route path="/auth" element={<WelcomePage />} />
       <Route
         path="/"
@@ -51,6 +52,6 @@ export const App = () => {
           </ProtectedRoute>
         }
       />
-    </Routes>
+    </AppRouter></MainProvider>
   )
 }

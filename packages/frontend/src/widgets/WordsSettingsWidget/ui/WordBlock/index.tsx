@@ -1,5 +1,5 @@
-import { useState, memo } from 'react'
-import { wordsSettingsModel } from '@entities/WordsSettings'
+import { memo } from 'react'
+import { type wordsSettingsModel } from '@entities/WordsSettings'
 import styles from './styles.module.scss'
 
 type VocabWord = wordsSettingsModel.types.VocabWord

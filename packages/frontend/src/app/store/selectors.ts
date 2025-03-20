@@ -1,3 +1,3 @@
-import { RootState } from "vite-env"
+import { type RootState } from 'vite-env'
 
 export const selectAppStatus = (state: RootState) => state.app.status

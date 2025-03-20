@@ -1,6 +1,6 @@
 import { wordsSettingsModel } from '@entities/WordsSettings'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { WordStatus } from '@shared/model'
+import { type WordStatus } from '@shared/model'
 
 const { loadAllWords, addNewWords, removeWords, changeWordsStatus } =
   wordsSettingsModel.thunks

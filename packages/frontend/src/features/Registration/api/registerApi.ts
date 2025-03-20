@@ -1,5 +1,5 @@
 import { axiosInstance, endpoints } from "@shared/api"
-import { AxiosResponse } from "axios"
+import { type AxiosResponse } from "axios"
 
 interface signUpDTO {
   accessTokenExpiration: string

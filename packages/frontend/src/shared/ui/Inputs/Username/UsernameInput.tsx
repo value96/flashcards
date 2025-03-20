@@ -12,7 +12,7 @@ interface UsernameInputProps {
   usernameRef: MutableRefObject<string>
 }
 
-const usernameInput: React.FC<UsernameInputProps> = ({
+const UsernameInput: React.FC<UsernameInputProps> = ({
   setIsUsernameFullfilled,
   usernameRef,
 }) => {
@@ -51,4 +51,4 @@ const usernameInput: React.FC<UsernameInputProps> = ({
   )
 }
 
-export default React.memo(usernameInput)
+export default React.memo(UsernameInput)

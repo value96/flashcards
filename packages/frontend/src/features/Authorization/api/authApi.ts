@@ -1,7 +1,7 @@
-import { axiosInstance, endpoints } from "@shared/api"
+import { axiosInstance, endpoints } from '@shared/api'
 
-import { API_BASE_URL } from "@shared/config/env"
-import axios, { AxiosResponse } from "axios"
+import { API_BASE_URL } from '@shared/config/env'
+import axios from 'axios'
 
 const { signInUrl, refreshTokenUrl, logoutUrl } = endpoints.authEndpoints
 

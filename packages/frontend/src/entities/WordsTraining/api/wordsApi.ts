@@ -1,5 +1,5 @@
 import { axiosInstance, endpoints } from '@shared/api'
-import { WordsTraining } from '../model/types'
+import { type WordsTraining } from '../model/types'
 
 export type NextBunchWordsParams = {
   count: number

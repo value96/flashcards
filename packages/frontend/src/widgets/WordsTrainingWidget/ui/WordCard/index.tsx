@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import styles from './styles.module.scss'
-import { useAppDispatch } from '@shared/store'
 import { wordsTrainingApi } from '@entities/WordsTraining'
 import clsx from 'clsx'
 type Props = {
