@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { refreshTokenReq, signInReq, logoutReq } from '../api'
+import { signInReq, logoutReq } from '../api'
 import { userModel } from '@entities/User'
 
 const { setAuth } = userModel.actions
 
-export const updateRefreshToken = createAsyncThunk<
+/* export const updateRefreshToken = createAsyncThunk<
   true,
   void,
   { rejectValue: string }
@@ -26,7 +26,7 @@ export const updateRefreshToken = createAsyncThunk<
       `Failed to refresh token: ${e.response?.data?.error}`,
     )
   }
-})
+}) */
 
 interface SignInData {
   email: string

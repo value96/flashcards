@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { login, updateRefreshToken } from './authThunks'
+import { login /* updateRefreshToken */ } from './authThunks'
 import { Status } from '@shared/api'
 
 interface AuthState {
@@ -26,7 +26,7 @@ export const authSlice = createSlice({
     builder.addCase(login.rejected, state => {
       state.authProcessStatus = Status.failed
     })
-    builder.addCase(updateRefreshToken.fulfilled, state => {
+    /* builder.addCase(updateRefreshToken.fulfilled, state => {
       state.refreshTokenProcessStatus = Status.succeeded
     })
     builder.addCase(updateRefreshToken.pending, state => {
@@ -34,6 +34,6 @@ export const authSlice = createSlice({
     })
     builder.addCase(updateRefreshToken.rejected, state => {
       state.refreshTokenProcessStatus = Status.failed
-    })
+    }) */
   },
 })

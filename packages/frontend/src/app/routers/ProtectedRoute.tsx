@@ -7,8 +7,8 @@ type Props = {
   children: ReactNode
 }
 
-const ProtectedRoute = ({ children }: Props) => {
-  const isAuthenticated = useAppSelector(userModel.selectors.isAuth)
+export const ProtectedRoute = ({ children }: Props) => {
+  const  isAuthenticated = useAppSelector(userModel.selectors.isAuth)
   /* console.log(`isAuthenticated: ${isAuthenticated}`) */
   if (!isAuthenticated) {
     //return <WelcomePage /> //<Navigate to="/login" />
@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children }: Props) => {
   return children
 }
 
-export default ProtectedRoute
+
 
 /* const ProtectedRoute: React.FC<RouteProps> = ({ children }) => {
   const isAuthenticated = useAppSelector(selectIsAuth)

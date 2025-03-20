@@ -33,7 +33,7 @@ export const App = () => {
   }
 
   return (
-    <MainProvider>
+
     <AppRouter>
       <Route path="/auth" element={<WelcomePage />} />
       <Route
@@ -52,6 +52,6 @@ export const App = () => {
           </ProtectedRoute>
         }
       />
-    </AppRouter></MainProvider>
+    </AppRouter>
   )
 }

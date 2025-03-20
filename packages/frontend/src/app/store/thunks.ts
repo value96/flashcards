@@ -11,10 +11,18 @@ export const initializeApp = createAsyncThunk(
 export const checkAccessTokenExpiration = createAsyncThunk(
   'App/checkAccessTokenExpiration',
   async (_, { dispatch }) => {
-    if (localStorage.getItem('accessTokenExpiration')) {
-      // проверить не истекла ли дата?
-
-      dispatch(userModel.actions.setAuth(true))
+    const dateOfExpire = localStorage.getItem('accessTokenExpiration')
+    if (dateOfExpire) {
+      try {
+        if (new Date() < new Date(JSON.parse(dateOfExpire))) {
+          dispatch(userModel.actions.setAuth(true))
+          return
+        }
+      } catch (e) {
+        // не валидная строка
+      }
     }
+    localStorage.removeItem('accessTokenExpiration')
+    dispatch(userModel.actions.setAuth(false))
   },
 )
