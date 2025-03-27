@@ -1,4 +1,8 @@
-import { App } from "./App"
-import { MainProvider } from "./providers"
-
-export const ProvidedApp = () => <MainProvider><App></App></MainProvider>
+import { App } from './App'
+import { MainProvider } from './providers'
+import './api/interceptors'
+export const ProvidedApp = () => (
+  <MainProvider>
+    <App />
+  </MainProvider>
+)
