@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { refreshTokenReq, signInReq, logoutReq } from '../api'
+import { signInReq, logoutReq } from '../api'
 import { userModel } from '@entities/User'
 
 const { setAuth } = userModel.actions
 
-export const updateRefreshToken = createAsyncThunk<
+/* export const updateRefreshToken = createAsyncThunk<
   true,
   void,
   { rejectValue: string }
@@ -26,7 +26,7 @@ export const updateRefreshToken = createAsyncThunk<
       `Failed to refresh token: ${e.response?.data?.error}`,
     )
   }
-})
+}) */
 
 interface SignInData {
   email: string
@@ -37,8 +37,12 @@ export const login = createAsyncThunk(
   'Authorization/login',
   async ({ email, password }: SignInData, { rejectWithValue, dispatch }) => {
     try {
-      const accessTokenExpiration = await signInReq(email, password)
-      localStorage.setItem('accessTokenExpiration', accessTokenExpiration)
+      const data = await signInReq(email, password)
+      localStorage.setItem(
+        'refreshTokenExpiration',
+        data.refreshTokenExpiration,
+      )
+      localStorage.setItem('accessTokenExpiration', data.accessTokenExpiration)
       dispatch(setAuth(true))
       return true
     } catch (e) {
@@ -52,9 +56,11 @@ export const logout = createAsyncThunk(
   'Authorization/logout',
   async (_, { rejectWithValue, dispatch }) => {
     try {
-      await logoutReq()
+      localStorage.removeItem('refreshTokenExpiration')
       localStorage.removeItem('accessTokenExpiration')
       dispatch(setAuth(false))
+      // сделаем так чтобы разлогин происходил не зависимо от бэкэнда
+      /* await */ logoutReq()
     } catch (e) {
       console.error(`Failed to logout: ${e}`)
       return rejectWithValue(`Failed to logout: ${e}`)

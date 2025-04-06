@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { loadNextBunchWords } from './thunks'
-import { WordsTraining } from './types'
+import { type WordsTraining } from './types'
 
 const initialState: (WordsTraining & {
   isSuccessRepeated: boolean

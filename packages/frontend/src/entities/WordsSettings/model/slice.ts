@@ -1,8 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { Status } from '@shared/api'
 import { loadAllWords } from './thunks'
 
-import { VocabWord } from './types'
+import { type VocabWord } from './types'
 
 export type WordsSettings = {
   words: VocabWord[]

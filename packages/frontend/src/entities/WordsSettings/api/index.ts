@@ -1,7 +1,7 @@
 import { axiosInstance, endpoints } from '@shared/api'
 
-import { VocabWord } from '../model/types'
-import { WordStatus } from '@shared/model'
+import { type VocabWord } from '../model/types'
+import { type WordStatus } from '@shared/model'
 
 export const getAllWords = async () => {
   return axiosInstance

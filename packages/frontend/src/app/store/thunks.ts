@@ -1,18 +1,28 @@
-import { userModel } from "@entities/User"
-import { createAsyncThunk } from "@reduxjs/toolkit"
+import { userModel } from '@entities/User'
+import { createAsyncThunk } from '@reduxjs/toolkit'
 
 export const initializeApp = createAsyncThunk(
-  "App/initialize",
+  'App/initialize',
   async (_, { dispatch }) => {
-    dispatch(checkAccessTokenExpiration())
+    dispatch(checkRefreshTokenExpiration())
   },
 )
 
-export const checkAccessTokenExpiration = createAsyncThunk(
-  "App/checkAccessTokenExpiration",
+export const checkRefreshTokenExpiration = createAsyncThunk(
+  'App/checkRefreshTokenExpiration',
   async (_, { dispatch }) => {
-    if (localStorage.getItem("accessTokenExpiration")) {
-      dispatch(userModel.actions.setAuth(true))
+    const dateOfExpire = localStorage.getItem('refreshTokenExpiration')
+    if (dateOfExpire) {
+      try {
+        if (new Date() < new Date(dateOfExpire)) {
+          dispatch(userModel.actions.setAuth(true))
+          return
+        }
+      } catch (e) {
+        // не валидная строка
+      }
     }
+    localStorage.removeItem('refreshTokenExpiration')
+    dispatch(userModel.actions.setAuth(false))
   },
 )

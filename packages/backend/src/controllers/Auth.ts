@@ -33,7 +33,7 @@ const setTokens = (res: Response, data: CreateRefreshSessionRes) => {
     accessToken,
     accessTokenCookieParams(accessTokenExpiration),
   )
-  return accessTokenExpiration
+  return { refreshTokenExpiration, accessTokenExpiration }
 }
 
 export const signUp = async (
@@ -41,7 +41,6 @@ export const signUp = async (
   res: Response,
 ) => {
   try {
-    console.log('signUp controller')
     const { email, username, password } = req.body
     const { fingerprint } = req
     if (!fingerprint) return res.status(500).send('Fingerprint not generated')
@@ -52,9 +51,12 @@ export const signUp = async (
       password,
       fingerprint,
     )
-    const accessTokenExpiration = setTokens(res, result)
+    const { refreshTokenExpiration, accessTokenExpiration } = setTokens(
+      res,
+      result,
+    )
 
-    res.status(200).json({ accessTokenExpiration })
+    res.status(200).json({ refreshTokenExpiration, accessTokenExpiration })
   } catch (error) {
     return errorHandler(error, req, res)
   }
@@ -71,9 +73,12 @@ export const signIn = async (
     if (!fingerprint) return res.status(500).send('Fingerprint not generated')
 
     const result = await authService.signIn(email, password, fingerprint)
-    const accessTokenExpiration = setTokens(res, result)
+    const { refreshTokenExpiration, accessTokenExpiration } = setTokens(
+      res,
+      result,
+    )
 
-    res.status(200).json({ accessTokenExpiration })
+    res.status(200).json({ refreshTokenExpiration, accessTokenExpiration })
   } catch (error) {
     return errorHandler(error, req, res)
   }
@@ -88,8 +93,11 @@ export const refreshToken = async (req: Request<{}, {}, {}>, res: Response) => {
 
     const result = await authService.refreshToken(oldRefreshToken, fingerprint)
 
-    const accessTokenExpiration = setTokens(res, result)
-    res.status(200).json({ accessTokenExpiration })
+    const { refreshTokenExpiration, accessTokenExpiration } = setTokens(
+      res,
+      result,
+    )
+    res.status(200).json({ refreshTokenExpiration, accessTokenExpiration })
   } catch (error) {
     //res.cookie('refreshToken', '', refreshTokenCookieParams(new Date(0)))
     return errorHandler(error, req, res)

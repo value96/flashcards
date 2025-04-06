@@ -8,7 +8,7 @@ interface RegisterState {
 }
 
 const initialState: RegisterState = {
-  status: Status.idle,
+  status: Status.idle
 }
 
 const registerSlice = createSlice({
@@ -18,13 +18,13 @@ const registerSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(register.fulfilled, state => {
       state.status = Status.succeeded
-    }),
-      builder.addCase(register.pending, state => {
-        state.status = Status.loading
-      }),
-      builder.addCase(register.rejected, state => {
-        state.status = Status.failed
-      })
+    })
+    builder.addCase(register.pending, state => {
+      state.status = Status.loading
+    })
+    builder.addCase(register.rejected, state => {
+      state.status = Status.failed
+    })
   },
 })
 

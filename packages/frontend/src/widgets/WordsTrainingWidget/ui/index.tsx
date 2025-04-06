@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 import { wordsTrainingModel } from '@entities/WordsTraining'
 import { useAppDispatch, useAppSelector } from '@shared/store'
 import { WordCard } from './WordCard'
-import { Language } from '@shared/model'
+import { type Language } from '@shared/model'
 
 const MAX_COUNT_SHOWED = 7
 

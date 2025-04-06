@@ -1,5 +1,4 @@
 node_modules
-workflows_samples
 
 Dockerfile
 .dockerignore

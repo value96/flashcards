@@ -1,6 +1,6 @@
-import { createAsyncThunk } from "@reduxjs/toolkit"
-import { signUp } from "../api/registerApi"
-import { userModel } from "@entities/User"
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import { signUp } from '../api/registerApi'
+import { userModel } from '@entities/User'
 
 interface SignUpData {
   username: string
@@ -9,17 +9,18 @@ interface SignUpData {
 }
 
 export const register = createAsyncThunk(
-  "Registration/register",
+  'Registration/register',
   async (
     { email, username, password }: SignUpData,
     { rejectWithValue, dispatch },
   ) => {
     try {
-      const response = await signUp(email, username, password)
+      const data = await signUp(email, username, password)
       localStorage.setItem(
-        "accessTokenExpiration",
-        response.data.accessTokenExpiration.toString(),
+        'refreshTokenExpiration',
+        data.refreshTokenExpiration,
       )
+      localStorage.setItem('accessTokenExpiration', data.accessTokenExpiration)
       dispatch(userModel.actions.setAuth(true))
       return true
     } catch (e: any) {

@@ -1,4 +1,4 @@
-import { Language, VocabWordData } from '@shared/model'
+import { type Language, type VocabWordData } from '@shared/model'
 
 export type WordsTraining = {
   _id: string

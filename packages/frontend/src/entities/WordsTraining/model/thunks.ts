@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { getNextBunchWords } from '../api'
-import { WordsTraining } from './types'
+import { type WordsTraining } from './types'
 import { selectWordsData } from './selectors'
-import { RootState } from 'vite-env'
+import { type RootState } from 'vite-env'
 
 export const loadNextBunchWords = createAsyncThunk<
   WordsTraining[], // type of returned staff
