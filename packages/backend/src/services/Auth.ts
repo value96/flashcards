@@ -34,7 +34,7 @@ class AuthService {
     }
 
     const { userId, sessionId } = refreshTokenPayload
-    console.log(
+    /* console.log(
       JSON.stringify(
         {
           id: sessionId,
@@ -44,7 +44,7 @@ class AuthService {
         null,
         2,
       ),
-    )
+    ) */
     const session = await refreshSessionRepository.findOne({
       id: sessionId,
       userId,

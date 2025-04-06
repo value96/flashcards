@@ -6,6 +6,7 @@ import axios from 'axios'
 const { signInUrl, refreshTokenUrl, logoutUrl } = endpoints.authEndpoints
 
 interface AuthResponseDTO {
+  refreshTokenExpiration: string
   accessTokenExpiration: string
 }
 
@@ -15,7 +16,7 @@ export const signInReq = async (email: string, password: string) => {
       email,
       password,
     })
-    .then(res => res.data.accessTokenExpiration)
+    .then(res => res.data)
 }
 
 /* export const refreshTokenReq = async () => {

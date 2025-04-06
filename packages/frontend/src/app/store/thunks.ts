@@ -4,17 +4,17 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 export const initializeApp = createAsyncThunk(
   'App/initialize',
   async (_, { dispatch }) => {
-    dispatch(checkAccessTokenExpiration())
+    dispatch(checkRefreshTokenExpiration())
   },
 )
 
-export const checkAccessTokenExpiration = createAsyncThunk(
-  'App/checkAccessTokenExpiration',
+export const checkRefreshTokenExpiration = createAsyncThunk(
+  'App/checkRefreshTokenExpiration',
   async (_, { dispatch }) => {
-    const dateOfExpire = localStorage.getItem('accessTokenExpiration')
+    const dateOfExpire = localStorage.getItem('refreshTokenExpiration')
     if (dateOfExpire) {
       try {
-        if (new Date() < new Date(JSON.parse(dateOfExpire))) {
+        if (new Date() < new Date(dateOfExpire)) {
           dispatch(userModel.actions.setAuth(true))
           return
         }
@@ -22,7 +22,7 @@ export const checkAccessTokenExpiration = createAsyncThunk(
         // не валидная строка
       }
     }
-    localStorage.removeItem('accessTokenExpiration')
+    localStorage.removeItem('refreshTokenExpiration')
     dispatch(userModel.actions.setAuth(false))
   },
 )
