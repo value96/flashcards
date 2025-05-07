@@ -1,5 +1,4 @@
-import { Request, Response, NextFunction } from 'express'
-
+import { Request, Response } from 'express'
 import { accessTokenCookieParams, refreshTokenCookieParams } from '../config'
 import authService, { CreateRefreshSessionRes } from '../services/Auth'
 import { errorHandler } from '../utils/handleErrors'
@@ -65,7 +64,6 @@ export const signUp = async (
 export const signIn = async (
   req: Request<{}, {}, LoginRequest>,
   res: Response,
-  next: NextFunction,
 ) => {
   try {
     const { email, password } = req.body
