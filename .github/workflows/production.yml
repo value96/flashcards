@@ -167,4 +167,4 @@ jobs:
         run: |
           yarn global add vercel
           vercel link --cwd packages/frontend/dist --yes --project flashcards-frontend --token ${{ secrets.VERCEL_TOKEN }}
-          vercel --yes --prod
+          vercel --yes --prod --token ${{ secrets.VERCEL_TOKEN }}
