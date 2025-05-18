@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client'
-import {ProvidedApp} from './app'
+import { ProvidedApp } from './app'
 import './index.css'
 import { ToastContainer } from 'react-toastify'
 
@@ -15,7 +15,7 @@ if (container) {
       <ProvidedApp />
     </>,
 
-    //</React.StrictMode>,///
+    //</React.StrictMode>,////
   )
 } else {
   throw new Error(
