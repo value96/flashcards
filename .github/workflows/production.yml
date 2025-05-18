@@ -131,13 +131,23 @@ jobs:
       #- name: Test frontend
       #  run: cd packages/frontend && yarn test
 
-      - name: Create .env.production file
-        run: |
-          cd packages/frontend
-          echo "VITE_API_URL=${{ vars.BACKEND_URL}}" >> .env.production
-
+      
       - name: Build project
         run: cd packages/frontend && yarn build
+
+      - name: Create vercel.json
+        run: |
+          cd packages/frontend/dist
+          cat > vercel.json << 'EOF'
+          {
+            "rewrites": [
+              {
+                "source": "/api/:path*",
+                "destination": "${{vars.BACKEND_URL}}/:path*"
+              }
+            ]
+          }
+          EOF
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

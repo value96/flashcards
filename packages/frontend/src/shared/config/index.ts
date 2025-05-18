@@ -1,2 +1,1 @@
-export * as env from "./env"
-export { API_ENDPOINTS } from "./apiConfig"
+export { API_ENDPOINTS } from './apiConfig'

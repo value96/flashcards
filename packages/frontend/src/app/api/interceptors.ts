@@ -1,5 +1,4 @@
 import { axiosInstance, endpoints } from '@shared/api'
-import { API_BASE_URL } from '@shared/config/env'
 import { store } from '../store'
 import axios from 'axios'
 import { userModel } from '@entities/User'
@@ -18,7 +17,7 @@ axiosInstance.interceptors.response.use(
       originalRequest._isRetry = true
       try {
         const response = await axios.get(
-          API_BASE_URL + endpoints.authEndpoints.refreshTokenUrl,
+          '/api' + endpoints.authEndpoints.refreshTokenUrl,
           {
             withCredentials: true,
           },
