@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { WordsController } from '../controllers'
+import { wordsController } from '../controllers'
 import { isAuth } from '../middlewares'
 import { withAuthHandler } from '../shared/api'
 import { WordsValidators, validationErrorHandler } from '../validators'
@@ -9,14 +9,14 @@ export const wordsRouter = Router()
 wordsRouter.get(
   '/words-list',
   isAuth,
-  withAuthHandler(WordsController.getAllWords),
+  withAuthHandler(wordsController.getAllWords),
 )
 
 wordsRouter.get(
   '/audio',
   isAuth,
   WordsValidators.isQueryParametrInt('id'),
-  withAuthHandler(WordsController.getWordAudio),
+  withAuthHandler(wordsController.getWordAudio),
 )
 
 //навесить валидаторы
@@ -25,7 +25,7 @@ wordsRouter.post(
   isAuth,
   WordsValidators.isArrayOfNumbers(),
   validationErrorHandler,
-  withAuthHandler(WordsController.addNewWordsForLearning),
+  withAuthHandler(wordsController.addNewWordsForLearning),
 )
 
 wordsRouter.post(
@@ -33,7 +33,7 @@ wordsRouter.post(
   isAuth,
   WordsValidators.isArrayOfString(),
   validationErrorHandler,
-  withAuthHandler(WordsController.removeWords),
+  withAuthHandler(wordsController.removeWords),
 )
 
 wordsRouter.post(
@@ -41,7 +41,7 @@ wordsRouter.post(
   isAuth,
   WordsValidators.validateChangeStatusReq,
   validationErrorHandler,
-  withAuthHandler(WordsController.changeWordsStatus),
+  withAuthHandler(wordsController.changeWordsStatus),
 )
 
 wordsRouter.post(
@@ -49,5 +49,5 @@ wordsRouter.post(
   isAuth,
   WordsValidators.validateReqForLearnableWords,
   validationErrorHandler,
-  withAuthHandler(WordsController.getNextBunchLearnableWords),
+  withAuthHandler(wordsController.getNextBunchLearnableWords),
 )
