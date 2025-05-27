@@ -3,11 +3,11 @@ import { vocabWordModel, wordModel, vocabWordAudioModel } from '../models'
 const { vocabWordRepository } = vocabWordModel
 const { wordRepository } = wordModel
 const { vocabWordAudioRepository } = vocabWordAudioModel
-type WordType = wordModel.WordType
+type IWord = wordModel.IWord
 type VocabWord = vocabWordModel.VocabWord
 
 type AllWords = VocabWord & {
-  word: WordType | null
+  word: IWord | null
 }
 
 class WordsService {
@@ -15,7 +15,7 @@ class WordsService {
     const vocabWords = await vocabWordRepository.findAll()
     const userWords = await wordRepository.getAllUserWords(userId)
 
-    const userWordsMap = new Map<string, WordType>()
+    const userWordsMap = new Map<string, IWord>()
     if (userWords) {
       userWords.forEach(word => {
         userWordsMap.set(word.vocabWordId.toString(), word)
@@ -47,7 +47,7 @@ class WordsService {
   }
 
   async addNewWords(userId: string, vocabWordsIds: number[]) {
-    const newWords: wordModel.WordType[] = vocabWordsIds.map(vocabWordId => ({
+    const newWords: IWord[] = vocabWordsIds.map(vocabWordId => ({
       userId,
       status: 'learning',
       vocabWordId: vocabWordId,
@@ -106,7 +106,7 @@ class WordsService {
   }
   async getNextBunchLearnableWords(userId: string, count: number) {
     // получить n слов со статусом 'learning' у котороых nextShowTime < current Time
-    const words = await wordRepository.findAllWithPastShowTime(
+    const words = await wordRepository.findSomeWithPastShowTime(
       userId,
       'learning',
       count,
@@ -119,6 +119,20 @@ class WordsService {
         vocabWord: await vocabWordRepository.findOneById(word.vocabWordId),
       })),
     ).then(d => d)
+  }
+
+  async getTrainingWordsForPeriod(
+    userId: string,
+    from: Date | null,
+    to: Date | null,
+  ) {
+    const conditions: wordModel.Condition[] = []
+
+    conditions.push(['userId', userId, 'eq'])
+    if (from) conditions.push(['nextShowTime', from, 'gt'])
+    if (to) conditions.push(['nextShowTime', to, 'lt'])
+
+    return await wordRepository.findWordsWithCondition(conditions)
   }
 }
 

@@ -1,3 +1,4 @@
+import { wordsService } from '@services/Words'
 import { AuthRequest } from '@shared/api'
 import { getMessage } from '@utils'
 import { Response } from 'express'
@@ -13,24 +14,48 @@ export const getCountWordsWithinPeriod = async (
 
     if (!from && !to) {
       // вывести все слова из обучающей выборке для userId
+      const words = await wordsService.getTrainingWordsForPeriod(
+        userId,
+        null,
+        null,
+      )
+      return res.status(200).json(words)
     }
 
     if (from && !to) {
-      //преобразовать дату
       // вывести слова от from для userId
+      const words = await wordsService.getTrainingWordsForPeriod(
+        userId,
+        new Date(from),
+        null,
+      )
+      return res.status(200).json(words)
     }
 
     if (!from && to) {
       //преобразовать дату
       // вывести слова до to для userId
+      const words = await wordsService.getTrainingWordsForPeriod(
+        userId,
+        null,
+        new Date(to),
+      )
+      return res.status(200).json(words)
     }
 
     if (from && to) {
       //преобразовать дату
-      if (from < to) {
+      const fromDate = new Date(from)
+      const toDate = new Date(to)
+      if (fromDate < toDate) {
         // вывести слова от from до to для userId
+        const words = await wordsService.getTrainingWordsForPeriod(
+          userId,
+          fromDate,
+          toDate,
+        )
+        return res.status(200).json(words)
       } else {
-        // выбросить ошибку
         return res.status(416).send('parametr "from" must be less than "to"')
       }
     }

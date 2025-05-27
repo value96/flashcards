@@ -4,7 +4,7 @@ export { changeWordsStatus } from './change-words-status'
 export { removeWords } from './remove-words'
 export { addNewWordsForLearning } from './add-new-words-for-learning'
 export { getAllWords } from './get-all-words'
-
+export { getCountWordsWithinPeriod } from './get-count-words-within-period'
 // для фронтенда будет выглядеть что для слова есть 4 состояния, и 10 переходов между состояния
 // idle - начальное состояние слова, когда оно не было ещё добавлено в коллекцию юзера,
 // оно существует только как vocabularWord в общем списке слов для всех юзеров

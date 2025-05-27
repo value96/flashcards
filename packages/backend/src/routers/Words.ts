@@ -24,7 +24,8 @@ wordsRouter.get(
   '/get-count-words-within-period',
   isAuth,
   ...wordsValidators.validateDatesInQueryParams(['from', 'to']),
-  ///controller
+  validationErrorHandler,
+  withAuthHandler(wordsController.getCountWordsWithinPeriod),
 )
 
 wordsRouter.post(
