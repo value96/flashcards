@@ -5,7 +5,7 @@ export type WordStatus = WordMongo.WordStatus
 export type Language = WordMongo.Language
 export type HistoryPoint = WordMongo.HistoryPoint
 class WordRepository {
-  async getAllForUser(userId: string) {
+  async getAllUserWords(userId: string) {
     return await WordMongo.model.find({ userId: userId })
   }
 
@@ -46,6 +46,7 @@ class WordRepository {
     )
   }
 
+  // TODO вынести бизнес логику в сервис, здесь оставить только функцию модели
   async checkIfAllElementsHaveFieldWithValue(
     ids: string[],
     field: string,
@@ -77,6 +78,7 @@ class WordRepository {
     )
   }
 
+  //TODO вынести бизнесовую логику в серви, здесь оставить только подсчёт документов
   async isAllElementsExistent(ids: string[]) {
     const count = await WordMongo.model.countDocuments({ _id: { $in: ids } })
     return count === ids.length

@@ -13,7 +13,7 @@ type AllWords = VocabWord & {
 class WordsService {
   async getAllWords(userId: string): Promise<AllWords[]> {
     const vocabWords = await vocabWordRepository.findAll()
-    const userWords = await wordRepository.getAllForUser(userId)
+    const userWords = await wordRepository.getAllUserWords(userId)
 
     const userWordsMap = new Map<string, WordType>()
     if (userWords) {

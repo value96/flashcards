@@ -1,3 +1,3 @@
 export * as AuthValidators from './AuthValidators'
-export * as WordsValidators from './WordsValidators'
+export * as wordsValidators from './words-validators'
 export { validationErrorHandler } from './handleValidationErrors'

@@ -2,7 +2,8 @@ import { Router } from 'express'
 import { wordsController } from '../controllers'
 import { isAuth } from '../middlewares'
 import { withAuthHandler } from '../shared/api'
-import { WordsValidators, validationErrorHandler } from '../validators'
+import { wordsValidators, validationErrorHandler } from '../validators'
+import { isQueryParametrInt } from '@shared/validators'
 
 export const wordsRouter = Router()
 
@@ -15,15 +16,21 @@ wordsRouter.get(
 wordsRouter.get(
   '/audio',
   isAuth,
-  WordsValidators.isQueryParametrInt('id'),
+  isQueryParametrInt('id'),
   withAuthHandler(wordsController.getWordAudio),
 )
 
-//навесить валидаторы
+wordsRouter.get(
+  '/get-count-words-within-period',
+  isAuth,
+  ...wordsValidators.validateDatesInQueryParams(['from', 'to']),
+  ///controller
+)
+
 wordsRouter.post(
   '/add-words',
   isAuth,
-  WordsValidators.isArrayOfNumbers(),
+  wordsValidators.isArrayOfNumbers(),
   validationErrorHandler,
   withAuthHandler(wordsController.addNewWordsForLearning),
 )
@@ -31,7 +38,7 @@ wordsRouter.post(
 wordsRouter.post(
   '/remove-words',
   isAuth,
-  WordsValidators.isArrayOfString(),
+  wordsValidators.isArrayOfString(),
   validationErrorHandler,
   withAuthHandler(wordsController.removeWords),
 )
@@ -39,7 +46,7 @@ wordsRouter.post(
 wordsRouter.post(
   '/change-words-status',
   isAuth,
-  WordsValidators.validateChangeStatusReq,
+  wordsValidators.validateChangeStatusReq,
   validationErrorHandler,
   withAuthHandler(wordsController.changeWordsStatus),
 )
@@ -47,7 +54,7 @@ wordsRouter.post(
 wordsRouter.post(
   '/next-bunch-words',
   isAuth,
-  WordsValidators.validateReqForLearnableWords,
+  wordsValidators.validateReqForLearnableWords,
   validationErrorHandler,
   withAuthHandler(wordsController.getNextBunchLearnableWords),
 )

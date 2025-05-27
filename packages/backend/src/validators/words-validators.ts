@@ -1,3 +1,4 @@
+import { isQueryParametrDate } from '@shared/validators'
 import { body, query } from 'express-validator'
 
 export const isArrayOfString = (path = '') => [
@@ -38,17 +39,13 @@ export const isBoolean = (path = '') => [
     .withMessage('Value must not be empty'),
 ]
 
-export const isQueryParametrInt = (paramName: string) => [
-  query(paramName)
-    .notEmpty()
-    .withMessage(`${paramName} must not be empty`)
-    .isInt()
-    .withMessage(`${paramName} must be integer`),
-]
-
 export const validateChangeStatusReq = [
   ...isArrayOfString('wordIds'),
   ...isString('status'),
+]
+
+export const validateDatesInQueryParams = (queryParams: string[]) => [
+  ...queryParams.map(param => [...isQueryParametrDate(param)]),
 ]
 
 export const isNumeric = (

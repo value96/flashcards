@@ -1,2 +1,2 @@
 export { authRouter } from './Auth'
-export { wordsRouter } from './Words'
+export { wordsRouter } from './words'
