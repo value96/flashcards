@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { authController } from '../controllers'
 import { AuthValidators, validationErrorHandler } from '../validators'
+import { authController } from '../controllers'
 import { isAuth } from '../middlewares'
 import { withAuthHandler } from '../shared/api'
 

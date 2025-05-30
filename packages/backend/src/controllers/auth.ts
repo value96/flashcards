@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
-import { accessTokenCookieParams, refreshTokenCookieParams } from '../config'
 import authService, { CreateRefreshSessionRes } from '../services/auth'
-import { errorHandler } from '../utils/error-handler'
-import { AuthRequest } from '@shared/api'
+import { accessTokenCookieParams, refreshTokenCookieParams } from '../config'
+import { errorHandler } from '../utils'
+import { AuthRequest } from '../shared/api'
 
 interface RegisterRequest {
   email: string

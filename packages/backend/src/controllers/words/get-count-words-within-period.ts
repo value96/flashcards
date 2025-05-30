@@ -1,7 +1,7 @@
-import { wordsService } from '@services/wwords'
-import { AuthRequest } from '@shared/api'
-import { getMessage } from '@utils'
 import { Response } from 'express'
+import { AuthRequest } from '../../shared/api'
+import { wordsService } from '../../services/words'
+import { getMessage } from '../../utils'
 
 export const getCountWordsWithinPeriod = async (
   req: AuthRequest<{}, {}, {}, { from?: string; to?: string }>,

@@ -1,9 +1,9 @@
-import { wordModel } from '@models/repositories'
-import { wordService } from '@services/word'
-import { wordsService } from '@services/wwords'
-import { AuthRequest } from '@shared/api'
-import { getMessage } from '@utils'
 import { Response } from 'express'
+import { AuthRequest } from '../../shared/api'
+import { wordModel } from '../../models'
+import { wordsService } from '../../services/words'
+import { wordService } from '../../services/word'
+import { getMessage } from '../../utils'
 
 export const changeWordsStatus = async (
   req: AuthRequest<{}, {}, { wordIds: string[]; status: wordModel.WordStatus }>,

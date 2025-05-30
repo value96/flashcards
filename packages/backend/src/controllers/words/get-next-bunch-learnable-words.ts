@@ -1,8 +1,8 @@
 import { Response } from 'express'
-import { wordService } from '@services/word'
-import { wordsService } from '@services/wwords'
-import { AuthRequest } from '@shared/api'
-import { getMessage } from '@utils'
+import { AuthRequest } from '../../shared/api'
+import { wordsService } from '../../services/words'
+import { wordService } from '../../services/word'
+import { getMessage } from '../../utils'
 
 export const getNextBunchLearnableWords = async (
   req: AuthRequest<

@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
-
-import TokenService from '../services/token'
-import { errorHandler } from '../utils/error-handler'
 import createHttpError from 'http-errors'
-import { AuthRequest } from '@shared/api'
+import tokenService from '../services/token'
+import { AuthRequest } from '../shared/api'
+import { errorHandler } from '../utils'
 
 export const isAuth = (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -13,7 +12,7 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
       throw createHttpError(401, 'Access denied')
     }
 
-    const decoded = TokenService.decodeAccessToken(token) as {
+    const decoded = tokenService.decodeAccessToken(token) as {
       userId: string
       sessionId: string
     }

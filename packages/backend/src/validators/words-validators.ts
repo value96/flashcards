@@ -1,5 +1,5 @@
-import { isQueryParametrDate } from '@shared/validators'
-import { body, query } from 'express-validator'
+import { body } from 'express-validator'
+import { isQueryParametrDate } from '../shared/validators'
 
 export const isArrayOfString = (path = '') => [
   body(path)

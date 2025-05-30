@@ -1,4 +1,4 @@
-import { vocabWordModel, wordModel } from '../models'
+import { wordModel } from '../models'
 
 const { wordRepository } = wordModel
 

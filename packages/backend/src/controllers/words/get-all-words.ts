@@ -1,7 +1,7 @@
 import { Response } from 'express'
-import { wordsService } from '@services/wwords'
-import { AuthRequest } from '@shared/api'
-import { getMessage } from '@utils'
+import { AuthRequest } from '../../shared/api'
+import { wordsService } from '../../services/words'
+import { getMessage } from '../../utils'
 
 export const getAllWords = async (req: AuthRequest, res: Response) => {
   try {

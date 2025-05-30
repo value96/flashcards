@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import { wordsController } from '../controllers'
 import { isAuth } from '../middlewares'
 import { withAuthHandler } from '../shared/api'
-import { wordsValidators, validationErrorHandler } from '../validators'
-import { isQueryParametrInt } from '@shared/validators'
+import { wordsController } from '../controllers'
+import { isQueryParametrInt } from '../shared/validators'
+import { validationErrorHandler, wordsValidators } from '../validators'
 
 export const wordsRouter = Router()
 
