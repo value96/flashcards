@@ -128,7 +128,7 @@ class WordRepository {
           throw new Error(`Unsupported operation: ${op}`)
       }
     }
-    return this.model.find(query).lean().exec()
+    return await this.model.countDocuments(query)
   }
 }
 
