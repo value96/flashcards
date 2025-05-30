@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors'
 import bcrypt from 'bcryptjs'
-import tokenService, { TokenService } from './Token'
+import tokenService, { TokenService } from './token'
 import { refreshSessionModel, userRepositoryModel } from '../models'
 import { config } from '../config'
 import { FingerprintResult } from 'express-fingerprint'
