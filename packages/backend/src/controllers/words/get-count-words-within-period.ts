@@ -1,4 +1,4 @@
-import { wordsService } from '@services/ords'
+import { wordsService } from '@services/words'
 import { AuthRequest } from '@shared/api'
 import { getMessage } from '@utils'
 import { Response } from 'express'
