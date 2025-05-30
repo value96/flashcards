@@ -27,7 +27,7 @@ export const RegisterForm = () => {
 
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
-      <h2>Registration</h2>
+      <h2>Регистрация</h2>
       <div className={styles.formGroup}>
         <EmailInput
           setIsEmailFullfilled={setIsEmailFullfilled}
@@ -55,7 +55,7 @@ export const RegisterForm = () => {
           !(isEmailFullfilled && isPassFullfilled && isUsernameFullfilled)
         }
       >
-        Register
+        Зарегистрироваться
       </button>
     </form>
   )

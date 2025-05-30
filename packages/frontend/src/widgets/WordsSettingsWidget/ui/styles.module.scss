@@ -32,10 +32,12 @@
 .wordListButton {
   padding: 10px 20px;
   margin: 10px;
-  border: 2px solid #ff7300;
+  border: 2px solid #4a4a4a;
   background-color: white;
-  color: #ff7300;
+  color: #4a4a4a;
   border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
   transition:
     background-color 0.3s,
@@ -43,6 +45,6 @@
 }
 
 .caution {
-  color: #f01703;
-  margin: 10px;
+  color: #f47012;
+  text-align: center;
 }

@@ -21,11 +21,11 @@ export const MainPage = () => {
     <div className={styles.container}>
       <WordsTrainingWidget />
       <div className={styles.buttonsContainer}>
-        <button className={styles.button} onClick={handleLogout}>
-          logout
-        </button>
         <button className={styles.button} onClick={handleWordsList}>
-          WordsList
+          Добавить слова
+        </button>
+        <button className={styles.button} onClick={handleLogout}>
+          Выйти
         </button>
       </div>
     </div>

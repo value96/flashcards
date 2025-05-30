@@ -1,10 +1,10 @@
-import type { ChangeEvent, MutableRefObject } from "react"
-import React, { useState } from "react"
-import * as yup from "yup"
-import styles from "../Input.module.css"
+import type { ChangeEvent, MutableRefObject } from 'react'
+import React, { useState } from 'react'
+import * as yup from 'yup'
+import styles from '../Input.module.css'
 
 const usernameSchema = yup.object().shape({
-  username: yup.string().required("username is required"),
+  username: yup.string().required('username is required'),
 })
 
 interface UsernameInputProps {
@@ -17,8 +17,8 @@ const UsernameInput: React.FC<UsernameInputProps> = ({
   usernameRef,
 }) => {
   //console.log(`UsernameInput render`)
-  const [value, setValue] = useState("")
-  const [error, setError] = useState("")
+  const [value, setValue] = useState('')
+  const [error, setError] = useState('')
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const username = e.target.value
@@ -27,7 +27,7 @@ const UsernameInput: React.FC<UsernameInputProps> = ({
 
     try {
       usernameSchema.validateSync({ username: username })
-      setError("")
+      setError('')
       setIsUsernameFullfilled(true)
     } catch (validationError) {
       setError((validationError as yup.ValidationError).message)
@@ -42,7 +42,7 @@ const UsernameInput: React.FC<UsernameInputProps> = ({
         type="text"
         id="username"
         name="username"
-        placeholder="Enter your username"
+        placeholder="Введите логин"
         value={value}
         onChange={handleChange}
       />

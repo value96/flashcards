@@ -38,9 +38,8 @@ export const useChangeStatus = (
       if (statusOfFirstWord === 'learning') {
         setChangeStatusButtons([
           {
-            text: 'Add to idle',
+            text: 'Добавить в не изученные',
             onClick: () => {
-              console.log('Add to idle')
               dispatch(
                 changeCategory({
                   from: 'learning',
@@ -52,9 +51,8 @@ export const useChangeStatus = (
             },
           },
           {
-            text: 'Add to Suspended',
+            text: 'Добавить в приостановленные',
             onClick: () => {
-              console.log('Add to Suspended')
               dispatch(
                 changeCategory({
                   from: 'learning',
@@ -66,7 +64,7 @@ export const useChangeStatus = (
             },
           },
           {
-            text: 'Add to Learned',
+            text: 'Добавить в изученные',
             onClick: () => {
               console.log('Add to Learned')
               dispatch(
@@ -87,9 +85,8 @@ export const useChangeStatus = (
       if (statusOfFirstWord === 'suspended') {
         setChangeStatusButtons([
           {
-            text: 'Add to idle',
+            text: 'Добавить в не изученные',
             onClick: () => {
-              console.log('Add to idle')
               dispatch(
                 changeCategory({
                   from: 'suspended',
@@ -101,9 +98,8 @@ export const useChangeStatus = (
             },
           },
           {
-            text: 'Add to Learning',
+            text: 'Добавить в изучаемые',
             onClick: () => {
-              console.log('Add to Learning')
               dispatch(
                 changeCategory({
                   from: 'suspended',
@@ -115,9 +111,8 @@ export const useChangeStatus = (
             },
           },
           {
-            text: 'Add to Learned',
+            text: 'Добавить в изученные',
             onClick: () => {
-              console.log('Add to Learned')
               dispatch(
                 changeCategory({
                   from: 'suspended',
@@ -136,9 +131,8 @@ export const useChangeStatus = (
       if (statusOfFirstWord === 'hasLearned') {
         setChangeStatusButtons([
           {
-            text: 'Add to idle',
+            text: 'Добавить в не изученные',
             onClick: () => {
-              console.log('Add to idle')
               dispatch(
                 changeCategory({
                   from: 'hasLearned',
@@ -150,9 +144,8 @@ export const useChangeStatus = (
             },
           },
           {
-            text: 'Add to Learning',
+            text: 'Добавить в изучаемые',
             onClick: () => {
-              console.log('Add to Learning')
               dispatch(
                 changeCategory({
                   from: 'hasLearned',
@@ -175,9 +168,8 @@ export const useChangeStatus = (
       // only one option add new words
       setChangeStatusButtons([
         {
-          text: 'Add to learning',
+          text: 'Добавить в изучаемые',
           onClick: () => {
-            console.log('Add to learning')
             dispatch(
               changeCategory({
                 from: 'idle',
@@ -189,9 +181,8 @@ export const useChangeStatus = (
           },
         },
         {
-          text: 'Add to Learned',
+          text: 'Добавить в изученные',
           onClick: () => {
-            console.log('Add to Learned')
             dispatch(
               changeCategory({
                 from: 'idle',

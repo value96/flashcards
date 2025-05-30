@@ -13,9 +13,9 @@
   background-color: #f4a261; // Бежево-оранжевый цвет
   color: white; // Белый текст для контраста
   border: none; // Убираем границу
-  padding: 15px 30px; // Увеличиваем внутренние отступы (размер кнопки)
-  font-size: 18px; // Увеличиваем размер текста
-  font-weight: bold; // Жирный текст
+  width: 10rem;
+  padding: 1rem 2rem; // Увеличиваем внутренние отступы (размер кнопки)
+  font-size: 1rem; // Увеличиваем размер текста
   border-radius: 10px; // Скругленные углы
   cursor: pointer; // Изменяем курсор при наведении
   transition: background-color 0.3s; // Добавляем плавный переход для цвета

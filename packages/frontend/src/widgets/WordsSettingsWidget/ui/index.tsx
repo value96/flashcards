@@ -61,10 +61,10 @@ export const WordsSettingsWidget = () => {
       <div className={styles.stickyHeader}>
         <div className={styles.buttonContainer}>
           <button className={styles.wordListButton} onClick={handleClose}>
-            close
+            Закрыть
           </button>
           <button className={styles.wordListButton} onClick={toggleSelectMode}>
-            {isSelectMode ? 'Cancel Selection' : 'Select'}
+            {isSelectMode ? 'Отменить выбор' : 'Выбрать'}
           </button>
 
           {isSelectMode &&
@@ -82,11 +82,11 @@ export const WordsSettingsWidget = () => {
         <div>
           {isSelectMode &&
             canChangeStatus &&
-            `Chosen: ${Object.keys(selectedWords).length} words.`}
+            `Выбрано: ${Object.keys(selectedWords).length} слов`}
           {isSelectMode && !canChangeStatus && (
-            <span className={styles.caution}>
-              all words must have the same status!
-            </span>
+            <div className={styles.caution}>
+              выбранные слова должны быть одного статуса (одного цвета)!
+            </div>
           )}
         </div>
       </div>

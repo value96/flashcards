@@ -86,23 +86,8 @@ export const WordsTrainingWidget = () => {
       </div>
       <WordsCounter />
       <button className={styles.nextWordsButton} onClick={handleClickNextWords}>
-        Next Words
+        Далее
       </button>
     </>
   )
 }
-
-/* const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-  const target = e.target as HTMLDivElement
-  const wordElement = target.closest('[data-id]')
-  if (wordElement) {
-    const wordId = wordElement.getAttribute('data-id')
-    if (wordId) {
-      setFlippedWords(prevState => ({
-        ...prevState,
-        [wordId]: !prevState[wordId], // Переключаем состояние перевёрнутости для слова
-      }))
-    }
-  }
-}
- */

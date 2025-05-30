@@ -30,14 +30,14 @@ export const WelcomePage = () => {
 
   return (
     <div className={styles.page}>
-      <div>Вы не авторизованы!!!</div>
+      <div>Добро пожаловать!</div>
       <button
         className={styles.button}
         onClick={() => {
           setShowLogin(true)
         }}
       >
-        Login
+        Войти
       </button>
       <button
         className={styles.button}
@@ -45,7 +45,7 @@ export const WelcomePage = () => {
           setShowRegister(true)
         }}
       >
-        Register
+        Зарегистрироваться
       </button>
     </div>
   )

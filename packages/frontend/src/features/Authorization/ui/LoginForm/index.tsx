@@ -21,7 +21,7 @@ export const LoginForm = () => {
 
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
-      <h2>Authorization</h2>
+      <h2>Авторизация</h2>
       <div className={styles.formGroup}>
         <EmailInput
           setIsEmailFullfilled={setIsEmailFullfilled}
@@ -40,7 +40,7 @@ export const LoginForm = () => {
         type="submit"
         disabled={isLoading || !(isEmailFullfilled && isPassFullfilled)}
       >
-        Login
+        Войти
       </button>
     </form>
   )
