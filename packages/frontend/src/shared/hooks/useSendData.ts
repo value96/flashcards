@@ -1,10 +1,10 @@
-import { useCallback, useState } from "react"
-import { useAppDispatch } from "@shared/store"
+import { useCallback, useState } from 'react'
+import { useAppDispatch } from '@shared/store'
 
-import { type AsyncThunk } from "@reduxjs/toolkit"
+import { AsyncThunkAction } from '@reduxjs/toolkit'
 
 export const useSendData = <Params>(
-  thunkFunction: AsyncThunk<any, Params, {}>,
+  thunkFunction: (arg: Params) => AsyncThunkAction<any, Params, {}>,
 ) => {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
