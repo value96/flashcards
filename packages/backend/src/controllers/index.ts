@@ -1,2 +1,2 @@
-export * as authController from './Aauth'
+export * as authController from './auth'
 export * as wordsController from './words'
