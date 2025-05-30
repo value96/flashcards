@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { wordService } from '@services/word'
-import { wordsService } from '@services/words'
+import { wordsService } from '@services/wwords'
 import { AuthRequest } from '@shared/api'
 import { getMessage } from '@utils'
 
