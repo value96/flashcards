@@ -12,7 +12,7 @@ const initialState: AuthState = {
   refreshTokenProcessStatus: Status.idle,
 }
 
-export const authSlice = createSlice({
+export const slice = createSlice({
   name: 'authorization',
   initialState,
   reducers: {},

@@ -6,13 +6,17 @@ import { authModel } from '@features/Authorization'
 import { userModel } from '@entities/User'
 import { wordsSettingsModel } from '@entities/WordsSettings'
 import { wordsTrainingModel } from '@entities/WordsTraining'
+import { wordsCounterModel } from '@features/words-counter'
+import { registerModel } from '@features/Registration'
 
 const rootReducer = combineSlices(
   appSlice,
-  userModel.userSlice,
-  authModel.authSlice,
+  userModel.slice,
+  authModel.slice,
+  registerModel.slice,
   wordsSettingsModel.slice,
   wordsTrainingModel.slice,
+  wordsCounterModel.slice,
 )
 
 export type State = ReturnType<typeof rootReducer>

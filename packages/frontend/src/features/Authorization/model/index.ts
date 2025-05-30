@@ -1,2 +1,2 @@
-export { authSlice } from './authSlice'
+export { slice } from './authSlice'
 export * as thunks from './authThunks'

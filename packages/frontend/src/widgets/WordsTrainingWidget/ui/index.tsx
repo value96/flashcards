@@ -4,6 +4,7 @@ import { wordsTrainingModel } from '@entities/WordsTraining'
 import { useAppDispatch, useAppSelector } from '@shared/store'
 import { WordCard } from './WordCard'
 import { type Language } from '@shared/model'
+import { WordsCounter, wordsCounterModel } from '@features/words-counter'
 
 const MAX_COUNT_SHOWED = 7
 
@@ -55,6 +56,7 @@ export const WordsTrainingWidget = () => {
         isNeedSendRepeatedWords: true,
       }),
     )
+    dispatch(wordsCounterModel.actions.increase(MAX_COUNT_SHOWED))
     setFlippedWords({})
   }
 
@@ -82,6 +84,7 @@ export const WordsTrainingWidget = () => {
           },
         )}
       </div>
+      <WordsCounter />
       <button className={styles.nextWordsButton} onClick={handleClickNextWords}>
         Next Words
       </button>

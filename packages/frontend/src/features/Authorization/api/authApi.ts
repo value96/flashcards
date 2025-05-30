@@ -7,15 +7,14 @@ interface AuthResponseDTO {
   accessTokenExpiration: string
 }
 
-export const signInReq = async (email: string, password: string) => {
-  return axiosInstance
+export const signInReq = (email: string, password: string) =>
+  axiosInstance
     .post<AuthResponseDTO>(signInUrl, {
       email,
       password,
     })
     .then(res => res.data)
-}
 
-export const logoutReq = async () => {
+export const logoutReq = () => {
   return axiosInstance.post<{}>(logoutUrl)
 }

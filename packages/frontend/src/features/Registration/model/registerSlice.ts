@@ -1,18 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from '@reduxjs/toolkit'
 
-import { Status } from "@shared/api"
-import { register } from "./registerThunks"
+import { Status } from '@shared/api'
+import { register } from './registerThunks'
 
 interface RegisterState {
   status: Status
 }
 
 const initialState: RegisterState = {
-  status: Status.idle
+  status: Status.idle,
 }
 
-const registerSlice = createSlice({
-  name: "registration",
+export const slice = createSlice({
+  name: 'registration',
   initialState,
   reducers: {},
   extraReducers: builder => {
@@ -27,5 +27,3 @@ const registerSlice = createSlice({
     })
   },
 })
-
-export default registerSlice

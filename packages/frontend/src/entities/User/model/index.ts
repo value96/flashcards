@@ -1,2 +1,2 @@
-export { userSlice, actions } from './userSlice'
+export { slice, actions } from './userSlice'
 export * as selectors from './userSelectors'

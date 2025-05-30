@@ -8,7 +8,7 @@ const initialState: UserState = {
   isAuth: false,
 }
 
-export const userSlice = createSlice({
+export const slice = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -18,4 +18,4 @@ export const userSlice = createSlice({
   },
 })
 
-export const actions = userSlice.actions
+export const actions = slice.actions
