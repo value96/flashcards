@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 
-import TokenService from '../services/Token'
-import { errorHandler } from '../utils/handleErrors'
+import TokenService from '../services/token'
+import { errorHandler } from '../utils/error-handler'
 import createHttpError from 'http-errors'
 import { AuthRequest } from '@shared/api'
 

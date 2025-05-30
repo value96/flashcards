@@ -1,1 +1,1 @@
-export { isAuth } from './isAuth'
+export { isAuth } from './is-auth'

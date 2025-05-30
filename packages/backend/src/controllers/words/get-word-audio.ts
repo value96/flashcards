@@ -1,5 +1,5 @@
 import { Response } from 'express'
-import { wordsService } from '@services/Words'
+import { wordsService } from '@services/words'
 import { AuthRequest } from '@shared/api'
 import { getMessage } from '@utils'
 

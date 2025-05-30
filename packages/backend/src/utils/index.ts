@@ -1,1 +1,1 @@
-export * from './handleErrors'
+export * from './error-handler'
