@@ -29,7 +29,6 @@ export const useSelect = <T extends Identifiable>(
 
   const handleSingleSelect = (id: Id) => {
     setSelectedItems(prev => {
-      console.log('setSelectedItems')
       if (id in prev) {
         const { [id]: _, ...next } = prev
         return next
@@ -69,7 +68,6 @@ export const useSelect = <T extends Identifiable>(
   const handlePressStart = useCallback(
     (id: Id) => {
       // когда нажали на кнопку но ещё не отпустили
-      console.log('handlePressStart')
       const timer = setTimeout(() => {
         isItWasLongClick.current = true
         if (isSelectedMode) itemChoosen(id)
@@ -83,7 +81,6 @@ export const useSelect = <T extends Identifiable>(
   const handlePressEnd = useCallback(
     (id: Id) => {
       // когда отпустили кнопку
-      console.log('handlePressEnd')
       clearTimeout(pressTimer.current ?? undefined)
       pressTimer.current = null
       if (!isItWasLongClick.current) {

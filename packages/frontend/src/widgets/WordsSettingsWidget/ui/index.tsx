@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '@shared/store'
 import { wordsSettingsModel } from '@entities/WordsSettings'
 import { useSelect, useChangeStatus } from '../hooks'
 import { useNavigate } from 'react-router-dom'
+import { Status } from '@shared/api'
+import { Spinner } from '@shared/ui'
 
 type VocabWord = wordsSettingsModel.types.VocabWord
 
@@ -19,6 +21,7 @@ export const WordsSettingsWidget = () => {
 
   const [isSelectMode, setIsSelectMode] = useState(false)
   const words = useAppSelector(wordsSettingsModel.selectors.selectAllWords)
+  const status = useAppSelector(wordsSettingsModel.selectors.selectStatus)
 
   useEffect(() => {
     dispatch(wordsSettingsModel.thunks.loadAllWords())
@@ -31,12 +34,10 @@ export const WordsSettingsWidget = () => {
 
   const openContextMenu = useCallback((id: string) => {
     // при долгом нажатии без select mode
-    console.log(`Долгий клик для: ${id}`)
   }, [])
 
   const handleFastClick = useCallback((id: string) => {
     // Ваш код для быстрого клика
-    console.log(`Быстрый клик для: ${id}`)
   }, [])
 
   const {
@@ -55,6 +56,14 @@ export const WordsSettingsWidget = () => {
     words,
     selectedWords,
   )
+
+  if (status === Status.loading) {
+    return (
+      <div className={styles.spinnerContainer}>
+        <Spinner />
+      </div>
+    )
+  }
 
   return (
     <>

@@ -25,7 +25,6 @@ export const useChangeStatus = (
     }
 
     if (choosenWords.every(item => Boolean(item?.word))) {
-      console.log('each item has word')
       // each item has word
       const statusOfFirstWord = choosenWords[0].word!.status
       if (choosenWords.some(item => item.word!.status !== statusOfFirstWord)) {
@@ -33,7 +32,6 @@ export const useChangeStatus = (
         setCanChangeStatus(false)
         return
       }
-      console.log('all words have same status')
       // all words have same status
       if (statusOfFirstWord === 'learning') {
         setChangeStatusButtons([
@@ -66,7 +64,6 @@ export const useChangeStatus = (
           {
             text: 'Добавить в изученные',
             onClick: () => {
-              console.log('Add to Learned')
               dispatch(
                 changeCategory({
                   from: 'learning',
@@ -163,7 +160,6 @@ export const useChangeStatus = (
     }
 
     if (choosenWords.every(item => !Boolean(item?.word))) {
-      //console.log('no one item has word')
       // no one item has word
       // only one option add new words
       setChangeStatusButtons([
@@ -199,7 +195,6 @@ export const useChangeStatus = (
     }
 
     if (choosenWords.some(item => !Boolean(item?.word))) {
-      console.log('at least one item has not word')
       // at least one item has not word
       setChangeStatusButtons([])
       setCanChangeStatus(false)
