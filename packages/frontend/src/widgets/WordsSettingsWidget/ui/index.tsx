@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '@shared/store'
 import { wordsSettingsModel } from '@entities/WordsSettings'
 import { useSelect, useChangeStatus } from '../hooks'
 import { useNavigate } from 'react-router-dom'
+import { Status } from '@shared/api'
+import { Spinner } from '@shared/ui'
 
 type VocabWord = wordsSettingsModel.types.VocabWord
 
@@ -19,6 +21,7 @@ export const WordsSettingsWidget = () => {
 
   const [isSelectMode, setIsSelectMode] = useState(false)
   const words = useAppSelector(wordsSettingsModel.selectors.selectAllWords)
+  const status = useAppSelector(state => state.wordsSettings.status)
 
   useEffect(() => {
     dispatch(wordsSettingsModel.thunks.loadAllWords())
@@ -55,6 +58,10 @@ export const WordsSettingsWidget = () => {
     words,
     selectedWords,
   )
+
+  if (status === Status.loading) {
+    return <Spinner />
+  }
 
   return (
     <>
