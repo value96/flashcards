@@ -1,2 +1,2 @@
 export { EmailInput, PasswordInput, UsernameInput } from './Inputs'
-export { Spinner } from './sspinner'
+export { Spinner } from './spinner'
