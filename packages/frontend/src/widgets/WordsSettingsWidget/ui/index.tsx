@@ -21,7 +21,9 @@ export const WordsSettingsWidget = () => {
 
   const [isSelectMode, setIsSelectMode] = useState(false)
   const words = useAppSelector(wordsSettingsModel.selectors.selectAllWords)
-  const status = useAppSelector(state => state.wordsSettings.status)
+  const status = useAppSelector(
+    wordsSettingsModel.selectors.selectWordsSettingsStatus,
+  )
 
   useEffect(() => {
     dispatch(wordsSettingsModel.thunks.loadAllWords())
@@ -59,10 +61,6 @@ export const WordsSettingsWidget = () => {
     selectedWords,
   )
 
-  if (status === Status.loading) {
-    return <Spinner />
-  }
-
   return (
     <>
       <div className={styles.stickyHeader}>
@@ -97,19 +95,24 @@ export const WordsSettingsWidget = () => {
           )}
         </div>
       </div>
-      <div className={styles.wordList}>
-        {words.map((word, index) => (
-          <WordBlock
-            key={String(word.id)}
-            index={index}
-            word={word}
-            isSelectMode={isSelectMode}
-            isSelected={word.id in selectedWords}
-            onPressDown={handlePressStart}
-            onPressUp={handlePressEnd}
-          />
-        ))}
-      </div>
+
+      {status === Status.loading ? (
+        <Spinner />
+      ) : (
+        <div className={styles.wordList}>
+          {words.map((word, index) => (
+            <WordBlock
+              key={String(word.id)}
+              index={index}
+              word={word}
+              isSelectMode={isSelectMode}
+              isSelected={word.id in selectedWords}
+              onPressDown={handlePressStart}
+              onPressUp={handlePressEnd}
+            />
+          ))}
+        </div>
+      )}
     </>
   )
 }

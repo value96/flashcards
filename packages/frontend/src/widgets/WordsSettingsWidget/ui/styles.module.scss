@@ -1,5 +1,6 @@
 .stickyHeader {
-  position: sticky;
+  position: fixed;
+  width: 100%;
   top: 0;
   background-color: white;
   display: flex;
@@ -25,6 +26,7 @@
 
 .wordList {
   overflow-y: auto;
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
