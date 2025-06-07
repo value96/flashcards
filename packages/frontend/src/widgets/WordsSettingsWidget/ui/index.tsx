@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '@shared/store'
 import { wordsSettingsModel } from '@entities/WordsSettings'
 import { useSelect, useChangeStatus } from '../hooks'
 import { useNavigate } from 'react-router-dom'
+import { Status } from '@shared/api'
+import { Spinner } from '@shared/ui'
 
 type VocabWord = wordsSettingsModel.types.VocabWord
 
@@ -19,6 +21,9 @@ export const WordsSettingsWidget = () => {
 
   const [isSelectMode, setIsSelectMode] = useState(false)
   const words = useAppSelector(wordsSettingsModel.selectors.selectAllWords)
+  const status = useAppSelector(
+    wordsSettingsModel.selectors.selectWordsSettingsStatus,
+  )
 
   useEffect(() => {
     dispatch(wordsSettingsModel.thunks.loadAllWords())
@@ -90,19 +95,24 @@ export const WordsSettingsWidget = () => {
           )}
         </div>
       </div>
-      <div className={styles.wordList}>
-        {words.map((word, index) => (
-          <WordBlock
-            key={String(word.id)}
-            index={index}
-            word={word}
-            isSelectMode={isSelectMode}
-            isSelected={word.id in selectedWords}
-            onPressDown={handlePressStart}
-            onPressUp={handlePressEnd}
-          />
-        ))}
-      </div>
+
+      {status === Status.loading ? (
+        <Spinner />
+      ) : (
+        <div className={styles.wordList}>
+          {words.map((word, index) => (
+            <WordBlock
+              key={String(word.id)}
+              index={index}
+              word={word}
+              isSelectMode={isSelectMode}
+              isSelected={word.id in selectedWords}
+              onPressDown={handlePressStart}
+              onPressUp={handlePressEnd}
+            />
+          ))}
+        </div>
+      )}
     </>
   )
 }

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite -- --no-color > dev.log 2>&1",
+    "dev": "vite",
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
