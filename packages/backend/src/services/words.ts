@@ -6,8 +6,13 @@ const { vocabWordAudioRepository } = vocabWordAudioModel
 type IWord = wordModel.IWord
 type VocabWord = vocabWordModel.VocabWord
 
+type WordInfo = {
+  _id: string
+  status: wordModel.WordStatus
+}
+
 type AllWords = VocabWord & {
-  word: IWord | null
+  word: WordInfo | null
 }
 
 class WordsService {
@@ -31,7 +36,7 @@ class WordsService {
       if (userWord) {
         resultWords.push({
           ...vocabWords[key],
-          word: userWord,
+          word: { _id: String(userWord._id), status: userWord.status },
         })
       } else {
         resultWords.push({

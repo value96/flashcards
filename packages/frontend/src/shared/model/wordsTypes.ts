@@ -28,13 +28,6 @@ export type VocabWordData = {
 
 export type Word = {
   _id: string
-  userId: string
   status: WordStatus
-  vocabWordId: number
-
-  nextShowTranslate: Language
-  learningHistory: HistoryPoint[]
-  nextShowTime: Date
-  lastShowTimeDelta: number // in hours
-  addedDate: Date
+  // trimmed fields for words settings
 }
