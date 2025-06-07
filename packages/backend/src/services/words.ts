@@ -22,10 +22,13 @@ class WordsService {
       wordRepository.getAllUserWords(userId),
     ])
 
-    const userWordsMap = new Map<string, IWord>()
+    const userWordsMap = new Map<string, WordInfo>()
     if (userWords) {
       userWords.forEach(word => {
-        userWordsMap.set(word.vocabWordId.toString(), word)
+        userWordsMap.set(word.vocabWordId.toString(), {
+          _id: String(word._id),
+          status: word.status,
+        })
       })
     }
 
