@@ -65,4 +65,6 @@ const wordSchema = new Schema<IWord>(
   { timestamps: true },
 )
 
+wordSchema.index({ userId: 1, status: 1, nextShowTime: 1 })
+
 export const model = mongooseModel<IWord>('Word', wordSchema)
