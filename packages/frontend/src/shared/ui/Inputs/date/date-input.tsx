@@ -1,4 +1,9 @@
-import { useState, type ChangeEvent, type MutableRefObject } from 'react'
+import {
+  useState,
+  type ChangeEvent,
+  type MutableRefObject,
+  FocusEvent,
+} from 'react'
 import * as yup from 'yup'
 import styles from '../Input.module.css'
 
@@ -22,9 +27,17 @@ export const DateInput = ({
 }: DateInputProps) => {
   const [value, setValue] = useState('')
   const [error, setError] = useState('')
+  const [currentPlaceholder, setCurrentPlaceholder] = useState(placeholder)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const dateStr = e.target.value
+    let digits = e.target.value.replace(/\D/g, '')
+    if (digits.length > 8) digits = digits.slice(0, 8)
+    let dateStr = digits
+    if (digits.length >= 5) {
+      dateStr = `${digits.slice(0, 2)}.${digits.slice(2, 4)}.${digits.slice(4)}`
+    } else if (digits.length >= 3) {
+      dateStr = `${digits.slice(0, 2)}.${digits.slice(2)}`
+    }
     setValue(dateStr)
     dateRef.current = dateStr
     try {
@@ -40,14 +53,24 @@ export const DateInput = ({
     }
   }
 
+  const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
+    if (!value) setCurrentPlaceholder('дд.мм.гггг')
+  }
+
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+    if (!value) setCurrentPlaceholder(placeholder)
+  }
+
   return (
     <div className={styles.formGroup}>
       <input
         className={styles.input}
         type="text"
         value={value}
-        placeholder={placeholder}
+        placeholder={currentPlaceholder}
         onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
       {error && <div className={styles.errorMessage}>{error}</div>}
     </div>
