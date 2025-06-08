@@ -1,20 +1,32 @@
+import { useState } from 'react'
 import styles from './styles.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { WordsTrainingWidget } from '@widgets/WordsTrainingWidget'
 import { useAppDispatch } from '@shared/store'
 import { authModel } from '@features/Authorization'
+import { ModalWindow } from '@shared/ui'
+import { WordsTimeDistribution } from '@widgets/words-time-distribution'
 
 const { logout } = authModel.thunks
 
 export const MainPage = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const [isAnalyticsOpen, setAnalyticsOpen] = useState(false)
 
   const handleLogout = () => {
     dispatch(logout())
   }
   const handleWordsList = () => {
     navigate('/word-list')
+  }
+
+  const openAnalytics = () => {
+    setAnalyticsOpen(true)
+  }
+
+  const closeAnalytics = () => {
+    setAnalyticsOpen(false)
   }
 
   return (
@@ -24,10 +36,16 @@ export const MainPage = () => {
         <button className={styles.button} onClick={handleWordsList}>
           Добавить слова
         </button>
+        <button className={styles.button} onClick={openAnalytics}>
+          Аналитика
+        </button>
         <button className={styles.button} onClick={handleLogout}>
           Выйти
         </button>
       </div>
+      <ModalWindow isOpen={isAnalyticsOpen} onClose={closeAnalytics}>
+        <WordsTimeDistribution />
+      </ModalWindow>
     </div>
   )
 }
