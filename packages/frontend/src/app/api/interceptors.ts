@@ -28,7 +28,10 @@ axiosInstance.interceptors.response.use(
         )
         return axiosInstance.request(originalRequest)
       } catch (e: any) {
-        if (e.response && e.response.status === 401) {
+        if (
+          e.response &&
+          (e.response.status === 401 || e.response.status === 404)
+        ) {
           localStorage.removeItem('refreshTokenExpiration')
           localStorage.removeItem('accessTokenExpiration')
           store.dispatch(userModel.actions.setAuth(false))
