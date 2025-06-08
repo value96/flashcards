@@ -34,26 +34,29 @@ export const WordsTimeDistribution = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <DateInput
-        placeholder="Дата от"
-        dateRef={fromRef}
-        setIsDateFullfilled={setIsFromValid}
-      />
-      <DateInput
-        placeholder="Дата до"
-        dateRef={toRef}
-        setIsDateFullfilled={setIsToValid}
-      />
-      <button
-        className={styles.button}
-        onClick={handleCheck}
-        disabled={isLoading}
-      >
-        check
-      </button>
-      <div className={styles.count}>{count !== null ? count : ''}</div>
-      {error && <div className={styles.error}>{error}</div>}
+    <div className={styles.columnContainer}>
+      <h5>Узнать сколько слов нужно будет повторить в указанные даты</h5>
+      <div className={styles.rowContainer}>
+        <DateInput
+          placeholder="Дата от"
+          dateRef={fromRef}
+          setIsDateFullfilled={setIsFromValid}
+        />
+        <DateInput
+          placeholder="Дата до"
+          dateRef={toRef}
+          setIsDateFullfilled={setIsToValid}
+        />
+        <button
+          className={styles.button}
+          onClick={handleCheck}
+          disabled={isLoading}
+        >
+          check
+        </button>
+        <div className={styles.count}>{count !== null ? count : ''}</div>
+        {error && <div className={styles.error}>{error}</div>}
+      </div>
     </div>
   )
 }

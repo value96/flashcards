@@ -30,14 +30,7 @@ export const DateInput = ({
   const [currentPlaceholder, setCurrentPlaceholder] = useState(placeholder)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let digits = e.target.value.replace(/\D/g, '')
-    if (digits.length > 8) digits = digits.slice(0, 8)
-    let dateStr = digits
-    if (digits.length >= 5) {
-      dateStr = `${digits.slice(0, 2)}.${digits.slice(2, 4)}.${digits.slice(4)}`
-    } else if (digits.length >= 3) {
-      dateStr = `${digits.slice(0, 2)}.${digits.slice(2)}`
-    }
+    const dateStr = e.target.value
     setValue(dateStr)
     dateRef.current = dateStr
     try {
