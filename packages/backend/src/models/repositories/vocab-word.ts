@@ -23,7 +23,7 @@ class VocabWordRepository {
 
     const count = await VocabWordMongo.model
       .countDocuments({ _id: { $in: ids } })
-      .exec()
+      .lean()
 
     return count === ids.length
   }
@@ -42,7 +42,7 @@ class VocabWordRepository {
 
     allWordsMongo.forEach(doc => {
       const word: VocabWord = {
-        id: doc._id,
+        id: Number(doc._id),
         eng: doc.eng,
         rus: doc.rus,
       }
