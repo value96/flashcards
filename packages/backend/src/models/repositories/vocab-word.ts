@@ -37,11 +37,15 @@ class VocabWordRepository {
       return allWords
     }
 
-    const allWordsMongo = await VocabWordMongo.model.find()
+    const allWordsMongo = await VocabWordMongo.model.find().lean()
     const allWords: Record<string, VocabWord> = {}
 
     allWordsMongo.forEach(doc => {
-      const word = doc.toJSON() as VocabWord
+      const word: VocabWord = {
+        id: doc._id,
+        eng: doc.eng,
+        rus: doc.rus,
+      }
       allWords[word.id.toString()] = {
         ...word,
       }

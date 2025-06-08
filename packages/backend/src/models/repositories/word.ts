@@ -20,7 +20,7 @@ class WordRepository {
     this.model = model
   }
   async getAllUserWords(userId: string) {
-    return await this.model.find({ userId: userId })
+    return await this.model.find({ userId: userId }).lean()
   }
 
   async findOneById(id: string) {
