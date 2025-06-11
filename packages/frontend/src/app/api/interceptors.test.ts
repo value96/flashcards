@@ -49,9 +49,9 @@ describe('response interceptor', () => {
 
     results.forEach(r => expect(r.status).toBe(200))
     expect(localStorage.getItem('accessTokenExpiration')).toBe('2')
-    expect(
-      axiosMock.history.get.filter(h => h.url === refreshUrl).length,
-    ).toBe(1)
+    expect(axiosMock.history.get.filter(h => h.url === refreshUrl).length).toBe(
+      1,
+    )
     expect(dispatchSpy).not.toHaveBeenCalledWith(
       userModel.actions.setAuth(false),
     )
@@ -66,9 +66,9 @@ describe('response interceptor', () => {
 
     results.forEach(r => expect(r.status).toBe('rejected'))
     expect(localStorage.getItem('accessTokenExpiration')).toBeNull()
-    expect(
-      axiosMock.history.get.filter(h => h.url === refreshUrl).length,
-    ).toBe(1)
+    expect(axiosMock.history.get.filter(h => h.url === refreshUrl).length).toBe(
+      1,
+    )
     expect(dispatchSpy).toHaveBeenCalledWith(userModel.actions.setAuth(false))
   })
 
@@ -93,8 +93,11 @@ describe('response interceptor', () => {
     expect(results).toHaveLength(5)
     results.forEach(r => expect(r.status).toBe(200))
     expect(localStorage.getItem('accessTokenExpiration')).toBe('4')
-    expect(
-      axiosMock.history.get.filter(h => h.url === refreshUrl).length,
-    ).toBe(1)
+    expect(axiosMock.history.get.filter(h => h.url === refreshUrl).length).toBe(
+      1,
+    )
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      userModel.actions.setAuth(false),
+    )
   })
 })
