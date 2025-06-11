@@ -12,6 +12,11 @@ let isRefreshing = false
 let refreshPromise: Promise<AxiosResponse<AuthResponseDTO>> | null = null
 const queued: Array<(error?: any) => void> = []
 
+/*
+  The response interceptor examines every response and, upon a 401 status, queues the failed request and triggers a token refresh only once. 
+  When the refresh call succeeds, each queued request is retried. 
+  If refresh fails, the queued requests are rejected and local storage is cleared.
+*/
 axiosInstance.interceptors.response.use(
   config => {
     return config
