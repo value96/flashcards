@@ -31,32 +31,20 @@ export const getNextBunchLearnableWords = async (
     const wordIds = wordsData.map(d => d.wordId)
 
     if (wordsData.length > 0) {
-      const isAllWordsExistent = await wordsService.isAllWordsExistent(wordIds)
-      if (!isAllWordsExistent)
-        throw Error('not all words from given ids list are existed')
-
-      const statusOfFirstWord = (await wordService.getWord(wordIds[0]))!.status
-
+      const statusOfFirstWord = await wordsService.getWordsStatusIfOwner(
+        userId,
+        wordIds,
+      )
       if (statusOfFirstWord !== 'learning')
-        throw Error(
-          'all words must have the same status for changing to another one',
-        )
-
-      const isAllThisWordsHasSameStatus =
-        await wordsService.isAllThisWordsHaveSameStatus(
-          wordIds,
-          statusOfFirstWord,
-        )
-      if (!isAllThisWordsHasSameStatus)
         throw Error(
           'all words must have the same status for changing to another one',
         )
 
       for (const wData of wordsData) {
         if (wData.isSuccessRepeated)
-          await wordService.successRepeat(wData.wordId)
+          await wordService.successRepeat(userId, wData.wordId)
         if (!wData.isSuccessRepeated)
-          await wordService.failedRepeat(wData.wordId)
+          await wordService.failedRepeat(userId, wData.wordId)
       }
     }
 

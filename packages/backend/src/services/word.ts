@@ -29,16 +29,17 @@ function isMustBeHasLearned(
 }
 
 class WordService {
-  async removeWord(wordId: string) {
-    await wordRepository.removeWord(wordId)
+  async removeWord(userId: string, wordId: string) {
+    await wordRepository.removeWord(userId, wordId)
   }
 
   async getWord(wordId: string) {
     return await wordRepository.findOneById(wordId)
   }
 
-  async successRepeat(wordId: string) {
+  async successRepeat(userId: string, wordId: string) {
     const word = await wordRepository.findOneById(wordId)
+    if (word && word.userId !== userId) throw Error('word does not belong to user')
     if (word) {
       // todo
 
@@ -64,7 +65,7 @@ class WordService {
             ? ('rus' as const)
             : ('eng' as const),
       }
-      await wordRepository.updateWord(wordId, updatedFields)
+      await wordRepository.updateWord(userId, wordId, updatedFields)
     }
   }
 
@@ -74,8 +75,9 @@ class WordService {
 
   // 0, 8h, 1d, 2d, 4d, 7d, 14d, 1month, 2 month, 4 month  10 repeats
 
-  async failedRepeat(wordId: string) {
+  async failedRepeat(userId: string, wordId: string) {
     const word = await wordRepository.findOneById(wordId)
+    if (word && word.userId !== userId) throw Error('word does not belong to user')
 
     if (word) {
       const newTimeDelta =
@@ -95,7 +97,7 @@ class WordService {
           },
         ],
       }
-      await wordRepository.updateWord(wordId, updatedFields)
+      await wordRepository.updateWord(userId, wordId, updatedFields)
     }
     // nextShowTime = nextShowTime + lastShowTimeDelta/2
     // lastShowTimeDelta = lastShowTimeDelta / 2

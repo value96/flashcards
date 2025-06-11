@@ -27,23 +27,24 @@ class WordRepository {
     return await this.model.findById(id)
   }
 
-  async findManyByIds(ids: string[]) {
-    return await this.model.find({ _id: { $in: ids } })
+  async findManyByIds(userId: string, ids: string[]) {
+    return await this.model.find({ _id: { $in: ids }, userId })
   }
 
   async addNewWords(newWords: IWord[]) {
     return await this.model.insertMany(newWords, { ordered: true })
   }
 
-  async removeWord(wordId: string) {
-    return await this.model.findByIdAndDelete(wordId)
+  async removeWord(userId: string, wordId: string) {
+    return await this.model.findOneAndDelete({ _id: wordId, userId })
   }
 
-  async removeWords(wordIds: string[]) {
-    return await this.model.deleteMany({ _id: { $in: wordIds } })
+  async removeWords(userId: string, wordIds: string[]) {
+    return await this.model.deleteMany({ _id: { $in: wordIds }, userId })
   }
 
   async updateWord(
+    userId: string,
     wordId: string,
     updatedFields: {
       nextShowTime: Date
@@ -54,25 +55,13 @@ class WordRepository {
     },
   ) {
     await this.model.updateOne(
-      { _id: wordId },
+      { _id: wordId, userId },
       { $set: updatedFields },
       { runValidators: true },
     )
   }
 
   // TODO вынести бизнес логику в сервис, здесь оставить только функцию модели
-  async checkIfAllElementsHaveFieldWithValue(
-    ids: string[],
-    field: string,
-    value: string | number,
-  ) {
-    const elements = await this.model.find({
-      _id: { $in: ids },
-      [field]: value,
-    })
-    if (elements?.length === ids.length) return true
-    else return false
-  }
 
   async findOneByVocabWordIdForUser(userId: string, ids: number[]) {
     return await this.model.findOne({
@@ -82,21 +71,18 @@ class WordRepository {
   }
 
   async updateFieldForMany(
+    userId: string,
     ids: string[],
     field: string,
     value: string | number,
   ) {
     return await this.model.updateMany(
-      { _id: { $in: ids } },
+      { _id: { $in: ids }, userId },
       { [field]: value },
     )
   }
 
   //TODO вынести бизнесовую логику в серви, здесь оставить только подсчёт документов
-  async isAllElementsExistent(ids: string[]) {
-    const count = await this.model.countDocuments({ _id: { $in: ids } })
-    return count === ids.length
-  }
 
   async findSomeWithPastShowTime(
     userId: string,
