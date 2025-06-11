@@ -16,6 +16,7 @@ describe('response interceptor', () => {
   beforeEach(() => {
     instanceMock = new MockAdapter(axiosInstance)
     axiosMock = new MockAdapter(axios)
+    //@ts-ignore
     dispatchSpy = vi.spyOn(store, 'dispatch')
     vi.spyOn(Storage.prototype, 'setItem')
     vi.spyOn(Storage.prototype, 'removeItem')
