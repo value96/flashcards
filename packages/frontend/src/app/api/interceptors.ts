@@ -1,7 +1,16 @@
 import { axiosInstance, endpoints } from '@shared/api'
 import { store } from '../store'
-import axios from 'axios'
+import axios, { type AxiosResponse } from 'axios'
 import { userModel } from '@entities/User'
+
+interface AuthResponseDTO {
+  refreshTokenExpiration: string
+  accessTokenExpiration: string
+}
+
+let isRefreshing = false
+let refreshPromise: Promise<AxiosResponse<AuthResponseDTO>> | null = null
+const queued: Array<(error?: any) => void> = []
 
 axiosInstance.interceptors.response.use(
   config => {
@@ -15,30 +24,54 @@ axiosInstance.interceptors.response.use(
       !error.config._isRetry
     ) {
       originalRequest._isRetry = true
-      try {
-        const response = await axios.get(
-          '/api' + endpoints.authEndpoints.refreshTokenUrl,
-          {
+
+      return new Promise((resolve, reject) => {
+        queued.push(async (err?: any) => {
+          if (err) {
+            reject(err)
+            return
+          }
+          try {
+            const res = await axiosInstance.request(originalRequest)
+            resolve(res)
+          } catch (requestErr) {
+            reject(requestErr)
+          }
+        })
+
+        if (!isRefreshing) {
+          isRefreshing = true
+          refreshPromise = axios.get<
+            AuthResponseDTO,
+            AxiosResponse<AuthResponseDTO>
+          >('/api' + endpoints.authEndpoints.refreshTokenUrl, {
             withCredentials: true,
-          },
-        )
-        localStorage.setItem(
-          'accessTokenExpiration',
-          response.data.accessTokenExpiration.toString(),
-        )
-        return axiosInstance.request(originalRequest)
-      } catch (e: any) {
-        if (
-          e.response &&
-          (e.response.status === 401 || e.response.status === 404)
-        ) {
-          localStorage.removeItem('refreshTokenExpiration')
-          localStorage.removeItem('accessTokenExpiration')
-          store.dispatch(userModel.actions.setAuth(false))
-        } else {
-          console.error('Ошибка при обновлении токена:', e)
+          })
+
+          refreshPromise
+            .then(response => {
+              localStorage.setItem(
+                'accessTokenExpiration',
+                response.data.accessTokenExpiration.toString(),
+              )
+              const callbacks = [...queued]
+              queued.length = 0
+              callbacks.forEach(cb => cb())
+            })
+            .catch((refreshError: any) => {
+              localStorage.removeItem('refreshTokenExpiration')
+              localStorage.removeItem('accessTokenExpiration')
+              store.dispatch(userModel.actions.setAuth(false))
+              const callbacks = [...queued]
+              queued.length = 0
+              callbacks.forEach(cb => cb(refreshError))
+            })
+            .finally(() => {
+              isRefreshing = false
+              refreshPromise = null
+            })
         }
-      }
+      })
     }
     return Promise.reject(error)
   },
