@@ -7,11 +7,7 @@ export type Language = WordMongo.Language
 export type HistoryPoint = WordMongo.HistoryPoint
 
 export type Op = 'eq' | 'gt' | 'lt'
-export type Condition = [
-  keyof IWord,
-  number | string | Date /* IWord[keyof IWord] */,
-  Op,
-]
+export type Condition = [keyof IWord, number | string | Date, Op]
 
 class WordRepository {
   private model: Model<IWord>
@@ -23,12 +19,12 @@ class WordRepository {
     return await this.model.find({ userId: userId }).lean()
   }
 
-  async findOneById(id: string) {
-    return await this.model.findById(id)
+  async findOneById(userId: string, id: string) {
+    return await this.model.findOne({ userId, _id: id }).lean()
   }
 
   async findManyByIds(userId: string, ids: string[]) {
-    return await this.model.find({ _id: { $in: ids }, userId })
+    return await this.model.find({ _id: { $in: ids }, userId }).lean()
   }
 
   async addNewWords(newWords: IWord[]) {
@@ -64,10 +60,12 @@ class WordRepository {
   // TODO вынести бизнес логику в сервис, здесь оставить только функцию модели
 
   async findOneByVocabWordIdForUser(userId: string, ids: number[]) {
-    return await this.model.findOne({
-      userId: userId,
-      vocabWordId: { $in: ids },
-    })
+    return await this.model
+      .findOne({
+        userId: userId,
+        vocabWordId: { $in: ids },
+      })
+      .lean()
   }
 
   async updateFieldForMany(
