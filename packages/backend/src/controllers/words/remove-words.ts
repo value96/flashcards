@@ -9,8 +9,13 @@ export const removeWords = async (
 ) => {
   try {
     // переводим группу слов на начальную стадию, до того как они были отмечены как изучаемые
+    const userId = req.userId
     const wordIds = req.body
-    await wordsService.removeWords(wordIds)
+
+    const isOwner = await wordsService.isUserOwnerOfWords(userId, wordIds)
+    if (!isOwner) throw Error('not all words belong to the user')
+
+    await wordsService.removeWords(userId, wordIds)
     res.status(204).json({})
   } catch (err) {
     const errMassage = getMessage(err)

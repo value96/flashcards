@@ -14,43 +14,32 @@ export const changeWordsStatus = async (
     const wordIds = req.body.wordIds
     const status = req.body.status
 
-    const isAllWordsExistent = await wordsService.isAllWordsExistent(wordIds)
-    if (!isAllWordsExistent)
-      throw Error('not all words from given ids list are existed')
-
-    const statusOfFirstWord = (await wordService.getWord(wordIds[0]))!.status
-
-    const isAllThisWordsHasSameStatus =
-      await wordsService.isAllThisWordsHaveSameStatus(
-        wordIds,
-        statusOfFirstWord,
-      )
-    if (!isAllThisWordsHasSameStatus)
-      throw Error(
-        'all words must have the same status for changing to another one',
-      )
+    const statusOfFirstWord = await wordsService.getWordsStatusIfOwner(
+      userId,
+      wordIds,
+    )
 
     const currentStatus: wordModel.WordStatus = statusOfFirstWord
 
     if (currentStatus === 'learning' && status === 'hasLearned') {
-      await wordsService.updateWordsStatus(wordIds, status)
+      await wordsService.updateWordsStatus(userId, wordIds, status)
       return res.status(204).json({})
     }
     if (currentStatus === 'hasLearned' && status === 'learning') {
-      const vocabWordIds = await wordsService.removeWords(wordIds)
+      const vocabWordIds = await wordsService.removeWords(userId, wordIds)
       await wordsService.addNewWords(userId, vocabWordIds)
       return res.status(204).json({})
     }
     if (currentStatus === 'learning' && status === 'suspended') {
-      await wordsService.updateWordsStatus(wordIds, status)
+      await wordsService.updateWordsStatus(userId, wordIds, status)
       return res.status(204).json({})
     }
     if (currentStatus === 'suspended' && status === 'learning') {
-      await wordsService.updateWordsStatus(wordIds, status)
+      await wordsService.updateWordsStatus(userId, wordIds, status)
       return res.status(204).json({})
     }
     if (currentStatus === 'suspended' && status === 'hasLearned') {
-      await wordsService.updateWordsStatus(wordIds, status)
+      await wordsService.updateWordsStatus(userId, wordIds, status)
       return res.status(204).json({})
     }
 

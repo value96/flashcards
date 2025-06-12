@@ -71,29 +71,29 @@ class WordsService {
     await wordRepository.addNewWords(newWords)
   }
 
-  async removeWords(wordIds: string[]) {
-    // перед удалением получить ids vocabWords
-    const vocabWordIds = (await wordRepository.findManyByIds(wordIds)).map(
-      word => word.vocabWordId,
-    )
-    await wordRepository.removeWords(wordIds)
+  async removeWords(userId: string, wordIds: string[]) {
+    const words = await wordRepository.findManyByIds(userId, wordIds)
+    if (words.length !== wordIds.length)
+      throw Error('not all words belong to the user')
+
+    const vocabWordIds = words.map(word => word.vocabWordId)
+    await wordRepository.removeWords(userId, wordIds)
     return vocabWordIds
   }
 
-  async updateWordsStatus(wordIds: string[], status: wordModel.WordStatus) {
-    return await wordRepository.updateFieldForMany(wordIds, 'status', status)
-  }
-
-  async isAllThisWordsHaveSameStatus(
+  async updateWordsStatus(
+    userId: string,
     wordIds: string[],
     status: wordModel.WordStatus,
   ) {
-    return await wordRepository.checkIfAllElementsHaveFieldWithValue(
+    return await wordRepository.updateFieldForMany(
+      userId,
       wordIds,
       'status',
       status,
     )
   }
+
 
   async isAllVocabWordsExistent(wordIds: number[]) {
     return await vocabWordRepository.isAllElementsExistent(wordIds)
@@ -111,9 +111,24 @@ class WordsService {
       : false
   }
 
-  async isAllWordsExistent(wordIds: string[]) {
-    return await wordRepository.isAllElementsExistent(wordIds)
+  async isUserOwnerOfWords(userId: string, wordIds: string[]) {
+    const words = await wordRepository.findManyByIds(userId, wordIds)
+    return words.length === wordIds.length
   }
+
+  async getWordsStatusIfOwner(
+    userId: string,
+    wordIds: string[],
+  ): Promise<wordModel.WordStatus> {
+    const words = await wordRepository.findManyByIds(userId, wordIds)
+    if (words.length !== wordIds.length)
+      throw Error('not all words belong to the user')
+    const status = words[0].status
+    if (!words.every(w => w.status === status))
+      throw Error('all words must have the same status')
+    return status
+  }
+
   async getNextBunchLearnableWords(userId: string, count: number) {
     // получить n слов со статусом 'learning' у котороых nextShowTime < current Time
     const words = await wordRepository.findSomeWithPastShowTime(

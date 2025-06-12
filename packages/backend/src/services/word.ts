@@ -29,43 +29,31 @@ function isMustBeHasLearned(
 }
 
 class WordService {
-  async removeWord(wordId: string) {
-    await wordRepository.removeWord(wordId)
-  }
+  async successRepeat(userId: string, wordId: string) {
+    const word = await wordRepository.findOneById(userId, wordId)
+    if (!word) throw Error('word does not belong to user')
 
-  async getWord(wordId: string) {
-    return await wordRepository.findOneById(wordId)
-  }
-
-  async successRepeat(wordId: string) {
-    const word = await wordRepository.findOneById(wordId)
-    if (word) {
-      // todo
-
-      const newHistoryPoint: wordModel.HistoryPoint = {
-        date: new Date(),
-        showedTranslate: word.nextShowTranslate,
-        isSuccessRepeated: true,
-      }
-
-      const updatedFields = {
-        nextShowTime: new Date(
-          Date.now() + 2 * word.lastShowTimeDelta * 60 * 60 * 1000,
-        ),
-        lastShowTimeDelta: word.lastShowTimeDelta * 2,
-        learningHistory: [...word.learningHistory, newHistoryPoint],
-        status:
-          word.status === 'learning' &&
-          isMustBeHasLearned([...word.learningHistory, newHistoryPoint], 80)
-            ? 'hasLearned'
-            : word.status,
-        nextShowTranslate:
-          word.nextShowTranslate === 'eng'
-            ? ('rus' as const)
-            : ('eng' as const),
-      }
-      await wordRepository.updateWord(wordId, updatedFields)
+    const newHistoryPoint: wordModel.HistoryPoint = {
+      date: new Date(),
+      showedTranslate: word.nextShowTranslate,
+      isSuccessRepeated: true,
     }
+
+    const updatedFields = {
+      nextShowTime: new Date(
+        Date.now() + 2 * word.lastShowTimeDelta * 60 * 60 * 1000,
+      ),
+      lastShowTimeDelta: word.lastShowTimeDelta * 2,
+      learningHistory: [...word.learningHistory, newHistoryPoint],
+      status:
+        word.status === 'learning' &&
+        isMustBeHasLearned([...word.learningHistory, newHistoryPoint], 80)
+          ? 'hasLearned'
+          : word.status,
+      nextShowTranslate:
+        word.nextShowTranslate === 'eng' ? ('rus' as const) : ('eng' as const),
+    }
+    await wordRepository.updateWord(userId, wordId, updatedFields)
   }
 
   //cumulative
@@ -74,33 +62,28 @@ class WordService {
 
   // 0, 8h, 1d, 2d, 4d, 7d, 14d, 1month, 2 month, 4 month  10 repeats
 
-  async failedRepeat(wordId: string) {
-    const word = await wordRepository.findOneById(wordId)
+  async failedRepeat(userId: string, wordId: string) {
+    const word = await wordRepository.findOneById(userId, wordId)
+    if (!word) throw Error('word does not belong to user')
 
-    if (word) {
-      const newTimeDelta =
-        word.lastShowTimeDelta / 2 <= 8
-          ? 8
-          : Math.round(word.lastShowTimeDelta / 2)
+    const newTimeDelta =
+      word.lastShowTimeDelta / 2 <= 8
+        ? 8
+        : Math.round(word.lastShowTimeDelta / 2)
 
-      const updatedFields = {
-        nextShowTime: new Date(Date.now() + newTimeDelta * 60 * 60 * 1000),
-        lastShowTimeDelta: newTimeDelta,
-        learningHistory: [
-          ...word.learningHistory,
-          {
-            date: new Date(),
-            showedTranslate: word.nextShowTranslate,
-            isSuccessRepeated: false,
-          },
-        ],
-      }
-      await wordRepository.updateWord(wordId, updatedFields)
+    const updatedFields = {
+      nextShowTime: new Date(Date.now() + newTimeDelta * 60 * 60 * 1000),
+      lastShowTimeDelta: newTimeDelta,
+      learningHistory: [
+        ...word.learningHistory,
+        {
+          date: new Date(),
+          showedTranslate: word.nextShowTranslate,
+          isSuccessRepeated: false,
+        },
+      ],
     }
-    // nextShowTime = nextShowTime + lastShowTimeDelta/2
-    // lastShowTimeDelta = lastShowTimeDelta / 2
-    // learningHistory
-    // поменять nextShowTranslate
+    await wordRepository.updateWord(userId, wordId, updatedFields)
   }
 }
 
