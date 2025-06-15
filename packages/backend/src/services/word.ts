@@ -47,7 +47,7 @@ class WordService {
       learningHistory: [...word.learningHistory, newHistoryPoint],
       status:
         word.status === 'learning' &&
-        isMustBeHasLearned([...word.learningHistory, newHistoryPoint], 80)
+        isMustBeHasLearned([...word.learningHistory, newHistoryPoint], 20)
           ? 'hasLearned'
           : word.status,
       nextShowTranslate:
@@ -58,7 +58,7 @@ class WordService {
 
   //cumulative
   // 0, 8h,  1d, 2d 8h,    5d, 10d 8h,    21 d, 42d 8h,     85d, 170d 8h,
-  // 0, 8h, 16h, 1d 8h, 2d 16h, 5d 8h, 10d 16h, 21d 8h, 42d 16h, 85d 8h,   10 repeats пока выбран такой вариант
+  // 0, 8h, 16h, 1d 8h, 2d 16h, 5d 8h, 10d 16h, 21d 8h  8 repeats пока выбран такой вариант
 
   // 0, 8h, 1d, 2d, 4d, 7d, 14d, 1month, 2 month, 4 month  10 repeats
 
