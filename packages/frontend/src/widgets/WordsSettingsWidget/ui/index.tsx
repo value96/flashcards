@@ -62,7 +62,7 @@ export const WordsSettingsWidget = () => {
   )
 
   return (
-    <>
+    <div className={styles.container}>
       <div className={styles.stickyHeader}>
         <div className={styles.buttonContainer}>
           <button className={styles.wordListButton} onClick={handleClose}>
@@ -113,6 +113,6 @@ export const WordsSettingsWidget = () => {
           ))}
         </div>
       )}
-    </>
+    </div>
   )
 }

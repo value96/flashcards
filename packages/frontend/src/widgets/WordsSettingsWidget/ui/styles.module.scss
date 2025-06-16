@@ -1,7 +1,11 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .stickyHeader {
-  position: fixed;
   width: 100%;
-  top: 0;
   background-color: white;
   display: flex;
   flex-direction: column;
