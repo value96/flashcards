@@ -22,8 +22,6 @@ export const WordBlock = memo(
     onPressDown,
     onPressUp,
   }: WordBlockProps) => {
-    //if (word.id === 1) console.log(`render WordBlock ${word.id}`)
-    console.log(`render WordBlock ${word.id}`)
     const status = word.word?.status
     return (
       <div
