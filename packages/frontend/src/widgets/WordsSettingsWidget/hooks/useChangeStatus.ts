@@ -12,7 +12,7 @@ export const useChangeStatus = (
 ) => {
   const dispatch = useAppDispatch()
   const [changeStatusButtons, setChangeStatusButtons] = useState<
-    { text: string; onClick: () => void }[]
+    { text: string; onClick: () => void; status?: 'idle' | 'learning' | 'suspended' | 'hasLearned' }[]
   >([])
   const [canChangeStatus, setCanChangeStatus] = useState(true)
 
@@ -39,6 +39,7 @@ export const useChangeStatus = (
         setChangeStatusButtons([
           {
             text: 'Добавить в не изученные',
+            status: 'idle',
             onClick: () => {
               dispatch(
                 changeCategory({
@@ -52,6 +53,7 @@ export const useChangeStatus = (
           },
           {
             text: 'Добавить в приостановленные',
+            status: 'suspended',
             onClick: () => {
               dispatch(
                 changeCategory({
@@ -65,6 +67,7 @@ export const useChangeStatus = (
           },
           {
             text: 'Добавить в изученные',
+            status: 'hasLearned',
             onClick: () => {
               console.log('Add to Learned')
               dispatch(
@@ -86,6 +89,7 @@ export const useChangeStatus = (
         setChangeStatusButtons([
           {
             text: 'Добавить в не изученные',
+            status: 'idle',
             onClick: () => {
               dispatch(
                 changeCategory({
@@ -99,6 +103,7 @@ export const useChangeStatus = (
           },
           {
             text: 'Добавить в изучаемые',
+            status: 'learning',
             onClick: () => {
               dispatch(
                 changeCategory({
@@ -112,6 +117,7 @@ export const useChangeStatus = (
           },
           {
             text: 'Добавить в изученные',
+            status: 'hasLearned',
             onClick: () => {
               dispatch(
                 changeCategory({
@@ -132,6 +138,7 @@ export const useChangeStatus = (
         setChangeStatusButtons([
           {
             text: 'Добавить в не изученные',
+            status: 'idle',
             onClick: () => {
               dispatch(
                 changeCategory({
@@ -145,6 +152,7 @@ export const useChangeStatus = (
           },
           {
             text: 'Добавить в изучаемые',
+            status: 'learning',
             onClick: () => {
               dispatch(
                 changeCategory({
@@ -169,6 +177,7 @@ export const useChangeStatus = (
       setChangeStatusButtons([
         {
           text: 'Добавить в изучаемые',
+          status: 'learning',
           onClick: () => {
             dispatch(
               changeCategory({
@@ -182,6 +191,7 @@ export const useChangeStatus = (
         },
         {
           text: 'Добавить в изученные',
+          status: 'hasLearned',
           onClick: () => {
             dispatch(
               changeCategory({
