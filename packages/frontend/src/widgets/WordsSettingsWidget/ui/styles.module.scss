@@ -54,3 +54,20 @@
   color: #f47012;
   text-align: center;
 }
+
+.counters {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.learningCount {
+  color: green;
+  font-weight: 600;
+}
+
+.learnedCount {
+  color: #b8860b; // dark goldenrod
+  font-weight: 600;
+}

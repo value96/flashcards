@@ -24,6 +24,12 @@ export const WordsSettingsWidget = () => {
   const status = useAppSelector(
     wordsSettingsModel.selectors.selectWordsSettingsStatus,
   )
+  const learningCount = useAppSelector(
+    wordsSettingsModel.selectors.selectLearningWordsCount,
+  )
+  const learnedCount = useAppSelector(
+    wordsSettingsModel.selectors.selectLearnedWordsCount,
+  )
 
   useEffect(() => {
     dispatch(wordsSettingsModel.thunks.loadAllWords())
@@ -82,6 +88,12 @@ export const WordsSettingsWidget = () => {
                 {button.text}
               </button>
             ))}
+          {!isSelectMode && (
+            <div className={styles.counters}>
+              <span className={styles.learningCount}>{`learning words: ${learningCount}`}</span>
+              <span className={styles.learnedCount}>{`learned words: ${learnedCount}`}</span>
+            </div>
+          )}
         </div>
 
         <div>
