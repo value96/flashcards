@@ -96,12 +96,12 @@ export const WordsSettingsWidget = () => {
             <div className={styles.counterBlock}>
               <span
                 className={styles.learningCount}
-              >{`learning words: ${learningCount}`}</span>
+              >{`Изучаемые слова: ${learningCount}`}</span>
             </div>
             <div className={styles.counterBlock}>
               <span
                 className={styles.learnedCount}
-              >{`learned words: ${learnedCount}`}</span>
+              >{`Изученные слова: ${learnedCount}`}</span>
             </div>
           </div>
         )}
