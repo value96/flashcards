@@ -71,3 +71,23 @@
   color: #b8860b; // dark goldenrod
   font-weight: 600;
 }
+
+.idle {
+  border-color: #dcdcdc;
+  background-color: #f9f9f9;
+}
+
+.learning {
+  border-color: #90ee90;
+  background-color: #e8fbe8;
+}
+
+.suspended {
+  border-color: #c0c0c0;
+  background-color: #e8e8e8;
+}
+
+.hasLearned {
+  border-color: #ffd700;
+  background-color: #fff8dc;
+}
