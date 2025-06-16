@@ -82,7 +82,9 @@ export const WordsSettingsWidget = () => {
             changeStatusButtons.map((button, index) => (
               <button
                 key={index}
-                className={styles.wordListButton}
+                className={`${styles.wordListButton} ${
+                  button.status ? styles[button.status] : ''
+                }`}
                 onClick={button.onClick}
               >
                 {button.text}
