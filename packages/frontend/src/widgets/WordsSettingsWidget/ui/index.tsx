@@ -121,19 +121,17 @@ export const WordsSettingsWidget = () => {
         <Spinner />
       ) : (
         <div className={styles.wordList}>
-          {words
-            .filter((_, index) => index < 30)
-            .map((word, index) => (
-              <WordBlock
-                key={String(word.id)}
-                index={index}
-                word={word}
-                isSelectMode={isSelectMode}
-                isSelected={word.id in selectedWords}
-                onPressDown={handlePressStart}
-                onPressUp={handlePressEnd}
-              />
-            ))}
+          {words.map((word, index) => (
+            <WordBlock
+              key={String(word.id)}
+              index={index}
+              word={word}
+              isSelectMode={isSelectMode}
+              isSelected={word.id in selectedWords}
+              onPressDown={handlePressStart}
+              onPressUp={handlePressEnd}
+            />
+          ))}
         </div>
       )}
     </div>
