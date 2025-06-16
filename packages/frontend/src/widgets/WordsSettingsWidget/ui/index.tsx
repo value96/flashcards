@@ -88,14 +88,21 @@ export const WordsSettingsWidget = () => {
                 {button.text}
               </button>
             ))}
-          {!isSelectMode && (
-            <div className={styles.counters}>
-              <span className={styles.learningCount}>{`learning words: ${learningCount}`}</span>
-              <span className={styles.learnedCount}>{`learned words: ${learnedCount}`}</span>
-            </div>
-          )}
         </div>
-
+        {!isSelectMode && (
+          <div className={styles.counters}>
+            <div className={styles.counterBlock}>
+              <span
+                className={styles.learningCount}
+              >{`learning words: ${learningCount}`}</span>
+            </div>
+            <div className={styles.counterBlock}>
+              <span
+                className={styles.learnedCount}
+              >{`learned words: ${learnedCount}`}</span>
+            </div>
+          </div>
+        )}
         <div>
           {isSelectMode &&
             canChangeStatus &&
@@ -112,17 +119,19 @@ export const WordsSettingsWidget = () => {
         <Spinner />
       ) : (
         <div className={styles.wordList}>
-          {words.map((word, index) => (
-            <WordBlock
-              key={String(word.id)}
-              index={index}
-              word={word}
-              isSelectMode={isSelectMode}
-              isSelected={word.id in selectedWords}
-              onPressDown={handlePressStart}
-              onPressUp={handlePressEnd}
-            />
-          ))}
+          {words
+            .filter((_, index) => index < 30)
+            .map((word, index) => (
+              <WordBlock
+                key={String(word.id)}
+                index={index}
+                word={word}
+                isSelectMode={isSelectMode}
+                isSelected={word.id in selectedWords}
+                onPressDown={handlePressStart}
+                onPressUp={handlePressEnd}
+              />
+            ))}
         </div>
       )}
     </div>
