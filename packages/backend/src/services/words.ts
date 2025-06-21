@@ -154,10 +154,11 @@ class WordsService {
     const conditions: wordModel.Condition[] = []
 
     conditions.push(['userId', userId, 'eq'])
+    conditions.push(['status', 'learning', 'eq'])
     if (from) conditions.push(['nextShowTime', from, 'gt'])
     if (to) conditions.push(['nextShowTime', to, 'lt'])
 
-    return await wordRepository.findWordsWithCondition(conditions)
+    return await wordRepository.countWordsWithCondition(conditions)
   }
 }
 
