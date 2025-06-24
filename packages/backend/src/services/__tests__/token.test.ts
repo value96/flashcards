@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
+import tokenService from '../token'
 
 vi.mock('../../config', () => ({
   config: {
@@ -7,8 +8,6 @@ vi.mock('../../config', () => ({
     refreshTokenSecret: 'refresh-secret',
   },
 }))
-
-import tokenService from '../token'
 
 describe('tokenService', () => {
   afterEach(() => {
@@ -32,22 +31,30 @@ describe('tokenService', () => {
   })
 
   it('throws for invalid access token', () => {
-    expect(() => tokenService.decodeAccessToken('bad.token')).toThrow('Invalid access token')
+    expect(() => tokenService.decodeAccessToken('bad.token')).toThrow(
+      'Invalid access token',
+    )
   })
 
   it('throws for invalid refresh token', () => {
-    expect(() => tokenService.decodeRefreshToken('bad.token')).toThrow('Invalid refresh token')
+    expect(() => tokenService.decodeRefreshToken('bad.token')).toThrow(
+      'Invalid refresh token',
+    )
   })
 
   it('throws for expired access token', () => {
     const payload = { id: '1' }
     const expired = jwt.sign(payload, 'access-secret', { expiresIn: -1 })
-    expect(() => tokenService.decodeAccessToken(expired)).toThrow('Invalid access token')
+    expect(() => tokenService.decodeAccessToken(expired)).toThrow(
+      'Invalid access token',
+    )
   })
 
   it('throws for expired refresh token', () => {
     const payload = { id: '1' }
     const expired = jwt.sign(payload, 'refresh-secret', { expiresIn: -1 })
-    expect(() => tokenService.decodeRefreshToken(expired)).toThrow('Invalid refresh token')
+    expect(() => tokenService.decodeRefreshToken(expired)).toThrow(
+      'Invalid refresh token',
+    )
   })
 })
