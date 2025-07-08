@@ -50,14 +50,21 @@ export const WordsTrainingWidget = () => {
   }
 
   const handleClickNextWords = async () => {
-    await dispatch(
-      wordsTrainingModel.thunks.loadNextBunchWords({
-        count: MAX_COUNT_SHOWED,
-        isNeedSendRepeatedWords: true,
-      }),
-    )
-    dispatch(wordsCounterModel.actions.increase(MAX_COUNT_SHOWED))
-    setFlippedWords({})
+    const repeatedCount = words.length
+
+    try {
+      await dispatch(
+        wordsTrainingModel.thunks.loadNextBunchWords({
+          count: MAX_COUNT_SHOWED,
+          isNeedSendRepeatedWords: true,
+        }),
+      ).unwrap()
+
+      dispatch(wordsCounterModel.actions.increase(repeatedCount))
+      setFlippedWords({})
+    } catch (e) {
+      console.error('failed to load next words', e)
+    }
   }
 
   return (
