@@ -13,7 +13,7 @@ export const WordsCounter = () => {
 
   useEffect(() => {
     if (restCountWordsForToday === null)
-      dispatch(thunks.getCountWordsForUntilTomorrow())
+      dispatch(thunks.getCountWordsForUntilNow())
   }, [restCountWordsForToday])
 
   return (

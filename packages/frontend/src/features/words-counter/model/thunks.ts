@@ -1,14 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchCountWordsForPeriod } from '../api'
-import { getTomorrowUTCString } from '../utils'
+import { getNowISOString } from '../utils'
 
-export const getCountWordsForUntilTomorrow = createAsyncThunk<
+export const getCountWordsForUntilNow = createAsyncThunk<
   number,
   void,
   { rejectValue: string }
 >('words-counter/getCountWordsForPeriod', async (_, { rejectWithValue }) => {
   try {
-    return await fetchCountWordsForPeriod({ to: getTomorrowUTCString() })
+    return await fetchCountWordsForPeriod({ to: getNowISOString() })
   } catch (e: any) {
     console.error(
       `Failed to get countWordsForPeriod: ${e.response?.data?.error}`,
