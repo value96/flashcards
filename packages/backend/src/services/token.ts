@@ -1,6 +1,6 @@
-import jwt from "jsonwebtoken"
-import { config } from "../config"
-import createHttpError from "http-errors"
+import * as jwt from 'jsonwebtoken'
+import { config } from '../config'
+import createHttpError from 'http-errors'
 
 export class TokenService {
   private accessTokenSecret: string
@@ -13,26 +13,26 @@ export class TokenService {
 
   generateAccessToken(payload: any) {
     return jwt.sign(payload, this.accessTokenSecret, {
-      expiresIn: "30m",
+      expiresIn: '30m',
     })
   }
   generateRefreshToken(payload: any) {
     return jwt.sign(payload, this.refreshTokenSecret, {
-      expiresIn: "15d",
+      expiresIn: '15d',
     })
   }
   decodeAccessToken(token: string): any {
     try {
       return jwt.verify(token, this.accessTokenSecret)
     } catch (error) {
-      throw createHttpError(401, "Invalid access token")
+      throw createHttpError(401, 'Invalid access token')
     }
   }
   decodeRefreshToken(token: string): any {
     try {
       return jwt.verify(token, this.refreshTokenSecret)
     } catch (error) {
-      throw createHttpError(401, "Invalid refresh token")
+      throw createHttpError(401, 'Invalid refresh token')
     }
   }
 
