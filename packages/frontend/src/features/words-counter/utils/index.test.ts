@@ -22,3 +22,4 @@ describe('getTomorrowUTCString', () => {
     expect(getTomorrowUTCString()).toBe('2025-01-01')
   })
 })
+
