@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import { getCountWordsForUntilTomorrow } from './thunks'
+import { getCountWordsForUntilNow } from './thunks'
 
 interface CounterState {
   repeatedWordsWithinSession: number
@@ -25,7 +25,7 @@ export const slice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(
-      getCountWordsForUntilTomorrow.fulfilled,
+      getCountWordsForUntilNow.fulfilled,
       (state, action: PayloadAction<number>) => {
         state.countWordsToRepeatToday = action.payload
       },
