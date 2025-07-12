@@ -89,6 +89,6 @@ export const isArrayOfWordData = (path = '') => [
 ]
 
 export const validateReqForLearnableWords = [
-  ...isNumeric('count', { minValue: 0, maxValue: 10 }),
+  ...isNumeric('count'),
   ...isArrayOfWordData('wordsData'),
 ]

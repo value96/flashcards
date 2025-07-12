@@ -17,6 +17,7 @@ wordsRouter.get(
   '/audio',
   isAuth,
   isQueryParametrInt('id'),
+  validationErrorHandler,
   withAuthHandler(wordsController.getWordAudio),
 )
 
