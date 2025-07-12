@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import styles from './styles.module.scss'
-import { wordsTrainingModel } from '@entities/WordsTraining'
+import { wordsTrainingModel, wordsTrainingApi } from '@entities/WordsTraining'
+import copyIcon from '@assets/copy.svg'
 import { useAppDispatch, useAppSelector } from '@shared/store'
 import { WordCard } from './WordCard'
 import { type Language } from '@shared/model'
@@ -24,6 +25,9 @@ function chooseWhatSideShow(
 export const WordsTrainingWidget = () => {
   const dispatch = useAppDispatch()
   const words = useAppSelector(wordsTrainingModel.selectors.selectAllWords)
+  const restCountWordsForToday = useAppSelector(
+    wordsCounterModel.selectors.countWordsToRepeatToday,
+  )
 
   const [flippedWords, setFlippedWords] = useState<{ [key: string]: boolean }>(
     {},
@@ -67,6 +71,23 @@ export const WordsTrainingWidget = () => {
     }
   }
 
+  const handleClickCopyWords = async () => {
+    if (!restCountWordsForToday) return
+
+    try {
+      const wordsList = await wordsTrainingApi.getNextBunchWords({
+        count: restCountWordsForToday,
+        wordsData: [],
+      })
+
+      const text = wordsList.map(w => w.vocabWord.eng).join('\n')
+
+      await navigator.clipboard.writeText(text)
+    } catch (e) {
+      console.error('failed to copy words', e)
+    }
+  }
+
   return (
     <>
       <div className={styles.content}>
@@ -92,9 +113,14 @@ export const WordsTrainingWidget = () => {
         )}
       </div>
       <WordsCounter />
-      <button className={styles.nextWordsButton} onClick={handleClickNextWords}>
-        Далее
-      </button>
+      <div className={styles.actions}>
+        <button className={styles.copyWordsButton} onClick={handleClickCopyWords}>
+          <img src={copyIcon} alt="copy words" width={20} height={20} />
+        </button>
+        <button className={styles.nextWordsButton} onClick={handleClickNextWords}>
+          Далее
+        </button>
+      </div>
     </>
   )
 }
