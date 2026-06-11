@@ -2,22 +2,21 @@
   //"extends": "../../tsconfig.json",
   "compilerOptions": {
     //"composite": true,
-    "baseUrl": "src",
     "paths": {
-      "@app": ["app/"],
-      "@pages/*": ["pages/*"],
-      "@widgets/*": ["widgets/*"],
-      "@features/*": ["features/*"],
-      "@entities/*": ["entities/*"],
-      "@shared/*": ["shared/*"],
-      "@assets/*": ["assets/*"]
+      "@app": ["./src/app/"],
+      "@pages/*": ["./src/pages/*"],
+      "@widgets/*": ["./src/widgets/*"],
+      "@features/*": ["./src/features/*"],
+      "@entities/*": ["./src/entities/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@assets/*": ["./src/assets/*"],
+      "vite-env": ["./src/vite-env.d.ts"]
     },
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true, // was true by redux template
-    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "module": "ESNext",
