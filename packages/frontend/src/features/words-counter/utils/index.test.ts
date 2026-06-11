@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { getTomorrowUTCString } from './index'
+import { getTomorrowUTCString, getNowISOString } from './index'
 
 describe('getTomorrowUTCString', () => {
   beforeEach(() => {
@@ -23,3 +23,18 @@ describe('getTomorrowUTCString', () => {
   })
 })
 
+describe('getNowISOString', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('returns current UTC date-time in ISO format', () => {
+    const fixedDate = new Date('2025-05-15T12:00:00Z')
+    vi.setSystemTime(fixedDate)
+    expect(getNowISOString()).toBe('2025-05-15T12:00:00.000Z')
+  })
+})
