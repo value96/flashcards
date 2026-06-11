@@ -8,7 +8,7 @@ on:
       - master
 
 env:
-  NODE_VERSION: latest
+  NODE_VERSION: 24.x
 
 jobs:
   changes:
@@ -61,7 +61,7 @@ jobs:
           save-always: true
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Build project
         run: cd packages/backend && yarn build
@@ -130,7 +130,7 @@ jobs:
           save-always: true
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       #- name: Test frontend
       #  run: cd packages/frontend && yarn test

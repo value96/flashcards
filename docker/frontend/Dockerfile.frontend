@@ -1,11 +1,12 @@
-FROM node:latest AS build
+FROM node:24 AS build
 WORKDIR /app
 COPY package.json yarn.lock ./
 COPY packages/frontend/package.json ./packages/frontend/package.json
 COPY packages/types/package.json ./packages/types/package.json
 COPY packages/backend/package.json ./packages/backend/package.json
 
-RUN yarn install --frozen-lockfile
+RUN corepack enable
+RUN yarn install --immutable
 
 COPY packages/types ./packages/types
 #COPY packages/backend ./packages/backend
@@ -18,11 +19,11 @@ WORKDIR /app/packages/frontend
 RUN yarn build
 
 
-FROM node:latest
+FROM node:24
 ARG PORT=3000
 ENV PORT=${PORT}
 WORKDIR /app
 COPY --from=build /app/packages/frontend/dist ./packages/frontend/dist
 EXPOSE ${PORT}
-RUN yarn global add serve
+RUN npm install -g serve
 CMD ["serve", "-s", "packages/frontend/dist", "-l", "${PORT}"]

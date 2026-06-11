@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:24
 WORKDIR /app
 
 COPY package.json ./package.json
@@ -6,7 +6,8 @@ COPY yarn.lock ./yarn.lock
 COPY packages/backend/package.json ./packages/backend/package.json
 
 
-RUN yarn install --frozen-lockfile
+RUN corepack enable
+RUN yarn install --immutable
 
 
 COPY packages/backend ./packages/backend
