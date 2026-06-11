@@ -7,6 +7,9 @@ on:
     branches:
       - master
 
+env:
+  NODE_VERSION: 20.17.51
+
 jobs:
   changes:
     runs-on: ubuntu-latest
@@ -19,7 +22,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.15
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Changed files
         id: changes
@@ -44,7 +47,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.15
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache dependencies
         uses: actions/cache@v4
@@ -109,7 +112,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.15
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -166,7 +169,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.15
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Download build artifact
         uses: actions/download-artifact@v4
