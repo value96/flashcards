@@ -12,13 +12,13 @@ class VocabWordRepository {
 
     const vocabWordMongo = await VocabWordMongo.model.findOne({ _id: id })
     if (vocabWordMongo) {
-      const word = vocabWordMongo.toJSON() as VocabWord
+      const word = vocabWordMongo.toJSON() as unknown as VocabWord
       this.cache.set(id, word)
       return word
     } else return null
   }
 
-  async isAllElementsExistent(ids: Number[]) {
+  async isAllElementsExistent(ids: number[]) {
     if (!ids || ids.length === 0) return true
 
     const count = await VocabWordMongo.model

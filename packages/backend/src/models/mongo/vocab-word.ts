@@ -1,4 +1,4 @@
-import { Schema, Document, model as mongooseModel } from 'mongoose'
+import { Schema, model as mongooseModel } from 'mongoose'
 
 export interface VocabWordData {
   eng: string
@@ -9,7 +9,9 @@ export interface VocabWord extends VocabWordData {
   id: number
 }
 
-interface IVocabWord extends Document, VocabWordData {}
+interface IVocabWord extends VocabWordData {
+  _id: number
+}
 
 const VocabWordSchema = new Schema<IVocabWord>(
   {
