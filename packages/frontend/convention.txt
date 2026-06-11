@@ -1,4 +1,4 @@
 convention
 - names of folders and files in kebab-case
 - no default exports, only named exports
-- use rem instead of px in scss 
+- use rem instead of px in scss  
