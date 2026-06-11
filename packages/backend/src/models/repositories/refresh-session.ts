@@ -7,7 +7,8 @@ class RefreshSessionRepository {
   async create(sessionData: RefreshSessionData): Promise<RefreshSession> {
     const refreshSessionMongo =
       await RefreshSessionMongo.model.create(sessionData)
-    const refreshSession = refreshSessionMongo.toJSON() as RefreshSession
+    const refreshSession =
+      refreshSessionMongo.toJSON() as unknown as RefreshSession
 
     return refreshSession
   }
@@ -30,7 +31,8 @@ class RefreshSessionRepository {
     const refreshSessionMongo =
       await RefreshSessionMongo.model.findOne(queryParams)
     if (refreshSessionMongo) {
-      const refreshSession = refreshSessionMongo.toJSON() as RefreshSession
+      const refreshSession =
+        refreshSessionMongo.toJSON() as unknown as RefreshSession
       return refreshSession
     } else return null
   }
