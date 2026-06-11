@@ -3,7 +3,9 @@ WORKDIR /app
 
 COPY package.json ./package.json
 COPY yarn.lock ./yarn.lock
+COPY .yarnrc.yml ./.yarnrc.yml
 COPY packages/backend/package.json ./packages/backend/package.json
+COPY packages/frontend/package.json ./packages/frontend/package.json
 
 
 RUN corepack enable

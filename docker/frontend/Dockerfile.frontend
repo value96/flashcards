@@ -1,19 +1,13 @@
 FROM node:24 AS build
 WORKDIR /app
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock .yarnrc.yml ./
 COPY packages/frontend/package.json ./packages/frontend/package.json
-COPY packages/types/package.json ./packages/types/package.json
 COPY packages/backend/package.json ./packages/backend/package.json
 
 RUN corepack enable
 RUN yarn install --immutable
 
-COPY packages/types ./packages/types
-#COPY packages/backend ./packages/backend
 COPY packages/frontend ./packages/frontend
-
-WORKDIR /app/packages/types
-RUN yarn build
 
 WORKDIR /app/packages/frontend
 RUN yarn build
@@ -26,4 +20,4 @@ WORKDIR /app
 COPY --from=build /app/packages/frontend/dist ./packages/frontend/dist
 EXPOSE ${PORT}
 RUN npm install -g serve
-CMD ["serve", "-s", "packages/frontend/dist", "-l", "${PORT}"]
+CMD ["sh", "-c", "serve -s packages/frontend/dist -l ${PORT}"]
