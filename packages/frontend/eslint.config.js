@@ -1,4 +1,5 @@
 import js from '@eslint/js'
+import { fixupPluginRules } from '@eslint/compat'
 import tsParser from '@typescript-eslint/parser'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import prettier from 'eslint-config-prettier'
@@ -32,7 +33,7 @@ export default [
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
-      react,
+      react: fixupPluginRules(react),
       'react-hooks': reactHooks,
     },
     settings: {
