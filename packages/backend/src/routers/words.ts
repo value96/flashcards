@@ -29,6 +29,14 @@ wordsRouter.get(
   withAuthHandler(wordsController.getCountWordsWithinPeriod),
 )
 
+wordsRouter.get(
+  '/new-words-forecast',
+  isAuth,
+  ...wordsValidators.validateReqForNewWordsForecast,
+  validationErrorHandler,
+  withAuthHandler(wordsController.getNewWordsForecast),
+)
+
 wordsRouter.post(
   '/add-words',
   isAuth,
