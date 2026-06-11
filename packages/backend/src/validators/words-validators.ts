@@ -1,5 +1,5 @@
 import { body } from 'express-validator'
-import { isQueryParametrDate } from '../shared/validators'
+import { isQueryParametrISODate } from '../shared/validators'
 
 export const isArrayOfString = (path = '') => [
   body(path)
@@ -45,7 +45,7 @@ export const validateChangeStatusReq = [
 ]
 
 export const validateDatesInQueryParams = (queryParams: string[]) => [
-  ...queryParams.map(param => [...isQueryParametrDate(param)]),
+  ...queryParams.map(param => [...isQueryParametrISODate(param)]),
 ]
 
 export const isNumeric = (
@@ -89,6 +89,6 @@ export const isArrayOfWordData = (path = '') => [
 ]
 
 export const validateReqForLearnableWords = [
-  ...isNumeric('count', { minValue: 0, maxValue: 10 }),
+  ...isNumeric('count'),
   ...isArrayOfWordData('wordsData'),
 ]

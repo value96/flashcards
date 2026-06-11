@@ -24,7 +24,6 @@ function chooseWhatSideShow(
 export const WordsTrainingWidget = () => {
   const dispatch = useAppDispatch()
   const words = useAppSelector(wordsTrainingModel.selectors.selectAllWords)
-
   const [flippedWords, setFlippedWords] = useState<{ [key: string]: boolean }>(
     {},
   )
@@ -92,9 +91,14 @@ export const WordsTrainingWidget = () => {
         )}
       </div>
       <WordsCounter />
-      <button className={styles.nextWordsButton} onClick={handleClickNextWords}>
-        Далее
-      </button>
+      <div>
+        <button
+          className={styles.nextWordsButton}
+          onClick={handleClickNextWords}
+        >
+          Далее
+        </button>
+      </div>
     </>
   )
 }

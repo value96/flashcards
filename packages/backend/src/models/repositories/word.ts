@@ -80,7 +80,7 @@ class WordRepository {
     )
   }
 
-  //TODO вынести бизнесовую логику в серви, здесь оставить только подсчёт документов
+  //TODO вынести бизнесовую логику в сервис, здесь оставить только подсчёт документов
 
   async findSomeWithPastShowTime(
     userId: string,
@@ -95,7 +95,7 @@ class WordRepository {
       .limit(count)
   }
 
-  async findWordsWithCondition(conditions: Condition[]) {
+  async countWordsWithCondition(conditions: Condition[]) {
     const query: Record<string, any> = {}
     for (const [key, value, op] of conditions) {
       switch (op) {
