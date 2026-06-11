@@ -8,7 +8,7 @@ on:
       - master
 
 env:
-  NODE_VERSION: 20.17.51
+  NODE_VERSION: latest
 
 jobs:
   changes:
@@ -20,7 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -45,7 +45,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -110,7 +110,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -167,7 +167,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 

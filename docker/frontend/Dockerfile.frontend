@@ -1,4 +1,4 @@
-FROM node AS build
+FROM node:latest AS build
 WORKDIR /app
 COPY package.json yarn.lock ./
 COPY packages/frontend/package.json ./packages/frontend/package.json
@@ -18,7 +18,7 @@ WORKDIR /app/packages/frontend
 RUN yarn build
 
 
-FROM node
+FROM node:latest
 ARG PORT=3000
 ENV PORT=${PORT}
 WORKDIR /app
