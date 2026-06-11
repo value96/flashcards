@@ -17,3 +17,12 @@ export function getTomorrowUTCString() {
   const day = String(now.getUTCDate()).padStart(2, '0')
   return `${year}-${month}-${day}`
 }
+
+/**
+ * Returns current date and time in ISO string format.
+ *
+ * Example: "2025-05-15T12:00:00.000Z".
+ */
+export function getNowISOString() {
+  return new Date().toISOString()
+}
