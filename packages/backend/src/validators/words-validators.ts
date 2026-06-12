@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body, query } from 'express-validator'
 import { isQueryParametrISODate } from '../shared/validators'
 
 export const isArrayOfString = (path = '') => [
@@ -91,4 +91,10 @@ export const isArrayOfWordData = (path = '') => [
 export const validateReqForLearnableWords = [
   ...isNumeric('count'),
   ...isArrayOfWordData('wordsData'),
+]
+
+export const validateReqForNewWordsForecast = [
+  query('*').custom((_, { path }) => {
+    throw new Error(`Unexpected query parameter: ${path}`)
+  }),
 ]

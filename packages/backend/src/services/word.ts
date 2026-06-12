@@ -1,31 +1,23 @@
 import { wordModel } from '../models'
+import { successRepeatMultiplier } from './word-schedule'
 
 const { wordRepository } = wordModel
 
 function isMustBeHasLearned(
-  learningHistory: wordModel.HistoryPoint[],
+  previousHistoryPoint: wordModel.HistoryPoint | null,
+  currentHistoryPoint: wordModel.HistoryPoint,
   intervalInDays: number,
 ) {
-  if (learningHistory.length < 2) return false
-
-  // проверяем есть ли среди двух рядом стоящих успешных HistoryPoint такая пара,
-  // у которых интервал повторения больше чем заданный intervalInDays
+  if (!previousHistoryPoint) return false
+  if (!previousHistoryPoint.isSuccessRepeated) return false
+  if (!currentHistoryPoint.isSuccessRepeated) return false
 
   const intervalInMs = intervalInDays * 24 * 60 * 60 * 1000
 
-  for (let i = 0; i < learningHistory.length - 1; i++) {
-    if (
-      learningHistory[i].isSuccessRepeated &&
-      learningHistory[i + 1].isSuccessRepeated &&
-      Math.abs(
-        learningHistory[i].date.getTime() -
-          learningHistory[i + 1].date.getTime(),
-      ) > intervalInMs
-    )
-      return true
-  }
-
-  return false
+  return (
+    currentHistoryPoint.date.getTime() - previousHistoryPoint.date.getTime() >
+    intervalInMs
+  )
 }
 
 class WordService {
@@ -41,13 +33,18 @@ class WordService {
 
     const updatedFields = {
       nextShowTime: new Date(
-        Date.now() + 2 * word.lastShowTimeDelta * 60 * 60 * 1000,
+        Date.now() +
+          successRepeatMultiplier * word.lastShowTimeDelta * 60 * 60 * 1000,
       ),
-      lastShowTimeDelta: word.lastShowTimeDelta * 2,
+      lastShowTimeDelta: word.lastShowTimeDelta * successRepeatMultiplier,
       learningHistory: [...word.learningHistory, newHistoryPoint],
       status:
         word.status === 'learning' &&
-        isMustBeHasLearned([...word.learningHistory, newHistoryPoint], 20)
+        isMustBeHasLearned(
+          word.learningHistory[word.learningHistory.length - 1] ?? null,
+          newHistoryPoint,
+          20,
+        )
           ? 'hasLearned'
           : word.status,
       nextShowTranslate:

@@ -22,7 +22,7 @@ export const useSelect = <T extends Identifiable>(
 
   const [selectedItems, setSelectedItems] = useState<{ [key: Id]: boolean }>({})
   const longPressItem = useRef<Id | null>(null)
-  const pressTimer = useRef<NodeJS.Timeout | null>(null)
+  const pressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const isItWasLongClick = useRef(false)
 
   const reset = () => setSelectedItems({})

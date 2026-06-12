@@ -1,6 +1,7 @@
 import { axiosInstance, endpoints } from '@shared/api'
 
-const { countWordsForPeriodUrl } = endpoints.wordsCounterEndpoints
+const { countWordsForPeriodUrl, newWordsForecastUrl } =
+  endpoints.wordsCounterEndpoints
 
 interface GetCountWordsDTO {
   from?: string
@@ -19,3 +20,22 @@ export const fetchCountWordsForPeriod = ({
     .get<number>(countWordsForPeriodUrl, { params })
     .then(res => res.data)
 }
+
+export interface NewWordsForecast {
+  horizonInDays: number
+  dailyLimits: {
+    comfortable: number
+    aggressive: number
+  }
+  suggestedNewWords: {
+    comfortable: number
+    aggressive: number
+  }
+  existingReviewsByDay: number[]
+  expectedReviewsPerNewWordByDay: number[]
+}
+
+export const fetchNewWordsForecast = () =>
+  axiosInstance
+    .get<NewWordsForecast>(newWordsForecastUrl)
+    .then(res => res.data)

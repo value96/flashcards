@@ -1,4 +1,8 @@
 import { vocabWordModel, wordModel, vocabWordAudioModel } from '../models'
+import {
+  newWordInitialIntervalInHours,
+  successRepeatMultiplier,
+} from './word-schedule'
 
 const { vocabWordRepository } = vocabWordModel
 const { wordRepository } = wordModel
@@ -13,6 +17,63 @@ type WordInfo = {
 
 type AllWords = VocabWord & {
   word: WordInfo | null
+}
+
+const forecastHorizonInDays = 14
+const comfortableDailyReviewLimit = 60
+const aggressiveDailyReviewLimit = 100
+
+function startOfDay(date: Date) {
+  const result = new Date(date)
+  result.setHours(0, 0, 0, 0)
+  return result
+}
+
+function addDays(date: Date, days: number) {
+  const result = new Date(date)
+  result.setDate(result.getDate() + days)
+  return result
+}
+
+function getDayIndex(date: Date, firstDay: Date) {
+  return Math.floor(
+    (startOfDay(date).getTime() - firstDay.getTime()) / (24 * 60 * 60 * 1000),
+  )
+}
+
+function getExpectedNewWordReviewsByDay(
+  now: Date,
+  horizonInDays: number,
+): number[] {
+  const firstDay = startOfDay(now)
+  const reviewsByDay = Array(horizonInDays).fill(0) as number[]
+  let nextReviewTime = now
+  let intervalInHours = newWordInitialIntervalInHours
+
+  while (nextReviewTime < addDays(firstDay, horizonInDays)) {
+    const dayIndex = getDayIndex(nextReviewTime, firstDay)
+    if (dayIndex >= 0 && dayIndex < horizonInDays) reviewsByDay[dayIndex] += 1
+
+    intervalInHours *= successRepeatMultiplier
+    nextReviewTime = new Date(
+      nextReviewTime.getTime() + intervalInHours * 60 * 60 * 1000,
+    )
+  }
+
+  return reviewsByDay
+}
+
+function calculateAllowedNewWords(
+  existingReviewsByDay: number[],
+  newWordReviewsByDay: number[],
+  dailyLimit: number,
+) {
+  return newWordReviewsByDay.reduce((allowed, newWordReviews, dayIndex) => {
+    if (newWordReviews === 0) return allowed
+
+    const capacity = dailyLimit - existingReviewsByDay[dayIndex]
+    return Math.min(allowed, Math.max(0, Math.floor(capacity / newWordReviews)))
+  }, Number.POSITIVE_INFINITY)
 }
 
 class WordsService {
@@ -64,7 +125,7 @@ class WordsService {
       nextShowTranslate: 'eng',
       learningHistory: [],
       nextShowTime: new Date(),
-      lastShowTimeDelta: 4,
+      lastShowTimeDelta: newWordInitialIntervalInHours,
       addedDate: new Date(),
     }))
 
@@ -159,6 +220,47 @@ class WordsService {
     if (to) conditions.push(['nextShowTime', to, 'lt'])
 
     return await wordRepository.countWordsWithCondition(conditions)
+  }
+
+  async getNewWordsForecast(userId: string) {
+    const now = new Date()
+    const firstDay = startOfDay(now)
+    const existingReviewsByDay = await Promise.all(
+      Array.from({ length: forecastHorizonInDays }, (_, index) =>
+        this.getTrainingWordsForPeriod(
+          userId,
+          addDays(firstDay, index),
+          addDays(firstDay, index + 1),
+        ),
+      ),
+    )
+
+    const newWordReviewsByDay = getExpectedNewWordReviewsByDay(
+      now,
+      forecastHorizonInDays,
+    )
+
+    return {
+      horizonInDays: forecastHorizonInDays,
+      dailyLimits: {
+        comfortable: comfortableDailyReviewLimit,
+        aggressive: aggressiveDailyReviewLimit,
+      },
+      suggestedNewWords: {
+        comfortable: calculateAllowedNewWords(
+          existingReviewsByDay,
+          newWordReviewsByDay,
+          comfortableDailyReviewLimit,
+        ),
+        aggressive: calculateAllowedNewWords(
+          existingReviewsByDay,
+          newWordReviewsByDay,
+          aggressiveDailyReviewLimit,
+        ),
+      },
+      existingReviewsByDay,
+      expectedReviewsPerNewWordByDay: newWordReviewsByDay,
+    }
   }
 }
 
