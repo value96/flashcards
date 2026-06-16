@@ -23,6 +23,10 @@ app.use(
   }),
 )
 
+app.get('/ping', (_req, res) => {
+  res.status(200).json({ ok: true })
+})
+
 app.use('/auth', authRouter)
 app.use('/words', wordsRouter)
 
