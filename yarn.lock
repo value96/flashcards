@@ -505,6 +505,7 @@ __metadata:
     express: "npm:^5.2.1"
     express-fingerprint: "npm:^1.2.2"
     express-validator: "npm:^7.3.2"
+    helmet: "npm:^8.2.0"
     http-errors: "npm:^2.0.1"
     jsonwebtoken: "npm:^9.0.3"
     mongoose: "npm:^9.7.0"
@@ -3563,6 +3564,13 @@ __metadata:
   dependencies:
     function-bind: "npm:^1.1.2"
   checksum: 10c0/3769d434703b8ac66b209a4cca0737519925bbdb61dd887f93a16372b14694c63ff4e797686d87c90f08168e81082248b9b028bad60d4da9e0d1148766f56eb9
+  languageName: node
+  linkType: hard
+
+"helmet@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "helmet@npm:8.2.0"
+  checksum: 10c0/3aff1bb04123866a573eaafd7df4a5dc21b649c8fe6b39e1fb0e586f7be35709bf6003d72eed35c8deefd74573dff47d19409943cf2816125cc9597a8205a882
   languageName: node
   linkType: hard
 

@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-
+import helmet from 'helmet'
 import Fingerprint from 'express-fingerprint'
 import cookieParser from 'cookie-parser'
 import {
@@ -13,10 +13,14 @@ import { authRouter, wordsRouter } from './routers'
 
 const app = express()
 
-app.use(cookieParser())
-app.use(express.json())
-
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  }),
+)
 app.use(cors({ credentials: true, origin: config.clientUrl }))
+app.use(cookieParser())
+app.use(express.json({ limit: '100kb' }))
 app.use(
   Fingerprint({
     parameters: [useragent, acceptHeaders, geoip],
